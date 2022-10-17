@@ -20,6 +20,61 @@ final class WeatherDataManager {
     
     typealias NetworkCompletion = (Result<[WeatherItem], NetworkError>)-> Void
 
+    func callWeatherAPI(date: String, time: String, nx: String, ny: String) {
+        let serviceKey = "i%2FlgvIb5OpxWS%2FSUbYqKVRUFOAhnyLPnReUncUwXfMAm1M8MflkW6pDo5RG5Gvx8rXyy6cJNJrWjy6q83jBmBw%3D%3D"
+        let urlString = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=\(serviceKey)&pageNo=1&numOfRows=1000&dataType=JSON&base_date=\(date)&base_time=\(time)&nx=\(nx)&ny=\(ny)"
+        
+        let apiUrl: URL! = URL(string: urlString)
+        let apiData = try! Data(contentsOf: apiUrl)
+        let log = NSString(data: apiData, encoding: String.Encoding.utf8.rawValue) ?? ""
+        NSLog("Result = \(log)")
+        
+        do {
+            let apiArray = try JSONSerialization.jsonObject(with: apiData) as! NSArray
+            
+            let body = apiArray["body"] as! NSArray
+            let items = body["items"] as? NSArray
+            let item = items["item"] as? NSDictionary
+            
+            for row in item {
+                let r = row as! NSArray
+                print(r)
+//                WeatherDataManager.shared.callWeatherAPI(date: "20221015", time: "0500", nx: "55", ny: "127")
+                let weatherItem = WeatherItem()
+                weatherItem.fcstTime = r["fcstTime"] as? String
+                weatherItem.fcstDate = r["fcstDate"] as? String
+                weatherItem.fcstValue = r["fcstValue"] as? String
+                weatherItem.category = r["category"] as? String
+                weatherItem.baseDate = r["baseDate"] as? String
+                weatherItem.baseTime = r["baseTime"] as? String
+                weatherItem.nx = (r["nx"] as! NSString).intValue
+                weatherItem.ny = (r["ny"] as! NSString).intValue
+
+            }
+            
+            
+            
+            
+            
+        } catch {}
+        
+        
+    }
+    
+    
+    
+}
+
+
+/*
+
+final class WeatherDataManager {
+    
+    static let shared = WeatherDataManager()
+    private init() {}
+    
+    typealias NetworkCompletion = (Result<[WeatherItem], NetworkError>)-> Void
+
     
     func fetchWeather(date: String, time: String, nx: String, ny: String, completion: @escaping NetworkCompletion) {
         let serviceKey = "i%2FlgvIb5OpxWS%2FSUbYqKVRUFOAhnyLPnReUncUwXfMAm1M8MflkW6pDo5RG5Gvx8rXyy6cJNJrWjy6q83jBmBw%3D%3D"
@@ -65,3 +120,4 @@ final class WeatherDataManager {
     }
     
 }
+*/
