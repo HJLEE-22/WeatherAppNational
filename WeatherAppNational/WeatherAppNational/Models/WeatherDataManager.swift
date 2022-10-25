@@ -27,7 +27,6 @@ final class WeatherDataManager {
         performRequest(with: urlString) { result in
             completion(result)
         }
-        
     }
     
     func performRequest(with urlString: String, completion: @escaping NetworkCompletion) {
@@ -58,7 +57,7 @@ final class WeatherDataManager {
     private func parseJSON(_ weatherData: Data) -> [WeatherItem]? {
         do {
             let weatherArray = try JSONDecoder().decode(WeatherData.self, from: weatherData)
-            return weatherArray.response?.body?.items?.item
+            return weatherArray.response.body.items.item
         } catch {
             print(error.localizedDescription)
             return nil

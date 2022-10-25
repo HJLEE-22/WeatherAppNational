@@ -8,44 +8,52 @@
 import UIKit
 
 struct WeatherData: Codable {
-    let response: WeatherResponse?
+    let response: WeatherResponse
 }
 
 struct WeatherResponse: Codable {
-    let header: WeatherHeader?
-    let body: WeatherBody?
+    let header: WeatherHeader
+    let body: WeatherBody
 }
 
 struct WeatherHeader: Codable {
-    let resultCode: String?
-    let resultMsg: String?
+    let resultCode: String
+    let resultMsg: String
 }
 
 struct WeatherBody: Codable {
-    let dataType: String?
-    let items: WeatherItems?
-    let pageNo: Int?
-    let numOfRows: Int?
-    let totalCount: Int?
+    let dataType: String
+    let items: WeatherItems
+    let pageNo: Int
+    let numOfRows: Int
+    let totalCount: Int
 }
 
 struct WeatherItems: Codable {
-    let item: [WeatherItem]?
+    let item: [WeatherItem]
 }
 
 
 struct WeatherItem: Codable {
-    let baseDate: String?
-    let baseTime: String?
-    let category: String?
-    let fcstDate: String?
-    let fcstTime: String?
-    let fcstValue: String?
-    let nx: Int?
-    let ny: Int?
+    let baseDate: String
+    let baseTime: String
+    let category: String
+    let fcstDate: String
+    let fcstTime: String
+    let fcstValue: String
+    let nx: Int
+    let ny: Int
 }
 
-
+enum WeatherItemCategory: String {
+    case rainingStatus = "PTY"
+    case skyStatus = "SKY"
+    case humidityStatus = "REH"
+    case temperaturePerHour = "TMP"
+    case temperatureMax = "TMX"
+    case temperatureMin = "TMN"
+    case windSpeed = "WSD"
+}
 
 
 /*
