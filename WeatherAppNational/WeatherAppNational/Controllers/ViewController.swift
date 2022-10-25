@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        WeatherDataManager.shared.fetchWeather(date: "20221015", time: "0500", nx: "55", ny: "127") { result in
+        WeatherDataManager.shared.fetchWeather(date: "20221024", time: "0500", nx: "55", ny: "127") { result in
             print(#function)
             switch result {
             case .success(let weathers):

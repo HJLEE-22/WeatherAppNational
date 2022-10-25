@@ -1,11 +1,15 @@
 //
-//  WeatherData.swift
+//  WeatherDataModel.swift
 //  WeatherAppNational
 //
 //  Created by 이형주 on 2022/10/12.
 //
 
 import UIKit
+
+struct WeatherData: Codable {
+    let response: WeatherResponse?
+}
 
 struct WeatherResponse: Codable {
     let header: WeatherHeader?
@@ -19,13 +23,13 @@ struct WeatherHeader: Codable {
 
 struct WeatherBody: Codable {
     let dataType: String?
-    let items: WeatherData?
+    let items: WeatherItems?
     let pageNo: Int?
     let numOfRows: Int?
     let totalCount: Int?
 }
 
-struct WeatherData: Codable {
+struct WeatherItems: Codable {
     let item: [WeatherItem]?
 }
 
