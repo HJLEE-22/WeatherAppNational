@@ -14,20 +14,8 @@
 		ADB4719B28F69615005F8AA5 /* WeatherAppNational.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ADB4719928F69615005F8AA5 /* WeatherAppNational.xcdatamodeld */; };
 		ADB4719D28F69616005F8AA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADB4719C28F69616005F8AA5 /* Assets.xcassets */; };
 		ADB471A028F69616005F8AA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADB4719E28F69616005F8AA5 /* LaunchScreen.storyboard */; };
-		ADB471B128FD3C36005F8AA5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471B028FD3C36005F8AA5 /* MainView.swift */; };
-		ADB471B328FD3C57005F8AA5 /* TodayWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471B228FD3C57005F8AA5 /* TodayWeatherView.swift */; };
-		ADB471B528FD3C6D005F8AA5 /* YesterdayWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471B428FD3C6D005F8AA5 /* YesterdayWeatherView.swift */; };
-		ADB471B728FD3C81005F8AA5 /* TomorrowWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471B628FD3C81005F8AA5 /* TomorrowWeatherView.swift */; };
-		ADB471B928FD3C91005F8AA5 /* SettingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471B828FD3C91005F8AA5 /* SettingViewCell.swift */; };
-		ADB471BB28FD3CA0005F8AA5 /* CitiesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471BA28FD3CA0005F8AA5 /* CitiesViewCell.swift */; };
-		ADB471BD28FD3D8F005F8AA5 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471BC28FD3D8F005F8AA5 /* FirstViewController.swift */; };
-		ADB471BF28FD3D9F005F8AA5 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471BE28FD3D9F005F8AA5 /* SecondViewController.swift */; };
-		ADB471C128FD3DB0005F8AA5 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471C028FD3DB0005F8AA5 /* SettingViewController.swift */; };
-		ADB471C328FD3DC1005F8AA5 /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471C228FD3DC1005F8AA5 /* CitiesViewController.swift */; };
-		ADB471C628FD3DF1005F8AA5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471C528FD3DF1005F8AA5 /* Constants.swift */; };
-		ADB471C828FD8FDA005F8AA5 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471C728FD8FDA005F8AA5 /* ThirdViewController.swift */; };
-		ADB471CA28FD8FF4005F8AA5 /* FourthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471C928FD8FF4005F8AA5 /* FourthViewController.swift */; };
-		ADB471CC28FD9009005F8AA5 /* FifthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471CB28FD9009005F8AA5 /* FifthViewController.swift */; };
+		ADB471AB28F705BF005F8AA5 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471AA28F705BF005F8AA5 /* WeatherDataModel.swift */; };
+		ADB471AD28F8006B005F8AA5 /* WeatherDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB471AC28F8006A005F8AA5 /* WeatherDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,20 +28,8 @@
 		ADB4719C28F69616005F8AA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADB4719F28F69616005F8AA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADB471A128F69616005F8AA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADB471B028FD3C36005F8AA5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		ADB471B228FD3C57005F8AA5 /* TodayWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWeatherView.swift; sourceTree = "<group>"; };
-		ADB471B428FD3C6D005F8AA5 /* YesterdayWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesterdayWeatherView.swift; sourceTree = "<group>"; };
-		ADB471B628FD3C81005F8AA5 /* TomorrowWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TomorrowWeatherView.swift; sourceTree = "<group>"; };
-		ADB471B828FD3C91005F8AA5 /* SettingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewCell.swift; sourceTree = "<group>"; };
-		ADB471BA28FD3CA0005F8AA5 /* CitiesViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewCell.swift; sourceTree = "<group>"; };
-		ADB471BC28FD3D8F005F8AA5 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		ADB471BE28FD3D9F005F8AA5 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		ADB471C028FD3DB0005F8AA5 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		ADB471C228FD3DC1005F8AA5 /* CitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewController.swift; sourceTree = "<group>"; };
-		ADB471C528FD3DF1005F8AA5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		ADB471C728FD8FDA005F8AA5 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
-		ADB471C928FD8FF4005F8AA5 /* FourthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthViewController.swift; sourceTree = "<group>"; };
-		ADB471CB28FD9009005F8AA5 /* FifthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FifthViewController.swift; sourceTree = "<group>"; };
+		ADB471AA28F705BF005F8AA5 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
+		ADB471AC28F8006A005F8AA5 /* WeatherDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +64,6 @@
 			children = (
 				ADB4719028F69615005F8AA5 /* AppDelegate.swift */,
 				ADB4719228F69615005F8AA5 /* SceneDelegate.swift */,
-				ADB471C428FD3DE1005F8AA5 /* Helpers */,
 				ADB471A928F69640005F8AA5 /* Models */,
 				ADB471A828F69635005F8AA5 /* Views */,
 				ADB471A728F6962A005F8AA5 /* Controllers */,
@@ -105,13 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				ADB4719428F69615005F8AA5 /* ViewController.swift */,
-				ADB471BC28FD3D8F005F8AA5 /* FirstViewController.swift */,
-				ADB471BE28FD3D9F005F8AA5 /* SecondViewController.swift */,
-				ADB471C728FD8FDA005F8AA5 /* ThirdViewController.swift */,
-				ADB471C928FD8FF4005F8AA5 /* FourthViewController.swift */,
-				ADB471CB28FD9009005F8AA5 /* FifthViewController.swift */,
-				ADB471C228FD3DC1005F8AA5 /* CitiesViewController.swift */,
-				ADB471C028FD3DB0005F8AA5 /* SettingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -119,12 +87,6 @@
 		ADB471A828F69635005F8AA5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				ADB471B028FD3C36005F8AA5 /* MainView.swift */,
-				ADB471B228FD3C57005F8AA5 /* TodayWeatherView.swift */,
-				ADB471B428FD3C6D005F8AA5 /* YesterdayWeatherView.swift */,
-				ADB471B628FD3C81005F8AA5 /* TomorrowWeatherView.swift */,
-				ADB471B828FD3C91005F8AA5 /* SettingViewCell.swift */,
-				ADB471BA28FD3CA0005F8AA5 /* CitiesViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -132,16 +94,10 @@
 		ADB471A928F69640005F8AA5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				ADB471AA28F705BF005F8AA5 /* WeatherDataModel.swift */,
+				ADB471AC28F8006A005F8AA5 /* WeatherDataManager.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		ADB471C428FD3DE1005F8AA5 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				ADB471C528FD3DF1005F8AA5 /* Constants.swift */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,24 +171,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADB471CC28FD9009005F8AA5 /* FifthViewController.swift in Sources */,
-				ADB471BF28FD3D9F005F8AA5 /* SecondViewController.swift in Sources */,
-				ADB471B728FD3C81005F8AA5 /* TomorrowWeatherView.swift in Sources */,
+				ADB471AD28F8006B005F8AA5 /* WeatherDataManager.swift in Sources */,
 				ADB4719528F69615005F8AA5 /* ViewController.swift in Sources */,
-				ADB471C128FD3DB0005F8AA5 /* SettingViewController.swift in Sources */,
-				ADB471B528FD3C6D005F8AA5 /* YesterdayWeatherView.swift in Sources */,
-				ADB471C628FD3DF1005F8AA5 /* Constants.swift in Sources */,
-				ADB471C328FD3DC1005F8AA5 /* CitiesViewController.swift in Sources */,
-				ADB471B928FD3C91005F8AA5 /* SettingViewCell.swift in Sources */,
+				ADB471AB28F705BF005F8AA5 /* WeatherDataModel.swift in Sources */,
 				ADB4719128F69615005F8AA5 /* AppDelegate.swift in Sources */,
 				ADB4719B28F69615005F8AA5 /* WeatherAppNational.xcdatamodeld in Sources */,
-				ADB471B128FD3C36005F8AA5 /* MainView.swift in Sources */,
 				ADB4719328F69615005F8AA5 /* SceneDelegate.swift in Sources */,
-				ADB471B328FD3C57005F8AA5 /* TodayWeatherView.swift in Sources */,
-				ADB471BB28FD3CA0005F8AA5 /* CitiesViewCell.swift in Sources */,
-				ADB471C828FD8FDA005F8AA5 /* ThirdViewController.swift in Sources */,
-				ADB471BD28FD3D8F005F8AA5 /* FirstViewController.swift in Sources */,
-				ADB471CA28FD8FF4005F8AA5 /* FourthViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

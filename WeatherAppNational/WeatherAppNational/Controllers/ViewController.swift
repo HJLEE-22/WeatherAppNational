@@ -11,7 +11,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    // MARK: - properties
+// MARK: - properties
+    
+    var weatherArray: [WeatherItem] = []
     
 //    var nowWeather: WeatherData?
 
@@ -45,6 +47,21 @@ class ViewController: UIViewController {
 //        setupPageControll()
         setupNav()
         setupData()
+        
+        WeatherDataManager.shared.fetchWeather(date: "20221024", time: "0500", nx: "55", ny: "127") { result in
+            print(#function)
+            switch result {
+            case .success(let weathers):
+                self.weatherArray = weathers
+                print(self.weatherArray)
+                DispatchQueue.main.async {
+//                    self.label.text = self.weatherArray[1].fcstValue
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+
     }
 
     
