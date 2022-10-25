@@ -4,7 +4,6 @@
 //
 //  Created by 이형주 on 2022/10/17.
 //
-
 import UIKit
 
 class MainView: UIView {
@@ -91,7 +90,6 @@ class MainView: UIView {
             /*
              
              
-
             yesterdayWeatherView.topAnchor.constraint(equalTo: todayWeatherView.bottomAnchor, constant: 10),
             yesterdayWeatherView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
             yesterdayWeatherView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
@@ -102,7 +100,6 @@ class MainView: UIView {
             tomorrowdayWeatherView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
             tomorrowdayWeatherView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
             tomorrowdayWeatherView.widthAnchor.constraint(equalToConstant: 150)
-
              */
         ])
     
