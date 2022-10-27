@@ -30,7 +30,6 @@ class TomorrowWeatherView: UIView {
         sv.alignment = .center
         sv.spacing = 10
         return sv
-        
     }()
     
     private lazy var mainTemperatureLabel: UILabel = {

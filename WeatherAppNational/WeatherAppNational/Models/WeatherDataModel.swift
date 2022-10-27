@@ -45,15 +45,7 @@ struct WeatherItem: Codable {
     let ny: Int
 }
 
-enum WeatherItemCategory: String {
-    case rainingStatus = "PTY"
-    case skyStatus = "SKY"
-    case humidityStatus = "REH"
-    case temperaturePerHour = "TMP"
-    case temperatureMax = "TMX"
-    case temperatureMin = "TMN"
-    case windSpeed = "WSD"
-}
+
 
 
 /*

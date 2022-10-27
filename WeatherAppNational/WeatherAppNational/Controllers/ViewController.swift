@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     
     var weatherArray: [WeatherItem] = []
     
-//    var nowWeather: WeatherData?
+    var weather: WeatherModel = WeatherModel()
 
     lazy var listButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(listButtonTapped))
@@ -35,54 +35,103 @@ class ViewController: UIViewController {
     
     let todayWeatherView = TodayWeatherView()
     
-    var activeVCs = [FirstViewController.self, SecondViewController.self]
+    lazy var activeVCs = [firstVC, secondVC]
     
     var chosenId = 0
+    
+    // MARK: - Properties for data fetching
+    
+    var todayDate: String = "20221027"
+    
+    var timeForFetching: String = "0600"
+    
+    var nxForLoaction: String = "55"
+    
+    var nyForLocation: String = "127"
+    
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initPageVC()
+//        uiPageControl 코드 작동 안함.
 //        setupPageControll()
         setupNav()
-        setupData()
-        
-        WeatherDataManager.shared.fetchWeather(date: "20221024", time: "0500", nx: "55", ny: "127") { result in
-            print(#function)
+        fetchWeatherData(date: "20221027", time: "0200", nx: "55", ny: "127") { weatherItems in
+            self.sortWeatherCategory(weatherItems: weatherItems)
+        }
+
+
+    }
+
+    
+
+    
+    
+    // MARK: - Helpers
+    
+    func fetchWeatherData(date: String, time: String, nx: String, ny: String, completion: @escaping ([WeatherItem]) -> Void) {
+        WeatherDataManager.shared.fetchWeather(date: date, time: time, nx: nx, ny: ny) { result in
             switch result {
             case .success(let weathers):
                 self.weatherArray = weathers
                 print(self.weatherArray)
+                
+                // 컴플리션 전달
+                completion(self.weatherArray)
+                print(self.weatherArray)
                 DispatchQueue.main.async {
-//                    self.label.text = self.weatherArray[1].fcstValue
+                    
+                    //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
+                    
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
-
     }
+    
+    func sortWeatherCategory(weatherItems: [WeatherItem]) -> Void {
+        weatherItems.forEach { item in
+            
+            if item.fcstDate == self.todayDate && item.fcstTime == self.timeForFetching {
+                switch item.category {
+                case WeatherItemCategory.humidityStatus.rawValue :
+                    return self.weather.humidityStatus = item.fcstValue
+                case WeatherItemCategory.temperaturePerHour.rawValue :
+                    return self.weather.temperaturePerHour = item.fcstValue
+                case WeatherItemCategory.skyStatus.rawValue :
+                    return self.weather.skyStatus = item.fcstValue
+                case WeatherItemCategory.rainingStatus.rawValue :
+                    return self.weather.rainingStatus = item.fcstValue
+                case WeatherItemCategory.windSpeed.rawValue :
+                    return self.weather.windSpeed = item.fcstValue
+                default :
+                    break
+                }
+            }
+            
+            if item.fcstDate == self.todayDate && item.fcstTime == "1500" {
+                switch item.category {
+                case WeatherItemCategory.temperatureMax.rawValue :
+                    return self.weather.temperatureMax = item.fcstValue
+                default :
+                    break
+                }
+                
+            } else if item.fcstDate == self.todayDate && item.fcstTime == "0600" {
+                switch item.category {
+                case WeatherItemCategory.temperatureMin.rawValue :
+                    return self.weather.temperatureMin = item.fcstValue
+                default :
+                    break
+                }
+            }
 
-    
-    
-    
-    // MARK: - Helpers
-    
-    func setupData() {
-//        TodayWeatherDataManager.shared.fetchWeatherByName(city: "서울", county: "강남구", village: "도곡동") { result in
-//            print(#function)
-//            switch result {
-//            case .success(let weatherData) :
-//                self.nowWeather = weatherData
-//                print("DEBUG : \(weatherData)")
-//
-//                print("DEBUG : \(self.nowWeather)")
-//            case .failure(let error) :
-//                print("DEBUG: \(error.localizedDescription)")
-//            }
-//
-//        }
+        }
+        print("DEBUG: weather Model fetched3 \(self.weather)")
+
     }
 
     

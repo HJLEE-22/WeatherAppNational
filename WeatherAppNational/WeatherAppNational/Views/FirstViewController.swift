@@ -21,7 +21,6 @@ class FirstViewController: UIViewController {
         setupUI()
     }
     
-    
     func setupUI() {
         self.view.addSubview(mainView)
         mainView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,10 +31,6 @@ class FirstViewController: UIViewController {
             mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             
         ])
-        
-        
-        
     }
-    
-    
+
 }

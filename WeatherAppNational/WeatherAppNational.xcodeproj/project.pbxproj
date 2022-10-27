@@ -30,6 +30,8 @@
 		ADE9CF022907C40A002EDB9E /* YesterdayWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF012907C40A002EDB9E /* YesterdayWeatherView.swift */; };
 		ADE9CF042907C41D002EDB9E /* TodayWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF032907C41D002EDB9E /* TodayWeatherView.swift */; };
 		ADE9CF062907C6B0002EDB9E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF052907C6B0002EDB9E /* MainView.swift */; };
+		ADE9CF092907E500002EDB9E /* TodayWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF082907E500002EDB9E /* TodayWeatherViewModel.swift */; };
+		ADE9CF0B29091A4D002EDB9E /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF0A29091A4D002EDB9E /* WeatherModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		ADE9CF012907C40A002EDB9E /* YesterdayWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YesterdayWeatherView.swift; sourceTree = "<group>"; };
 		ADE9CF032907C41D002EDB9E /* TodayWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWeatherView.swift; sourceTree = "<group>"; };
 		ADE9CF052907C6B0002EDB9E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		ADE9CF082907E500002EDB9E /* TodayWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWeatherViewModel.swift; sourceTree = "<group>"; };
+		ADE9CF0A29091A4D002EDB9E /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,7 @@
 				ADE9CEF42907C2F7002EDB9E /* Helper */,
 				ADB471A928F69640005F8AA5 /* Models */,
 				ADB471A828F69635005F8AA5 /* Views */,
+				ADE9CF072907E4EB002EDB9E /* ViewModels */,
 				ADB471A728F6962A005F8AA5 /* Controllers */,
 				ADB4719628F69615005F8AA5 /* Main.storyboard */,
 				ADB4719E28F69616005F8AA5 /* LaunchScreen.storyboard */,
@@ -124,9 +129,9 @@
 			isa = PBXGroup;
 			children = (
 				ADE9CF052907C6B0002EDB9E /* MainView.swift */,
+				ADE9CF032907C41D002EDB9E /* TodayWeatherView.swift */,
 				ADE9CEFF2907C3F9002EDB9E /* TomorrowWeatherView.swift */,
 				ADE9CF012907C40A002EDB9E /* YesterdayWeatherView.swift */,
-				ADE9CF032907C41D002EDB9E /* TodayWeatherView.swift */,
 				ADE9CEFD2907C3E2002EDB9E /* SettingViewCell.swift */,
 				ADE9CEFB2907C3BF002EDB9E /* CitiesViewCell.swift */,
 			);
@@ -136,6 +141,7 @@
 		ADB471A928F69640005F8AA5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				ADE9CF0A29091A4D002EDB9E /* WeatherModel.swift */,
 				ADB471AA28F705BF005F8AA5 /* WeatherDataModel.swift */,
 				ADB471AC28F8006A005F8AA5 /* WeatherDataManager.swift */,
 			);
@@ -148,6 +154,14 @@
 				ADE9CEF52907C322002EDB9E /* Constants.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		ADE9CF072907E4EB002EDB9E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9CF082907E500002EDB9E /* TodayWeatherViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +245,8 @@
 				ADE9CEED2907C223002EDB9E /* FourthViewController.swift in Sources */,
 				ADE9CF002907C3F9002EDB9E /* TomorrowWeatherView.swift in Sources */,
 				ADE9CF042907C41D002EDB9E /* TodayWeatherView.swift in Sources */,
+				ADE9CF0B29091A4D002EDB9E /* WeatherModel.swift in Sources */,
+				ADE9CF092907E500002EDB9E /* TodayWeatherViewModel.swift in Sources */,
 				ADB4719128F69615005F8AA5 /* AppDelegate.swift in Sources */,
 				ADE9CEFE2907C3E2002EDB9E /* SettingViewCell.swift in Sources */,
 				ADE9CEF62907C322002EDB9E /* Constants.swift in Sources */,
