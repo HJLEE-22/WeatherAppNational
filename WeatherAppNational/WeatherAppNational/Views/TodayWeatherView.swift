@@ -10,11 +10,19 @@ import UIKit
 class TodayWeatherView: UIView {
     // MARK: - Today's properties
     
+    var viewModel: TodayWeatherViewModel? {
+        didSet {
+            DispatchQueue.main.async {
+                self.configureUI()
+            }
+        }
+    }
+    
     // 이미지와 온도 스택
     private lazy var todayWeatherImageView: UIImageView = {
         let image = UIImage(systemName: "sun.max")
         let imageView = UIImageView(image: image)
-        
+
         return imageView
     }()
     
@@ -44,6 +52,7 @@ class TodayWeatherView: UIView {
         let slider = UISlider()
         
         // 맥스와 미니멈 밸류는 오늘 최고/최저 기온으로 변경할 것
+        
         slider.maximumValue = 50
         slider.minimumValue = -50
         slider.thumbTintColor = .clear
@@ -114,7 +123,7 @@ class TodayWeatherView: UIView {
     
     private lazy var feelingTemperatureTitle: UILabel = {
         let label = UILabel()
-        label.text = " 체감기온: "
+        label.text = " 바람속도: "
         
         return label
     }()
@@ -249,7 +258,13 @@ class TodayWeatherView: UIView {
         
     }
     
-    
+    func configureUI() {
+        guard let viewModel = viewModel else { return print("DEBUG: No view model in view") }
+        todayWeatherImageView.image = viewModel.todayWeatherImage
+        maxLabelForSlider.text = "3"
+        minLabelForSlider.text = viewModel.todayMinDegreeLabel
+        print("DEBUG: view model in view exists \(viewModel)")
+    }
     
     
 }

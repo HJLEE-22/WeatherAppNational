@@ -15,3 +15,23 @@ public struct cellID {
     private init() {}
 }
 
+public struct WeatherSystemName {
+    
+    static let sunMax = "sun.max"
+    static let cloudSun = "cloud.sun"
+    static let cloud = "cloud"
+    static let cloudRain = "cloud.rain"
+    static let cloudSleet = "cloud.sleet"
+    static let cloudSnow = "cloud.snow"
+    static let cloudHeavyRain = "cloud.heavyrain"
+    
+    private init() {}
+}
+
+
+public struct SystemIconNames {
+    static let gpsOn = "location.fill"
+    static let gpsOff = "location"
+    private init () {}
+}
+

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  WeatherAppNational
 //
 //  Created by 이형주 on 2022/10/12.
@@ -9,13 +9,22 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
 // MARK: - properties
     
     var weatherArray: [WeatherItem] = []
     
-    var weather: WeatherModel = WeatherModel()
+    var weather: WeatherModel = WeatherModel() {
+        didSet {
+            DispatchQueue.main.async {
+
+                //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
+                self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
+                
+            }
+        }
+    }
 
     lazy var listButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(listButtonTapped))
@@ -41,9 +50,10 @@ class ViewController: UIViewController {
     
     // MARK: - Properties for data fetching
     
-    var todayDate: String = "20221027"
-    
-    var timeForFetching: String = "0600"
+    var todayDate: String = DateCalculate.todayDateString
+    var yesterdayDate: String = DateCalculate.yesterdayDateString
+    var tomorrowDate: String = DateCalculate.tomorrowDateString
+    var nowtime: String = TimeCalculate.nowTimeString
     
     var nxForLoaction: String = "55"
     
@@ -58,11 +68,18 @@ class ViewController: UIViewController {
 //        uiPageControl 코드 작동 안함.
 //        setupPageControll()
         setupNav()
-        fetchWeatherData(date: "20221027", time: "0200", nx: "55", ny: "127") { weatherItems in
+        print("DEBUG: \(todayDate)")
+        print("DEBUG: \(nowtime)")
+        fetchWeatherData(date: self.todayDate, time: "0200", nx: "55", ny: "127") { weatherItems in
             self.sortWeatherCategory(weatherItems: weatherItems)
+            print("DEBUG: weather Model fetched3 \(self.weather)")
+            DispatchQueue.main.async {
+                self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
+
+            }
+
         }
-
-
+        
     }
 
     
@@ -82,8 +99,9 @@ class ViewController: UIViewController {
                 completion(self.weatherArray)
                 print(self.weatherArray)
                 DispatchQueue.main.async {
-                    
+
                     //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
+                    self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
                     
                 }
             case .failure(let error):
@@ -95,7 +113,7 @@ class ViewController: UIViewController {
     func sortWeatherCategory(weatherItems: [WeatherItem]) -> Void {
         weatherItems.forEach { item in
             
-            if item.fcstDate == self.todayDate && item.fcstTime == self.timeForFetching {
+            if item.fcstDate == self.todayDate && item.fcstTime == self.nowtime {
                 switch item.category {
                 case WeatherItemCategory.humidityStatus.rawValue :
                     return self.weather.humidityStatus = item.fcstValue
@@ -128,9 +146,14 @@ class ViewController: UIViewController {
                     break
                 }
             }
-
+            
         }
-        print("DEBUG: weather Model fetched3 \(self.weather)")
+        DispatchQueue.main.async {
+
+            //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
+            self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
+            
+        }
 
     }
 
@@ -198,7 +221,7 @@ class ViewController: UIViewController {
 }
 
 
-extension ViewController: UIPageViewControllerDataSource {
+extension MainViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if viewController as? FirstViewController != nil {
             return nil
@@ -225,7 +248,7 @@ extension ViewController: UIPageViewControllerDataSource {
 }
 
 
-extension ViewController: UIPageViewControllerDelegate {
+extension MainViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
