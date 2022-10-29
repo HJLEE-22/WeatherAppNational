@@ -18,7 +18,8 @@ class MainViewController: UIViewController {
     var weather: WeatherModel = WeatherModel() {
         didSet {
             DispatchQueue.main.async {
-
+                
+                
                 //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
                 self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
                 
@@ -74,7 +75,7 @@ class MainViewController: UIViewController {
             self.sortWeatherCategory(weatherItems: weatherItems)
             print("DEBUG: weather Model fetched3 \(self.weather)")
             DispatchQueue.main.async {
-                self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
+//                self.updateWeather()
 
             }
 
@@ -261,3 +262,18 @@ extension MainViewController: UIPageViewControllerDelegate {
     
 }
 
+// 프로토콜로 전달 버전
+/*
+extension MainViewController: WeatherViewModel {
+    func updateWeather() {
+        DispatchQueue.main.async {
+            self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
+            
+        }
+        
+        
+    }
+    
+    
+}
+*/

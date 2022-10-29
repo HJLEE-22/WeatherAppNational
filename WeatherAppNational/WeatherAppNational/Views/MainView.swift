@@ -87,20 +87,7 @@ class MainView: UIView {
             emptyBottonStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             emptyBottonStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
             
-            /*
-             
-             
-            yesterdayWeatherView.topAnchor.constraint(equalTo: todayWeatherView.bottomAnchor, constant: 10),
-            yesterdayWeatherView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
-            yesterdayWeatherView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-//            yesterdayWeatherView.trailingAnchor.constraint(equalTo: tomorrowdayWeatherView.leadingAnchor, constant: 20),
-            yesterdayWeatherView.widthAnchor.constraint(equalToConstant: 150),
-            
-            tomorrowdayWeatherView.topAnchor.constraint(equalTo: todayWeatherView.bottomAnchor, constant: 10),
-            tomorrowdayWeatherView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
-            tomorrowdayWeatherView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
-            tomorrowdayWeatherView.widthAnchor.constraint(equalToConstant: 150)
-             */
+
         ])
     
 

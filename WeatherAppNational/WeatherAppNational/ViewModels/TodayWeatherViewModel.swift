@@ -9,6 +9,13 @@
 
 import UIKit
 
+// 프로토콜 전달 버전
+/*
+protocol WeatherViewModel {
+    func updateWeather()
+}
+ */
+
 struct TodayWeatherViewModel {
 
     var weather: WeatherModel
@@ -93,3 +100,5 @@ struct TodayWeatherViewModel {
     }
     
 }
+
+

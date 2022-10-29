@@ -121,14 +121,14 @@ class TodayWeatherView: UIView {
     }()
     
     
-    private lazy var feelingTemperatureTitle: UILabel = {
+    private lazy var windSpeedTitle: UILabel = {
         let label = UILabel()
         label.text = " 바람속도: "
         
         return label
     }()
     
-    private lazy var feelingTemperatureLabel: UILabel = {
+    private lazy var windSpeedLabel: UILabel = {
         let label = UILabel()
         label.text = " -30°"
         return label
@@ -136,7 +136,7 @@ class TodayWeatherView: UIView {
     }()
     
     private lazy var feelingStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [feelingTemperatureTitle, feelingTemperatureLabel])
+        let sv = UIStackView(arrangedSubviews: [windSpeedTitle, windSpeedLabel])
         sv.axis = .horizontal
         sv.distribution = .fillProportionally
         sv.layer.borderWidth = 1
@@ -207,8 +207,8 @@ class TodayWeatherView: UIView {
         
         nowHumidityTitle.translatesAutoresizingMaskIntoConstraints = false
         nowHumidityLabel.translatesAutoresizingMaskIntoConstraints = false
-        feelingTemperatureTitle.translatesAutoresizingMaskIntoConstraints = false
-        feelingTemperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        windSpeedTitle.translatesAutoresizingMaskIntoConstraints = false
+        windSpeedLabel.translatesAutoresizingMaskIntoConstraints = false
         humadityAndTemperatureStackView.translatesAutoresizingMaskIntoConstraints = false
         
         todayStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -260,9 +260,11 @@ class TodayWeatherView: UIView {
     
     func configureUI() {
         guard let viewModel = viewModel else { return print("DEBUG: No view model in view") }
-        todayWeatherImageView.image = viewModel.todayWeatherImage
-        maxLabelForSlider.text = "3"
-        minLabelForSlider.text = viewModel.todayMinDegreeLabel
+        self.todayWeatherImageView.image = viewModel.todayWeatherImage
+        self.maxLabelForSlider.text = "3"
+        self.minLabelForSlider.text = viewModel.todayMinDegreeLabel
+        self.windSpeedLabel.text = viewModel.todayWindSpeed
+        self.nowHumidityLabel.text = viewModel.todayHumidity
         print("DEBUG: view model in view exists \(viewModel)")
     }
     
