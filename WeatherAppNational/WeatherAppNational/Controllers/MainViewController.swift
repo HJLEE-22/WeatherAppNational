@@ -8,6 +8,7 @@
 
 
 import UIKit
+import CoreLocation
 
 class MainViewController: UIViewController {
 
@@ -56,10 +57,13 @@ class MainViewController: UIViewController {
     var tomorrowDate: String = DateCalculate.tomorrowDateString
     var nowtime: String = TimeCalculate.nowTimeString
     
-    var nxForLoaction: String = "55"
+    var nxForLoaction: String = "0"
     
-    var nyForLocation: String = "127"
+    var nyForLocation: String = "0"
     
+    
+    // 위치정보 변수
+    var locationManager = CLLocationManager()
     
     // MARK: - Lifecycle
     
@@ -80,6 +84,7 @@ class MainViewController: UIViewController {
             }
 
         }
+        setupLocationDelegate()
         
     }
 
@@ -195,6 +200,32 @@ class MainViewController: UIViewController {
         
     }
     
+    func setupLocationDelegate() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() == true {
+            print("DEBUG: 위치서비스 on")
+            locationManager.startUpdatingLocation()
+//            print("DEBUG: 위치 : \(locationManager.location?.coordinate)")
+        } else {
+            print("DEBUG: 위치서비스 off")
+        }
+
+        
+    }
+    
+    
+    
+    func locationServicesEnabled() async -> Bool {
+        CLLocationManager.locationServicesEnabled()
+    }
+    
+    func converXYtoGrid() {
+   
+    }
+    
 
     // MARK: - Actions
     
@@ -260,6 +291,44 @@ extension MainViewController: UIPageViewControllerDelegate {
     }
     
     
+}
+
+
+extension MainViewController:CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("DidUpdateLocation")
+        if let location = locations.first {
+            print("DEBUG: 위도 : \(location.coordinate.latitude)")
+            print("DEBUG: 경도 : \(location.coordinate.longitude)")
+            
+            let lat = location.coordinate.latitude
+            let lon = location.coordinate.longitude
+        
+            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: lat, lng_Y: lon)
+            self.nxForLoaction = String(convertedGrid.x)
+            self.nyForLocation = String(convertedGrid.y)
+            print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if #available(iOS 14.0, *) {
+            if manager.authorizationStatus == .authorizedWhenInUse {
+ 
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+    }
 }
 
 // 프로토콜로 전달 버전
