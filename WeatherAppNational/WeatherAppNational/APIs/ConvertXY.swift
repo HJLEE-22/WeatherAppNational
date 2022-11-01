@@ -100,6 +100,11 @@ struct LatXLngY {
     public var y: Int
 }
 
+struct LocationService{
+    static var shared = LocationService()
+    var longitude: Double = 0
+    var latitude: Double = 0
+}
 
 
 /*
