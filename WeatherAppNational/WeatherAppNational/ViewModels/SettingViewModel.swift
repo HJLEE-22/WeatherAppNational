@@ -17,10 +17,4 @@ struct SettingViewModel {
             return false
         }
     }
-    
-
-    
-    
-    
-    
 }
