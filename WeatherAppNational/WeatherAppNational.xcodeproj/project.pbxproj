@@ -36,6 +36,7 @@
 		ADE9CF0F290B9A71002EDB9E /* Dates.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF0E290B9A71002EDB9E /* Dates.swift */; };
 		ADE9CF11290BA4B9002EDB9E /* TomorrowWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF10290BA4B9002EDB9E /* TomorrowWeatherViewModel.swift */; };
 		ADE9CF14290FCE66002EDB9E /* ConvertXY.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF13290FCE66002EDB9E /* ConvertXY.swift */; };
+		ADE9CF1629112D32002EDB9E /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF1529112D32002EDB9E /* SettingViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		ADE9CF0E290B9A71002EDB9E /* Dates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dates.swift; sourceTree = "<group>"; };
 		ADE9CF10290BA4B9002EDB9E /* TomorrowWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TomorrowWeatherViewModel.swift; sourceTree = "<group>"; };
 		ADE9CF13290FCE66002EDB9E /* ConvertXY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertXY.swift; sourceTree = "<group>"; };
+		ADE9CF1529112D32002EDB9E /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				ADE9CF082907E500002EDB9E /* TodayWeatherViewModel.swift */,
 				ADE9CF0C290B70FF002EDB9E /* YesterdayWeatherViewModel.swift */,
 				ADE9CF10290BA4B9002EDB9E /* TomorrowWeatherViewModel.swift */,
+				ADE9CF1529112D32002EDB9E /* SettingViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				ADE9CEFE2907C3E2002EDB9E /* SettingViewCell.swift in Sources */,
 				ADE9CF14290FCE66002EDB9E /* ConvertXY.swift in Sources */,
 				ADE9CEF62907C322002EDB9E /* Constants.swift in Sources */,
+				ADE9CF1629112D32002EDB9E /* SettingViewModel.swift in Sources */,
 				ADE9CF062907C6B0002EDB9E /* MainView.swift in Sources */,
 				ADB4719B28F69615005F8AA5 /* WeatherAppNational.xcdatamodeld in Sources */,
 				ADB4719328F69615005F8AA5 /* SceneDelegate.swift in Sources */,

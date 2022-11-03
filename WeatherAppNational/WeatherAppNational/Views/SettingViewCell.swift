@@ -6,10 +6,19 @@
 //
 
 import UIKit
+import CoreLocation
+
+protocol SwitchButtonDelegate: AnyObject {
+    func gpsSwitchTapped()
+}
 
 class SettingViewCell: UITableViewCell {
     
     // MARK: - Properties
+    
+    var locationManager = CLLocationManager()
+    
+    var cellDelegate: SwitchButtonDelegate?
     
     lazy var mainLabel : UILabel = {
        let label = UILabel()
@@ -20,7 +29,7 @@ class SettingViewCell: UITableViewCell {
     
     lazy var switchBtn: UISwitch = {
        let switchBtn = UISwitch()
-        
+    
         
         return switchBtn
     }()
@@ -31,6 +40,9 @@ class SettingViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         
+        // 스위치 작동 액션을 VC 파일이 아닌 cell 파일에 주는게 맞을까?
+        switchBtn.addTarget(self, action: #selector(gpsSwitchTapped), for: .touchUpInside)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -39,9 +51,15 @@ class SettingViewCell: UITableViewCell {
     
     
     // MARK: - Helpers
+    
+    @objc func gpsSwitchTapped() {
+        cellDelegate?.gpsSwitchTapped()
+
+    }
+    
     func setupUI() {
-        addSubview(mainLabel)
-        addSubview(switchBtn)
+        contentView.addSubview(mainLabel)
+        contentView.addSubview(switchBtn)
         
         mainLabel.translatesAutoresizingMaskIntoConstraints = false
         switchBtn.translatesAutoresizingMaskIntoConstraints = false

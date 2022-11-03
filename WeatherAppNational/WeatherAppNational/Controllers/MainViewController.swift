@@ -52,6 +52,8 @@ class MainViewController: UIViewController {
     
     var chosenId = 0
     
+    
+    
     // MARK: - Properties for data fetching
     
     var todayDate: String = DateCalculate.todayDateString
@@ -260,17 +262,18 @@ class MainViewController: UIViewController {
 
     // 시스템 설정으로 유도하는 커스텀 얼럿
     func showRequestLocationServiceAlert() {
-        let alert = UIAlertController(title: "위치 정보", message: "위치 정보를 허용해야 합니다.", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        let ok = UIAlertAction(title: "확인", style: .default) { _ in
-            self.locationManager.requestWhenInUseAuthorization()
+        let requestLocationServiceAlert = UIAlertController(title: "위치 정보 이용", message: "위치 서비스를 사용할 수 없습니다.\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
+        let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
+            if let appSetting = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSetting)
+            }
         }
-        alert.addAction(ok)
-        alert.addAction(cancel)
-        self.present(alert, animated: true)
+        let cancel = UIAlertAction(title: "취소", style: .default)
+        requestLocationServiceAlert.addAction(cancel)
+        requestLocationServiceAlert.addAction(goSetting)
         
+        present(requestLocationServiceAlert, animated: true)
     }
-    
 
     // MARK: - Actions
     
@@ -341,7 +344,7 @@ extension MainViewController:CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("DidUpdateLocation")
-
+        
         // 위치 정보를 배열로 입력받는데, 마지막 index값이 가장 정확하다고 한다.
         if let coordinate = locations.last?.coordinate {
             // ⭐️ 사용자 위치 정보 사용
@@ -359,6 +362,7 @@ extension MainViewController:CLLocationManagerDelegate {
         // startUpdatingLocation()을 사용하여 사용자 위치를 가져왔다면
         // 불필요한 업데이트를 방지하기 위해 stopUpdatingLocation을 호출
         locationManager.stopUpdatingLocation()
+//        locationManager.delegate?.locationManager?(locationManager, didChangeAuthorization: )
         
     }
 
