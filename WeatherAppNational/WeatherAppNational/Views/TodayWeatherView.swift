@@ -7,7 +7,16 @@
 
 import UIKit
 
+protocol UpdatingLocationButtonDelegate {
+    func updatingLocationButtonTapped()
+}
+
 class TodayWeatherView: UIView {
+    
+    // MARK: - Delegate Property
+    
+    var buttonDelegate: UpdatingLocationButtonDelegate?
+    
     // MARK: - Today's properties
     
     var viewModel: TodayWeatherViewModel? {
@@ -155,8 +164,6 @@ class TodayWeatherView: UIView {
         return sv
     }()
     
-    
-    
     // 메인스택
     private lazy var todayStackView: UIStackView = {
         
@@ -175,12 +182,15 @@ class TodayWeatherView: UIView {
         btn.setImage(UIImage(systemName: "location"), for: .normal)
         return btn
     }()
+
     
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        configureUI()
+        addActionToButton()
     }
     
     required init?(coder: NSCoder) {
@@ -258,6 +268,8 @@ class TodayWeatherView: UIView {
         
     }
     
+    // MARK: - UI setup from ViewModel
+    
     func configureUI() {
         guard let viewModel = viewModel else { return print("DEBUG: No view model in view") }
         self.todayWeatherImageView.image = viewModel.todayWeatherImage
@@ -265,8 +277,19 @@ class TodayWeatherView: UIView {
         self.minLabelForSlider.text = viewModel.todayMinDegreeLabel
         self.windSpeedLabel.text = viewModel.todayWindSpeed
         self.nowHumidityLabel.text = viewModel.todayHumidity
+        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
         print("DEBUG: view model in view exists \(viewModel)")
+        addActionToButton()
+    }
+
+    func addActionToButton() {
+        self.currentLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
+    // MARK: - Actions
+    
+    @objc func locationButtonTapped() {
+        buttonDelegate?.updatingLocationButtonTapped()
+    }
     
 }
