@@ -57,6 +57,10 @@ class SettingViewController: UITableViewController {
             self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func switchButtonTapped() {
+        
+    }
+    
     // MARK: - Datasource
     
     override func numberOfSections(in tableView: UITableView) -> Int {

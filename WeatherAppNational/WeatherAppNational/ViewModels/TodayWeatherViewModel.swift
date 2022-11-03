@@ -8,7 +8,6 @@
 
 
 import UIKit
-import CoreLocation
 
 // 프로토콜 전달 버전
 /*
@@ -19,8 +18,6 @@ protocol WeatherViewModel {
 
 struct TodayWeatherViewModel {
 
-    var locationManager = CLLocationManager()
-    
     var weather: WeatherModel
     
     init(weather: WeatherModel) {
@@ -90,10 +87,7 @@ struct TodayWeatherViewModel {
         return "어제보다 \(degree)°C 추워요"
     }
 
-    // locationManager.startUpdatingLocation() 의 현재위치사용이 백그라운드 업데이트 맞겠지?
-    var gpsOn: Bool {
-        return locationManager.allowsBackgroundLocationUpdates ? true : false
-    }
+    var gpsOn: Bool = false
     
     // 현재 위치 정보를 받아왔는지의 여부
     var gpsOnButton: UIImage {

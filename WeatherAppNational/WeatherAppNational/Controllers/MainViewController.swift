@@ -65,10 +65,13 @@ class MainViewController: UIViewController {
     
     var nyForLocation: String = "0"
     
-    // MARK: - Property for location
     
     // 위치정보 변수
     var locationManager = CLLocationManager()
+    
+//    var connectedGPS: Bool = false
+    
+    var currentLocation: CLLocationCoordinate2D?
     
     // MARK: - Lifecycle
     
@@ -91,7 +94,7 @@ class MainViewController: UIViewController {
         }
         checkUserDeviceLocationServiceAuthorization()
 //        print("DEBUG: connectedGPS \(connectedGPS)")
-        todayWeatherView.buttonDelegate = self
+        
     }
 
     
@@ -395,20 +398,3 @@ extension MainViewController: WeatherViewModel {
     
 }
 */
-
-extension MainViewController: UpdatingLocationButtonDelegate {
-    func updatingLocationButtonTapped() {
-        print("DEBUG: check for location button ")
-
-        if locationManager.allowsBackgroundLocationUpdates {
-            print("DEBUG: update to allow for location ")
-            locationManager.stopUpdatingLocation()
-        } else {
-            print("DEBUG: update to reject for location")
-            locationManager.startUpdatingLocation()
-        }
-        
-        
-    }
-    
-}
