@@ -69,8 +69,6 @@ public final class Archive: Sequence {
         case invalidEntryPath
         /// Thrown when an `Entry` can't be stored in the archive with the proposed compression method.
         case invalidCompressionMethod
-        /// Thrown when the stored checksum of an `Entry` doesn't match the checksum during reading.
-        case invalidCRC32
         /// Thrown when an extract, add or remove operation was canceled.
         case cancelledOperation
         /// Thrown when an extract operation was called with zero or negative `bufferSize` parameter.
@@ -126,7 +124,7 @@ public final class Archive: Sequence {
     public let url: URL
     /// Access mode for an archive file.
     public let accessMode: AccessMode
-    var archiveFile: FILEPointer
+    var archiveFile: UnsafeMutablePointer<FILE>
     var endOfCentralDirectoryRecord: EndOfCentralDirectoryRecord
     var zip64EndOfCentralDirectory: ZIP64EndOfCentralDirectory?
     var preferredEncoding: String.Encoding?
@@ -267,7 +265,7 @@ public final class Archive: Sequence {
 
     // MARK: - Helpers
 
-    static func scanForEndOfCentralDirectoryRecord(in file: FILEPointer)
+    static func scanForEndOfCentralDirectoryRecord(in file: UnsafeMutablePointer<FILE>)
         -> EndOfCentralDirectoryStructure? {
         var eocdOffset: UInt64 = 0
         var index = minEndOfCentralDirectoryOffset
@@ -290,7 +288,7 @@ public final class Archive: Sequence {
         return nil
     }
 
-    private static func scanForZIP64EndOfCentralDirectory(in file: FILEPointer, eocdOffset: UInt64)
+    private static func scanForZIP64EndOfCentralDirectory(in file: UnsafeMutablePointer<FILE>, eocdOffset: UInt64)
         -> ZIP64EndOfCentralDirectory? {
         guard UInt64(ZIP64EndOfCentralDirectoryLocator.size) < eocdOffset else {
             return nil

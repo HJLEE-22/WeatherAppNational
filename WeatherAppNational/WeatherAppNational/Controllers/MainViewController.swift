@@ -12,24 +12,16 @@ import CoreLocation
 
 class MainViewController: UIViewController {
 
-// MARK: - properties
-    
-
-    
-    var weatherArray: [WeatherItem] = []
-    
-    var weather: WeatherModel = WeatherModel() {
+    private var subViewControllers: [UIViewController] = []
+    var currentPage: Int = 0 {
         didSet {
-            DispatchQueue.main.async {
-                
-                
-                //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
-                self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
-                
-            }
+            bind(oldValue: oldValue, newValue: currentPage)
         }
     }
-
+    
+    // 위치정보 변수
+    var locationManager = CLLocationManager()
+    
     lazy var listButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(listButtonTapped))
         return btn
@@ -41,182 +33,65 @@ class MainViewController: UIViewController {
         return btn
     }()
     
-    
-    let firstVC = FirstViewController()
-    
-    let secondVC = SecondViewController()
-    
-    let todayWeatherView = TodayWeatherView()
-    
-    lazy var activeVCs = [firstVC, secondVC]
-    
-    var chosenId = 0
-    
-    
-    
-    // MARK: - Properties for data fetching
-    
-    var todayDate: String = DateCalculate.todayDateString
-    var yesterdayDate: String = DateCalculate.yesterdayDateString
-    var tomorrowDate: String = DateCalculate.tomorrowDateString
-    var nowtime: String = TimeCalculate.nowTimeString
-    
-    var nxForLoaction: String = "0"
-    
-    var nyForLocation: String = "0"
-    
-    // MARK: - Property for location
-    
-    // 위치정보 변수
-    var locationManager = CLLocationManager()
+    private lazy var pageViewController: UIPageViewController = {
+        let pageViewController = UIPageViewController(transitionStyle: .scroll,
+                                                      navigationOrientation: .horizontal,
+                                                      options: nil)
+        pageViewController.view.backgroundColor = .clear
+        pageViewController.delegate = self
+        pageViewController.dataSource = self
+        return pageViewController
+    }()
 
-    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initPageVC()
-//        uiPageControl 코드 작동 안함.
-//        setupPageControll()
+        layout()
         setupNav()
-        print("DEBUG: \(todayDate)")
-        print("DEBUG: \(nowtime)")
         
-        fetchWeatherData(date: self.todayDate, time: "0200", nx: "63", ny: "128") { weatherItems in
-            self.sortWeatherCategory(weatherItems: weatherItems)
-//            self.weatherArray = weatherItems
-            print("DEBUG: weather Model fetched3 \(self.weather)")
-            DispatchQueue.main.async {
-//                self.updateWeather()
-
-            }
-
-        }
+        pageViewController.didMove(toParent: self)
+        setupViewControllers()
+        setViewControllersInPageVC()
         
-        /*
-        WeatherService().fetchWeatherData(date: self.todayDate, time: "0200", nx: "55", ny: "127") { weatherItems in
-            WeatherService().sortWeatherCategory(weatherItems: weatherItems)
-            self.weatherArray = weatherItems
-            
-        }
-        */
         checkUserDeviceLocationServiceAuthorization()
-//        print("DEBUG: connectedGPS \(connectedGPS)")
-        todayWeatherView.buttonDelegate = self
+
+    }
+
+    func layout() {
+        addChild(pageViewController)
+        view.addSubview(pageViewController.view)
         
+        pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            pageViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
     }
-
-    
-    // MARK: - Helpers
-    
-    func fetchWeatherData(date: String, time: String, nx: String, ny: String, completion: @escaping ([WeatherItem]) -> Void) {
-        WeatherDataManager.shared.fetchWeather(date: date, time: time, nx: nx, ny: ny) { result in
-            switch result {
-            case .success(let weathers):
-                self.weatherArray = weathers
-                print(self.weatherArray)
-                
-                // 컴플리션 전달
-                completion(self.weatherArray)
-                print(self.weatherArray)
-                DispatchQueue.main.async {
-
-                    //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
-                    self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
-                    
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func sortWeatherCategory(weatherItems: [WeatherItem]) -> Void {
-        weatherItems.forEach { item in
-            
-            if item.fcstDate == self.todayDate && item.fcstTime == self.nowtime {
-                switch item.category {
-                case WeatherItemCategory.humidityStatus.rawValue :
-                    return self.weather.humidityStatus = item.fcstValue
-                case WeatherItemCategory.temperaturePerHour.rawValue :
-                    return self.weather.temperaturePerHour = item.fcstValue
-                case WeatherItemCategory.skyStatus.rawValue :
-                    return self.weather.skyStatus = item.fcstValue
-                case WeatherItemCategory.rainingStatus.rawValue :
-                    return self.weather.rainingStatus = item.fcstValue
-                case WeatherItemCategory.windSpeed.rawValue :
-                    return self.weather.windSpeed = item.fcstValue
-                default :
-                    break
-                }
-            }
-            
-            if item.fcstDate == self.todayDate && item.fcstTime == "1500" {
-                switch item.category {
-                case WeatherItemCategory.temperatureMax.rawValue :
-                    return self.weather.temperatureMax = item.fcstValue
-                default :
-                    break
-                }
-                
-            } else if item.fcstDate == self.todayDate && item.fcstTime == "0600" {
-                switch item.category {
-                case WeatherItemCategory.temperatureMin.rawValue :
-                    return self.weather.temperatureMin = item.fcstValue
-                default :
-                    break
-                }
-            }
-            
-        }
-        DispatchQueue.main.async {
-
-            //ui변경 시 여기서... 아마 ViewModel하고 이어주면 될듯
-            self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
-            
-        }
-
-    }
-
     
     func setupNav() {
-        
         navigationItem.title = "현재 위치"
         navigationController?.navigationBar.tintColor = .purple
         navigationItem.rightBarButtonItem = listButton
         navigationItem.leftBarButtonItem = settingButton
-        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        let backBarButtonItem = UIBarButtonItem(title: "",
+                                                style: .plain,
+                                                target: self,
+                                                action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
         
     }
-    
-    
-    func initPageVC() {
-        
-        let pageVC = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        pageVC.view.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
-        view.addSubview(pageVC.view)
-        addChild(pageVC)
-        pageVC.dataSource = self
-        pageVC.delegate = self
-        
-        
-        let viewControllers = [FirstViewController()]
-        pageVC.setViewControllers(viewControllers, direction: .reverse, animated: true)
-        
-    }
-    
     
     func setupPageControll() {
         let pageControl = UIPageControl()
         pageControl.pageIndicatorTintColor = .white
         pageControl.currentPageIndicatorTintColor = .systemBlue
-
-        
     }
     
     func checkUserDeviceLocationServiceAuthorization() {
-            
         locationManager.delegate = self
         // 3.1
         guard CLLocationManager.locationServicesEnabled() else {
@@ -224,8 +99,7 @@ class MainViewController: UIViewController {
             showRequestLocationServiceAlert()
             return
         }
-            
-            
+        
         // 3.2
         let authorizationStatus: CLAuthorizationStatus
             
@@ -268,13 +142,17 @@ class MainViewController: UIViewController {
 
     // 시스템 설정으로 유도하는 커스텀 얼럿
     func showRequestLocationServiceAlert() {
-        let requestLocationServiceAlert = UIAlertController(title: "위치 정보 이용", message: "위치 서비스를 사용할 수 없습니다.\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
-        let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
+        let requestLocationServiceAlert = UIAlertController(title: "위치 정보 이용",
+                                                            message: "위치 서비스를 사용할 수 없습니다.\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요.",
+                                                            preferredStyle: .alert)
+        let goSetting = UIAlertAction(title: "설정으로 이동",
+                                      style: .destructive) { _ in
             if let appSetting = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(appSetting)
             }
         }
-        let cancel = UIAlertAction(title: "취소", style: .default)
+        let cancel = UIAlertAction(title: "취소",
+                                   style: .default)
         requestLocationServiceAlert.addAction(cancel)
         requestLocationServiceAlert.addAction(goSetting)
         
@@ -300,53 +178,50 @@ class MainViewController: UIViewController {
         transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromLeft
-        navigationController?.view.layer.add(transition, forKey: kCATransition)
-        self.navigationController?.pushViewController(SettingViewController(), animated: true)
+        navigationController?.view.layer.add(transition,
+                                             forKey: kCATransition)
+        self.navigationController?.pushViewController(SettingViewController(),
+                                                      animated: true)
     }
     
 }
 
-
-extension MainViewController: UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        if viewController as? FirstViewController != nil {
-            return nil
-        }
-        return FirstViewController()
-    }
+extension MainViewController {
     
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        if viewController as? SecondViewController != nil {
-            return nil
-        }
-        return SecondViewController()
-    }
-    
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return activeVCs.count
-    }
-    
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return chosenId
-    }
-    
-    
-}
-
-
-extension MainViewController: UIPageViewControllerDelegate {
-    
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed {
-            if let currentVC = pageViewController.viewControllers?[0] as? FirstViewController {
-                
+    private func setupViewControllers() {
+        if let cities = UserDefaultsUtil.shared.getCities() {
+            cities.forEach { city in
+                let vc = WeatherViewController()
+                vc.viewModel = .init(name: city.name, nx: city.nx, ny: city.ny)
+                subViewControllers.append(vc)
             }
+        } else {
+            let vc = WeatherViewController()
+            vc.viewModel = .init(name: "서울특별시", nx: 60, ny: 127)
+            
+            let vc2 = WeatherViewController()
+            vc2.viewModel = .init(name: "부산광역시", nx: 98, ny: 76)
+            
+            subViewControllers.append(vc)
+            subViewControllers.append(vc2)
         }
+        currentPage = 0
+    }
+    
+    private func setViewControllersInPageVC() {
+        if let firstVC = subViewControllers.first {
+            pageViewController.setViewControllers([firstVC], direction: .forward, animated: false, completion: nil)
+        }
+    }
+    
+    private func bind(oldValue: Int, newValue: Int) {
+        let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
+        pageViewController.setViewControllers([subViewControllers[currentPage]], direction: direction, animated: false, completion: nil)
     }
 }
 
 
-extension MainViewController:CLLocationManagerDelegate {
+extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("DidUpdateLocation")
@@ -360,8 +235,8 @@ extension MainViewController:CLLocationManagerDelegate {
             let lat = coordinate.latitude
             let lon = coordinate.longitude
             let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: lat, lng_Y: lon)
-            self.nxForLoaction = String(convertedGrid.x)
-            self.nyForLocation = String(convertedGrid.y)
+//            self.nxForLoaction = String(convertedGrid.x)
+//            self.nyForLocation = String(convertedGrid.y)
             print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
         }
         
@@ -387,22 +262,6 @@ extension MainViewController:CLLocationManagerDelegate {
     }
 }
 
-// 프로토콜로 전달 버전
-/*
-extension MainViewController: WeatherViewModel {
-    func updateWeather() {
-        DispatchQueue.main.async {
-            self.todayWeatherView.viewModel = TodayWeatherViewModel(weather: self.weather)
-            
-        }
-        
-        
-    }
-    
-    
-}
-*/
-
 extension MainViewController: UpdatingLocationButtonDelegate {
     func updatingLocationButtonTapped() {
         print("DEBUG: check for location button ")
@@ -414,7 +273,31 @@ extension MainViewController: UpdatingLocationButtonDelegate {
             print("DEBUG: update to reject for location")
             locationManager.startUpdatingLocation()
         }
-        
     }
-    
+}
+
+extension MainViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let index = subViewControllers.firstIndex(of: viewController) else { return nil }
+        let previousIndex = index - 1
+        if previousIndex < 0 {
+            return nil
+        }
+        return subViewControllers[previousIndex]
+    }
+
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let index = subViewControllers.firstIndex(of: viewController) else { return nil }
+        let nextIndex = index + 1
+        if nextIndex == subViewControllers.count {
+            return nil
+        }
+        return subViewControllers[nextIndex]
+    }
+
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let currentVC = pageViewController.viewControllers?.first,
+              let currentIndex = subViewControllers.firstIndex(of: currentVC) else { return }
+        currentPage = currentIndex
+    }
 }

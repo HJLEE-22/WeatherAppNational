@@ -89,15 +89,5 @@ class MainView: UIView {
             
 
         ])
-    
-
-            
-        
     }
-    
-    
-    
-    
-    
-    
 }

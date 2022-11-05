@@ -17,13 +17,13 @@ enum WeatherItemCategory: String {
     case windSpeed = "WSD"
 }
 
-enum SkyCategory: String {
+enum SkyCategory: String, CaseIterable  {
     case sunny = "1"
     case cloudy = "3"
     case gray = "4"
 }
 
-enum RainStatusCategory: String {
+enum RainStatusCategory: String, CaseIterable {
     case noRain = "0"
     case raining = "1"
     case rainingAndSnowing = "2"
@@ -32,22 +32,13 @@ enum RainStatusCategory: String {
 }
 
 struct WeatherModel {
-    
     var humidityStatus: String?
-    
     var temperatureMax: String?
-    
     var temperatureMin: String?
- 
     var temperaturePerHour: String?
-    
     var windSpeed: String?
-    
     var rainingStatus: String?
-    
     var skyStatus: String?
-    
-    
 }
 
 

@@ -208,7 +208,7 @@
 		9A7ACED53AF9B9633E60FC8344C94080 /* CoreXLSX-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "CoreXLSX-Info.plist"; sourceTree = "<group>"; };
 		9C9308FC7CDB85DA1E6A00C7C0C2A937 /* ValueBox.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ValueBox.swift; path = Sources/XMLCoder/Auxiliaries/Box/ValueBox.swift; sourceTree = "<group>"; };
 		9D1F12352E5F59C3789DF83D38E5DD3A /* XMLDecodingStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XMLDecodingStorage.swift; path = Sources/XMLCoder/Decoder/XMLDecodingStorage.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A05A89EAC1B5C0A9CD8E9F98B225C70F /* Comments.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Comments.swift; path = Sources/CoreXLSX/Comments.swift; sourceTree = "<group>"; };
 		A37A36B3602A191D1A7E9F9FD79BD518 /* CoreXLSX-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CoreXLSX-dummy.m"; sourceTree = "<group>"; };
 		A6E1F7BF64ECBB5F62C9D3F4D1C371D2 /* Pods-WeatherAppNational.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppNational.release.xcconfig"; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 		F0876B2F4C3D1F551FCEC592B8CFF5FC /* XMLUnkeyedEncodingContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XMLUnkeyedEncodingContainer.swift; path = Sources/XMLCoder/Encoder/XMLUnkeyedEncodingContainer.swift; sourceTree = "<group>"; };
 		F1B802B19FA3E9035E0E194105F27CF4 /* StringBox.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringBox.swift; path = Sources/XMLCoder/Auxiliaries/Box/StringBox.swift; sourceTree = "<group>"; };
 		F26B43EE267C24A39B240638B984A6F2 /* Pods-WeatherAppNational.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppNational.debug.xcconfig"; sourceTree = "<group>"; };
-		F7697CE4600AFF04DD7B37AB9EDFFC00 /* CoreXLSX */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CoreXLSX; path = CoreXLSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7697CE4600AFF04DD7B37AB9EDFFC00 /* CoreXLSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreXLSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F826E1DA521649DA3B79E1260DE4E738 /* XMLCoder-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "XMLCoder-prefix.pch"; sourceTree = "<group>"; };
 		FD63D1263D0FCFF2A96A56A50CB12DEB /* DynamicNodeEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DynamicNodeEncoding.swift; path = Sources/XMLCoder/Encoder/DynamicNodeEncoding.swift; sourceTree = "<group>"; };
 		FEA299C49D90AD6ADB94929AF34CA848 /* XMLCoderElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XMLCoderElement.swift; path = Sources/XMLCoder/Auxiliaries/XMLCoderElement.swift; sourceTree = "<group>"; };
@@ -311,7 +311,6 @@
 				2AB05AB38B7FCE02E17D0B575D384B16 /* XLSXFile.swift */,
 				18E58C31DA2CB81E451E3B78D2CBA2CA /* Support Files */,
 			);
-			name = CoreXLSX;
 			path = CoreXLSX;
 			sourceTree = "<group>";
 		};
@@ -431,7 +430,6 @@
 				F0876B2F4C3D1F551FCEC592B8CFF5FC /* XMLUnkeyedEncodingContainer.swift */,
 				8685ABB5CD59FBA0F2886CDD27614935 /* Support Files */,
 			);
-			name = XMLCoder;
 			path = XMLCoder;
 			sourceTree = "<group>";
 		};
@@ -492,14 +490,13 @@
 				249F744439F15B24750D7D57F7C8DC41 /* URL+ZIP.swift */,
 				E574942860703F23AF2B33CBECD16B0B /* Support Files */,
 			);
-			name = ZIPFoundation;
 			path = ZIPFoundation;
 			sourceTree = "<group>";
 		};
 		FCEE6A6EA216BF26FD94A95F77548946 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F7697CE4600AFF04DD7B37AB9EDFFC00 /* CoreXLSX */,
+				F7697CE4600AFF04DD7B37AB9EDFFC00 /* CoreXLSX.framework */,
 				429CCF322AF2022B7ECA1AB74B983EA0 /* Pods-WeatherAppNational */,
 				3F616D3E24543D97C200EBBCFDF225D0 /* XMLCoder */,
 				48A4A6EDC08C8AC933D0DCD507E9D173 /* ZIPFoundation */,
@@ -562,7 +559,7 @@
 			);
 			name = CoreXLSX;
 			productName = CoreXLSX;
-			productReference = F7697CE4600AFF04DD7B37AB9EDFFC00 /* CoreXLSX */;
+			productReference = F7697CE4600AFF04DD7B37AB9EDFFC00 /* CoreXLSX.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		AA15C8469D67684160CC2A7098EB841C /* ZIPFoundation */ = {
@@ -916,7 +913,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/CoreXLSX/CoreXLSX-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/CoreXLSX/CoreXLSX-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1050,7 +1047,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/CoreXLSX/CoreXLSX-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/CoreXLSX/CoreXLSX-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

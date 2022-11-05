@@ -19,7 +19,7 @@ class TomorrowWeatherView: UIView {
     
     private lazy var tomorrowLabel: UILabel = {
        let label = UILabel()
-        label.text = "(19일)"
+        // label.text = "(19일)"
         return label
     }()
     
@@ -34,7 +34,7 @@ class TomorrowWeatherView: UIView {
     
     private lazy var mainTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "10°"
+        // label.text = "10°"
         label.font = UIFont.boldSystemFont(ofSize: 50)
 
         return label
@@ -42,7 +42,7 @@ class TomorrowWeatherView: UIView {
     
     private lazy var minTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "7°"
+        // label.text = "7°"
         return label
     }()
     
@@ -54,7 +54,7 @@ class TomorrowWeatherView: UIView {
     
     private lazy var maxTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "19°"
+       // label.text = "19°"
         return label
     }()
     
@@ -69,8 +69,7 @@ class TomorrowWeatherView: UIView {
     }()
     
     private lazy var weatherImageView : UIImageView = {
-        let image = UIImage(systemName: "cloud")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         return imageView
         
     }()
@@ -90,7 +89,13 @@ class TomorrowWeatherView: UIView {
         
     }()
     
-    
+    var weatherModel: WeatherModel? {
+        didSet {
+            if let weatherModel = weatherModel {
+                self.configureUI(weatherModel)
+            }
+        }
+    }
     
     // MARK: - Lifecycle
     
@@ -125,5 +130,45 @@ class TomorrowWeatherView: UIView {
         
     }
     
+    func configureUI(_ data: WeatherModel) {
+        DispatchQueue.main.async { [weak self] in
+            self?.weatherImageView.image = self?.setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+            self?.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "") °C"
+            self?.maxTemperatureLabel.text = data.temperatureMax
+            self?.minTemperatureLabel.text = data.temperatureMin
+        }
+    }
     
+    
+    func setWeatherImage(_ rainStatusCategory: String, _ skyStatusCategory: String) -> UIImage {
+        if rainStatusCategory == "0" {
+            if let skyStatusCategory = SkyCategory.allCases.first(where: { $0.rawValue == skyStatusCategory }) {
+                switch skyStatusCategory {
+                case .sunny:
+                    return UIImage(systemName: WeatherSystemName.sunMax)!
+                case .cloudy:
+                    return UIImage(systemName: WeatherSystemName.cloudSun)!
+                case .gray:
+                    return UIImage(systemName: WeatherSystemName.cloud)!
+                }
+            }
+        } else {
+            if let rainStatusCategory = RainStatusCategory.allCases.first(where: { $0.rawValue == rainStatusCategory }) {
+                switch rainStatusCategory {
+                case .raining:
+                    return UIImage(systemName: WeatherSystemName.cloudRain)!
+                case .rainingAndSnowing:
+                    return UIImage(systemName: WeatherSystemName.cloudSleet)!
+                case .snowing:
+                    return UIImage(systemName: WeatherSystemName.cloudSnow)!
+                case .showering:
+                    return UIImage(systemName: WeatherSystemName.cloudHeavyRain)!
+                case .noRain:
+                    break
+                }
+            }
+        }
+        
+        return UIImage()
+    }
 }

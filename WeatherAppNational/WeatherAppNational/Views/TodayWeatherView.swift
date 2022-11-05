@@ -13,34 +13,26 @@ protocol UpdatingLocationButtonDelegate {
 
 class TodayWeatherView: UIView {
     
-    // MARK: - Delegate Property
-    
-    var buttonDelegate: UpdatingLocationButtonDelegate?
-    
-    // MARK: - Today's properties
-    
-    var viewModel: TodayWeatherViewModel? {
+    var weatherModel: WeatherModel? {
         didSet {
-            DispatchQueue.main.async {
-                self.configureUI()
+            if let weatherModel = weatherModel {
+                self.configureUI(weatherModel)
             }
         }
     }
+        
+    var buttonDelegate: UpdatingLocationButtonDelegate?
     
     // 이미지와 온도 스택
     private lazy var todayWeatherImageView: UIImageView = {
-        let image = UIImage(systemName: "sun.max")
-        let imageView = UIImageView(image: image)
-
+        let imageView = UIImageView()
         return imageView
     }()
     
     private lazy var todayDegreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "19" + "°C"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 50)
-        
         
         return label
     }()
@@ -53,8 +45,6 @@ class TodayWeatherView: UIView {
         
         return sv
     }()
-    
-
     
     // 온도 슬라이더 스택
     private lazy var todayDegreeSlider: UISlider = {
@@ -94,7 +84,7 @@ class TodayWeatherView: UIView {
     
     private lazy var todayExplanationLabel: UILabel = {
         let label = UILabel()
-        label.text = "어제보다 -2° 추워요"
+       // label.text = "어제보다 -2° 추워요"
         label.textAlignment = .left
         
         return label
@@ -111,7 +101,6 @@ class TodayWeatherView: UIView {
     
     private lazy var nowHumidityLabel: UILabel = {
         let label = UILabel()
-        label.text = "100"
         
         return label
     }()
@@ -132,14 +121,11 @@ class TodayWeatherView: UIView {
     
     private lazy var windSpeedTitle: UILabel = {
         let label = UILabel()
-        label.text = " 바람속도: "
-        
         return label
     }()
     
     private lazy var windSpeedLabel: UILabel = {
         let label = UILabel()
-        label.text = " -30°"
         return label
         
     }()
@@ -190,8 +176,8 @@ class TodayWeatherView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        configureUI()
-        addActionToButton()
+//        configureUI()
+//        addActionToButton()
     }
     
     required init?(coder: NSCoder) {
@@ -266,16 +252,50 @@ class TodayWeatherView: UIView {
         
     }
     
-    func configureUI() {
-        guard let viewModel = viewModel else { return print("DEBUG: No view model in view") }
-        self.todayWeatherImageView.image = viewModel.todayWeatherImage
-        self.maxLabelForSlider.text = "3"
-        self.minLabelForSlider.text = viewModel.todayMinDegreeLabel
-        self.windSpeedLabel.text = viewModel.todayWindSpeed
-        self.nowHumidityLabel.text = viewModel.todayHumidity
-        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
-        print("DEBUG: view model in view exists \(viewModel)")
-        addActionToButton()
+    func configureUI(_ data: WeatherModel) {
+        DispatchQueue.main.async { [weak self] in
+            self?.todayWeatherImageView.image = self?.setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+            self?.todayDegreeLabel.text = "\(data.temperaturePerHour ?? "") °C"
+            self?.maxLabelForSlider.text = data.temperatureMax
+            self?.minLabelForSlider.text = data.temperatureMin
+            self?.windSpeedLabel.text = data.windSpeed ?? ""
+            self?.nowHumidityLabel.text = data.humidityStatus ?? ""
+//            self?.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
+//            print("DEBUG: view model in view exists \(viewModel)")
+//            self?.addActionToButton()
+        }
+    }
+    
+    func setWeatherImage(_ rainStatusCategory: String, _ skyStatusCategory: String) -> UIImage {
+        if rainStatusCategory == "0" {
+            if let skyStatusCategory = SkyCategory.allCases.first(where: { $0.rawValue == skyStatusCategory }) {
+                switch skyStatusCategory {
+                case .sunny:
+                    return UIImage(systemName: WeatherSystemName.sunMax)!
+                case .cloudy:
+                    return UIImage(systemName: WeatherSystemName.cloudSun)!
+                case .gray:
+                    return UIImage(systemName: WeatherSystemName.cloud)!
+                }
+            }
+        } else {
+            if let rainStatusCategory = RainStatusCategory.allCases.first(where: { $0.rawValue == rainStatusCategory }) {
+                switch rainStatusCategory {
+                case .raining:
+                    return UIImage(systemName: WeatherSystemName.cloudRain)!
+                case .rainingAndSnowing:
+                    return UIImage(systemName: WeatherSystemName.cloudSleet)!
+                case .snowing:
+                    return UIImage(systemName: WeatherSystemName.cloudSnow)!
+                case .showering:
+                    return UIImage(systemName: WeatherSystemName.cloudHeavyRain)!
+                case .noRain:
+                    break
+                }
+            }
+        }
+        
+        return UIImage()
     }
 
     func addActionToButton() {
