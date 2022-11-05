@@ -202,8 +202,16 @@ extension MainViewController {
             let vc2 = WeatherViewController()
             vc2.viewModel = .init(name: "부산광역시", nx: 98, ny: 76)
             
+            let vc3 = WeatherViewController()
+            vc3.viewModel = .init(name: "서울특별시", nx: 60, ny: 127)
+            
+            let vc4 = WeatherViewController()
+            vc4.viewModel = .init(name: "부산광역시", nx: 98, ny: 76)
+            
             subViewControllers.append(vc)
             subViewControllers.append(vc2)
+            subViewControllers.append(vc3)
+            subViewControllers.append(vc4)
         }
         currentPage = 0
     }
@@ -215,8 +223,8 @@ extension MainViewController {
     }
     
     private func bind(oldValue: Int, newValue: Int) {
-        let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
-        pageViewController.setViewControllers([subViewControllers[currentPage]], direction: direction, animated: false, completion: nil)
+//        let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
+//        pageViewController.setViewControllers([subViewControllers[currentPage]], direction: direction, animated: false, completion: nil)
     }
 }
 

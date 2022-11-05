@@ -134,8 +134,8 @@ class TomorrowWeatherView: UIView {
         DispatchQueue.main.async { [weak self] in
             self?.weatherImageView.image = self?.setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
             self?.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "") °C"
-            self?.maxTemperatureLabel.text = data.temperatureMax
-            self?.minTemperatureLabel.text = data.temperatureMin
+            self?.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
+            self?.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
         }
     }
     

@@ -10,14 +10,17 @@ import UIKit
 class WeatherViewController: UIViewController {
     
     private lazy var mainView = MainView()
-    var viewModel: WeatherViewModel!
+    var viewModel: WeatherViewModel! {
+        didSet {
+            viewModel.subscribe(observer: self)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .green
         setupUI()
         
-        viewModel.subscribe(observer: self)
     }
     
     func setupUI() {
@@ -36,15 +39,17 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: Observer {
     func update<T>(updatedValue: T) {
         guard let value = updatedValue as? [Day: WeatherModel] else { return }
-        switch value.first?.key {
-        case .today:
-            mainView.todayWeatherView.weatherModel = value[.today]
-        case .tomorrow:
-            mainView.tomorrowdayWeatherView.weatherModel = value[.tomorrow]
-        case .yesterday:
-            mainView.yesterdayWeatherView.weatherModel = value[.yesterday]
-        case .none:
-            break
+        DispatchQueue.main.async { [weak self] in
+            switch value.first?.key {
+            case .today:
+                self?.mainView.todayWeatherView.weatherModel = value[.today]
+            case .tomorrow:
+                self?.mainView.tomorrowdayWeatherView.weatherModel = value[.tomorrow]
+            case .yesterday:
+                self?.mainView.yesterdayWeatherView.weatherModel = value[.yesterday]
+            case .none:
+                break
+            }
         }
     }
 }

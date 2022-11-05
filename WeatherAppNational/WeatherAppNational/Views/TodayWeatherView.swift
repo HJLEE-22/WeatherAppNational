@@ -61,13 +61,11 @@ class TodayWeatherView: UIView {
     
     private lazy var maxLabelForSlider: UILabel = {
         let label = UILabel()
-        label.text = "50°"
         return label
     }()
     
     private lazy var minLabelForSlider: UILabel = {
         let label = UILabel()
-        label.text = "-50°"
         return label
     }()
     
@@ -256,8 +254,8 @@ class TodayWeatherView: UIView {
         DispatchQueue.main.async { [weak self] in
             self?.todayWeatherImageView.image = self?.setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
             self?.todayDegreeLabel.text = "\(data.temperaturePerHour ?? "") °C"
-            self?.maxLabelForSlider.text = data.temperatureMax
-            self?.minLabelForSlider.text = data.temperatureMin
+            self?.maxLabelForSlider.text = data.temperatureMax ?? "" + "°"
+            self?.minLabelForSlider.text = data.temperatureMin ?? "" + "°"
             self?.windSpeedLabel.text = data.windSpeed ?? ""
             self?.nowHumidityLabel.text = data.humidityStatus ?? ""
 //            self?.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)

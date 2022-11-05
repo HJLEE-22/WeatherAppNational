@@ -57,8 +57,9 @@ class WeatherViewModel {
         // 오늘 날씨
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: Day.today, date: DateCalculate.todayDateString,
-                                                   time: "0200",
+            WeatherService.shared.fetchWeatherData(dayType: Day.today,
+                                                   date: DateCalculate.yesterdayDateString,
+                                                   time: "2300",
                                                    nx: selfRef.nx,
                                                    ny: selfRef.ny) { result in
                 switch result {
@@ -72,9 +73,10 @@ class WeatherViewModel {
         }
         
         // 어제 날씨
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: Day.yesterday, date: DateCalculate.yesterdayDateString,
+            WeatherService.shared.fetchWeatherData(dayType: Day.yesterday,
+                                                   date: DateCalculate.yesterdayDateString,
                                                    time: "0200",
                                                    nx: selfRef.nx,
                                                    ny: selfRef.ny) { result in
@@ -89,10 +91,11 @@ class WeatherViewModel {
         }
       
         // 내일 날씨
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: Day.tomorrow, date: DateCalculate.todayDateString,
-                                                   time: "0200",
+            WeatherService.shared.fetchWeatherData(dayType: Day.tomorrow,
+                                                   date: DateCalculate.yesterdayDateString,
+                                                   time: "2300",
                                                    nx: selfRef.nx,
                                                    ny: selfRef.ny) { result in
                 switch result {

@@ -32,7 +32,7 @@ class WeatherService {
     }
     
     func sortWeatherCategory(dayType: Day, date: String, time: String, weatherItems: [WeatherItem]) -> WeatherModel {
-        var weatherModel = WeatherModel()
+        
         // 현재온도: 현재시간
         // 최저온도 : 06시
         // 최고온도: 15시
@@ -40,7 +40,16 @@ class WeatherService {
         
         let currentTime = TimeCalculate.nowTimeString
         
-        let weatherItemsTemp = dayType == .tomorrow ? weatherItems.filter({ $0.fcstDate == DateCalculate.tomorrowDateString }) : weatherItems.filter({ $0.fcstDate == date })
+        var weatherItemsTemp = weatherItems
+        
+        switch dayType {
+        case .today:
+            weatherItemsTemp = weatherItemsTemp.filter({ $0.fcstDate == DateCalculate.todayDateString })
+        case .yesterday:
+            weatherItemsTemp = weatherItemsTemp.filter({ $0.fcstDate == DateCalculate.yesterdayDateString })
+        case .tomorrow:
+            weatherItemsTemp = weatherItemsTemp.filter({ $0.fcstDate == DateCalculate.tomorrowDateString })
+        }
         
         let currentTemperature = weatherItemsTemp.filter { $0.fcstTime == currentTime && $0.category == WeatherItemCategory.temperaturePerHour.rawValue }.first?.fcstValue
         let minTemperature = weatherItemsTemp.filter { $0.fcstTime == "0600" && $0.category == WeatherItemCategory.temperatureMin.rawValue }.first?.fcstValue
