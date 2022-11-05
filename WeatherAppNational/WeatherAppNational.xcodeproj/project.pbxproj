@@ -44,6 +44,7 @@
 /* Begin PBXFileReference section */
 		1E3A6DE1E605BA7708A2E30B /* Pods-WeatherAppNational.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherAppNational.debug.xcconfig"; path = "Target Support Files/Pods-WeatherAppNational/Pods-WeatherAppNational.debug.xcconfig"; sourceTree = "<group>"; };
 		9B54D7A6BC073A065E8B1C2F /* Pods-WeatherAppNational.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherAppNational.release.xcconfig"; path = "Target Support Files/Pods-WeatherAppNational/Pods-WeatherAppNational.release.xcconfig"; sourceTree = "<group>"; };
+		AD6FA1D2291646F400492FE9 /* WeatherGridByAddress.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = WeatherGridByAddress.xlsx; sourceTree = "<group>"; };
 		ADB4718D28F69615005F8AA5 /* WeatherAppNational.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherAppNational.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADB4719028F69615005F8AA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADB4719228F69615005F8AA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,7 +99,6 @@
 				1E3A6DE1E605BA7708A2E30B /* Pods-WeatherAppNational.debug.xcconfig */,
 				9B54D7A6BC073A065E8B1C2F /* Pods-WeatherAppNational.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -108,6 +108,14 @@
 				EB2ACDEDF1F69A068FC74BF5 /* Pods_WeatherAppNational.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD6FA1D12916469200492FE9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AD6FA1D2291646F400492FE9 /* WeatherGridByAddress.xlsx */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		ADB4718428F69615005F8AA5 = {
@@ -139,6 +147,7 @@
 				ADE9CF072907E4EB002EDB9E /* ViewModels */,
 				ADB471A728F6962A005F8AA5 /* Controllers */,
 				ADE9CF12290FCE45002EDB9E /* APIs */,
+				AD6FA1D12916469200492FE9 /* Resources */,
 				ADB4719628F69615005F8AA5 /* Main.storyboard */,
 				ADB4719E28F69616005F8AA5 /* LaunchScreen.storyboard */,
 				ADB4719C28F69616005F8AA5 /* Assets.xcassets */,
