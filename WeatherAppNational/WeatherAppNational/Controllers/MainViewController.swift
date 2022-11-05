@@ -81,8 +81,10 @@ class MainViewController: UIViewController {
         setupNav()
         print("DEBUG: \(todayDate)")
         print("DEBUG: \(nowtime)")
-        fetchWeatherData(date: self.todayDate, time: "0200", nx: "55", ny: "127") { weatherItems in
+        
+        fetchWeatherData(date: self.todayDate, time: "0200", nx: "63", ny: "128") { weatherItems in
             self.sortWeatherCategory(weatherItems: weatherItems)
+//            self.weatherArray = weatherItems
             print("DEBUG: weather Model fetched3 \(self.weather)")
             DispatchQueue.main.async {
 //                self.updateWeather()
@@ -90,15 +92,20 @@ class MainViewController: UIViewController {
             }
 
         }
+        
+        /*
+        WeatherService().fetchWeatherData(date: self.todayDate, time: "0200", nx: "55", ny: "127") { weatherItems in
+            WeatherService().sortWeatherCategory(weatherItems: weatherItems)
+            self.weatherArray = weatherItems
+            
+        }
+        */
         checkUserDeviceLocationServiceAuthorization()
 //        print("DEBUG: connectedGPS \(connectedGPS)")
         todayWeatherView.buttonDelegate = self
         
     }
 
-    
-
-    
     
     // MARK: - Helpers
     
@@ -348,7 +355,7 @@ extension MainViewController:CLLocationManagerDelegate {
         if let coordinate = locations.last?.coordinate {
             // ⭐️ 사용자 위치 정보 사용
             print("DEBUG: 위도 \(coordinate.latitude)")
-            print("DEBUG: 경도 \(coordinate.latitude)")
+            print("DEBUG: 경도 \(coordinate.longitude)")
             
             let lat = coordinate.latitude
             let lon = coordinate.longitude
@@ -361,8 +368,6 @@ extension MainViewController:CLLocationManagerDelegate {
         // startUpdatingLocation()을 사용하여 사용자 위치를 가져왔다면
         // 불필요한 업데이트를 방지하기 위해 stopUpdatingLocation을 호출
         locationManager.stopUpdatingLocation()
-//        locationManager.delegate?.locationManager?(locationManager, didChangeAuthorization: )
-        
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -409,7 +414,6 @@ extension MainViewController: UpdatingLocationButtonDelegate {
             print("DEBUG: update to reject for location")
             locationManager.startUpdatingLocation()
         }
-        
         
     }
     
