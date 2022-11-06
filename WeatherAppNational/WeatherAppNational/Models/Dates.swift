@@ -23,6 +23,16 @@ public struct DateCalculate {
         return savedDateString
     }
     
+    static var dayBeforeYesterdayDateString: String {
+        let yesterday = Calendar.current.date(byAdding: .day, value: -2, to: Date())!
+        let myFormatter = DateFormatter()
+            myFormatter.locale = Locale(identifier: "ko_KR")
+            myFormatter.timeZone = TimeZone(abbreviation: "KST")
+            myFormatter.dateFormat = "yyyyMMdd"
+            let savedDateString = myFormatter.string(from: yesterday)
+            return savedDateString
+        }
+    
     static var yesterdayDateString: String {
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
         let myFormatter = DateFormatter()

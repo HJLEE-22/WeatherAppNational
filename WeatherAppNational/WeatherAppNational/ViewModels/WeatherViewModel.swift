@@ -76,8 +76,8 @@ class WeatherViewModel {
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
             WeatherService.shared.fetchWeatherData(dayType: Day.yesterday,
-                                                   date: DateCalculate.yesterdayDateString,
-                                                   time: "0200",
+                                                   date: DateCalculate.dayBeforeYesterdayDateString,
+                                                   time: "2300",
                                                    nx: selfRef.nx,
                                                    ny: selfRef.ny) { result in
                 switch result {
