@@ -19,10 +19,10 @@ class TodayWeatherView: UIView {
     
     // MARK: - Today's properties
     
-    var viewModel: TodayWeatherViewModel? {
+    var weatherModel: WeatherModel? {
         didSet {
-            DispatchQueue.main.async {
-                self.configureUI()
+            if let weatherModel = weatherModel {
+                self.configureUI(weatherModel)
             }
         }
     }
@@ -37,7 +37,6 @@ class TodayWeatherView: UIView {
     
     private lazy var todayDegreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "19" + "°C"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 50)
         
@@ -71,13 +70,11 @@ class TodayWeatherView: UIView {
     
     private lazy var maxLabelForSlider: UILabel = {
         let label = UILabel()
-        label.text = "50°"
         return label
     }()
     
     private lazy var minLabelForSlider: UILabel = {
         let label = UILabel()
-        label.text = "-50°"
         return label
     }()
     
@@ -105,14 +102,11 @@ class TodayWeatherView: UIView {
     private lazy var nowHumidityTitle: UILabel = {
         let label = UILabel()
         label.text = " 현재습도: "
-        
         return label
     }()
     
     private lazy var nowHumidityLabel: UILabel = {
         let label = UILabel()
-        label.text = "100"
-        
         return label
     }()
     
@@ -139,7 +133,6 @@ class TodayWeatherView: UIView {
     
     private lazy var windSpeedLabel: UILabel = {
         let label = UILabel()
-        label.text = " -30°"
         return label
         
     }()
@@ -190,7 +183,6 @@ class TodayWeatherView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        configureUI()
         addActionToButton()
     }
     
@@ -266,18 +258,51 @@ class TodayWeatherView: UIView {
         
     }
     
-    func configureUI() {
-        guard let viewModel = viewModel else { return print("DEBUG: No view model in view") }
-        self.todayWeatherImageView.image = viewModel.todayWeatherImage
-        self.maxLabelForSlider.text = "3"
-        self.minLabelForSlider.text = viewModel.todayMinDegreeLabel
-        self.windSpeedLabel.text = viewModel.todayWindSpeed
-        self.nowHumidityLabel.text = viewModel.todayHumidity
-        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
-        print("DEBUG: view model in view exists \(viewModel)")
+    func configureUI(_ data: WeatherModel) {
+        self.todayWeatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+        self.todayDegreeLabel.text = "\(data.temperaturePerHour ?? "") °C"
+        self.maxLabelForSlider.text = data.temperatureMax ?? "" + "°"
+        self.minLabelForSlider.text = data.temperatureMin ?? "" + "°"
+        self.windSpeedLabel.text = data.windSpeed ?? ""
+        self.nowHumidityLabel.text = data.humidityStatus ?? ""
+//        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
+//        print("DEBUG: view model in view exists \(viewModel)")
         addActionToButton()
     }
 
+    func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String) -> UIImage {
+        
+        if rainStatusCategory == "0" {
+            if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
+                switch skyStatusCategory {
+                case .sunny :
+                    return UIImage(systemName: WeatherSystemName.sunMax)!
+                case .cloudy :
+                    return UIImage(systemName: WeatherSystemName.cloudSun)!
+                case .gray :
+                    return UIImage(systemName: WeatherSystemName.cloud)!
+                }
+            } else {
+                if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
+                    switch rainStatusCategory {
+                    case .raining:
+                        return UIImage(systemName: WeatherSystemName.cloudRain)!
+                    case .rainingAndSnowing:
+                        return UIImage(systemName: WeatherSystemName.cloudSleet)!
+                    case .snowing:
+                        return UIImage(systemName: WeatherSystemName.cloudSnow)!
+                    case .showering:
+                        return UIImage(systemName: WeatherSystemName.cloudHeavyRain)!
+                    case .noRain:
+                        break
+                    }
+                    
+                }
+            }
+        }
+        return UIImage()
+    }
+    
     func addActionToButton() {
         self.currentLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
