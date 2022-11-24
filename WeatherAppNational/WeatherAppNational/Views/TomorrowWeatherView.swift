@@ -11,6 +11,14 @@ class TomorrowWeatherView: UIView {
     
     // MARK: - Properties
     
+    var weatherModel: WeatherModel? {
+        didSet {
+            if let weatherModel = weatherModel {
+                self.configureUI(weatherModel)
+            }
+        }
+    }
+    
     private lazy var tomorrowTitle: UILabel = {
        let label = UILabel()
         label.text = "내일"
@@ -123,6 +131,50 @@ class TomorrowWeatherView: UIView {
         ])
         
         
+    }
+    
+    // MARK: - Helpers
+    
+    func configureUI(_ data: WeatherModel) {
+        self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "") °C"
+        self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
+        self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
+//        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
+//        print("DEBUG: view model in view exists \(viewModel)")
+    }
+
+    func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String) -> UIImage {
+        
+        if rainStatusCategory == "0" {
+            if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
+                switch skyStatusCategory {
+                case .sunny :
+                    return UIImage(systemName: WeatherSystemName.sunMax)!
+                case .cloudy :
+                    return UIImage(systemName: WeatherSystemName.cloudSun)!
+                case .gray :
+                    return UIImage(systemName: WeatherSystemName.cloud)!
+                }
+            } else {
+                if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
+                    switch rainStatusCategory {
+                    case .raining:
+                        return UIImage(systemName: WeatherSystemName.cloudRain)!
+                    case .rainingAndSnowing:
+                        return UIImage(systemName: WeatherSystemName.cloudSleet)!
+                    case .snowing:
+                        return UIImage(systemName: WeatherSystemName.cloudSnow)!
+                    case .showering:
+                        return UIImage(systemName: WeatherSystemName.cloudHeavyRain)!
+                    case .noRain:
+                        break
+                    }
+                    
+                }
+            }
+        }
+        return UIImage()
     }
     
     
