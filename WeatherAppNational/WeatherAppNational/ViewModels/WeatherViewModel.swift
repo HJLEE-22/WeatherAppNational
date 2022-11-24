@@ -36,13 +36,13 @@ class WeatherViewModel {
     
     private var yesterDayWeatherModel: WeatherModel = WeatherModel() {
         didSet{
-            
+            notify(updateValue: [Day.yesterday: yesterDayWeatherModel])
         }
     }
     
     private var tomorrowWeatherModel: WeatherModel = WeatherModel() {
         didSet{
-            
+            notify(updateValue: [Day.tomorrow: tomorrowWeatherModel])
         }
     }
     
@@ -69,12 +69,12 @@ class WeatherViewModel {
                                                    nx: selfRef.nx, ny: selfRef.ny) { result in
                 switch result {
                 case .success(let weatherModel):
-                    selfRef.observer?.update(updateValue: weatherModel)
+                    selfRef.todayWeatherModel = weatherModel
+                    print("DEBUG: weatherModel : \(weatherModel)")
                 case .failure(let error):
                     print("DEBUG: 오늘 날씨 불러오기 실패", error.localizedDescription)
                 }
             }
-            
         }
         
         // 어제 날씨
@@ -82,11 +82,11 @@ class WeatherViewModel {
             guard let selfRef = self else { return }
             WeatherService.shared.fetchWeatherData(dayType: .yesterday,
                                                    date: DateCalculate.yesterdayDateString,
-                                                   time: "2300",
+                                                   time: "0200",
                                                    nx: selfRef.nx, ny: selfRef.ny) { result in
                 switch result {
                 case .success(let weatherModel):
-                    selfRef.observer?.update(updateValue: weatherModel)
+                    selfRef.yesterDayWeatherModel = weatherModel
                 case .failure(let error):
                     print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
                 }
@@ -98,11 +98,11 @@ class WeatherViewModel {
             guard let selfRef = self else { return }
             WeatherService.shared.fetchWeatherData(dayType: .tomorrow,
                                                    date: DateCalculate.yesterdayDateString,
-                                                   time: "0200",
+                                                   time: "2300",
                                                    nx: selfRef.nx, ny: selfRef.ny) { result in
                 switch result {
                 case .success(let weatherModel):
-                    selfRef.observer?.update(updateValue: weatherModel)
+                    selfRef.tomorrowWeatherModel = weatherModel
                 case .failure(let error):
                     print("DEBUG: 내일 날씨 불러오기 실패", error.localizedDescription)
                 }

@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  MainPageViewController.swift
 //  WeatherAppNational
 //
 //  Created by 이형주 on 2022/10/12.
@@ -29,7 +29,6 @@ class MainPageViewController: UIViewController {
         return btn
     }()
     
-    
     lazy var settingButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingButtonTapped))
         return btn
@@ -51,7 +50,7 @@ class MainPageViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupNav()
-        
+        setupPageControll()
         pageViewController.didMove(toParent: self)
         setupViewControllers()
         setViewControllersInPageVC()
@@ -70,7 +69,7 @@ class MainPageViewController: UIViewController {
         pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            pageViewController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            pageViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
             pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -80,7 +79,7 @@ class MainPageViewController: UIViewController {
     
     func setupNav() {
         navigationItem.title = "현재 위치"
-        navigationController?.navigationBar.tintColor = .purple
+        navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = listButton
         navigationItem.leftBarButtonItem = settingButton
         let backBarButtonItem = UIBarButtonItem(title: "",
@@ -223,9 +222,10 @@ extension MainPageViewController {
         }
     }
     
+    // 어떻게 활용하지??
     private func bind(oldValue: Int, newValue: Int) {
-        //        let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
-        //        pageViewController.setViewControllers([subViewControllers[currentPage]], direction: direction, animated: false, completion: nil)
+//                let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
+//                pageViewController.setViewControllers([subViewControllers[currentPage]], direction: direction, animated: false, completion: nil)
     }
 }
 

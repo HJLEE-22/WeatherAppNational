@@ -49,8 +49,8 @@ class WeatherService {
         }
         
         let currentTemperature = weatherItemsTemp.filter({$0.fcstTime == currentTime && $0.category == WeatherItemCategory.temperaturePerHour.rawValue}).first?.fcstValue
-        let minTemperature = weatherItemsTemp.filter({$0.fcstTime == currentTime && $0.category == WeatherItemCategory.temperatureMin.rawValue}).first?.fcstValue
-        let maxTemperature = weatherItemsTemp.filter({$0.fcstTime == currentTime && $0.category == WeatherItemCategory.temperatureMax.rawValue}).first?.fcstValue
+        let minTemperature = weatherItemsTemp.filter({$0.fcstTime == "0600" && $0.category == WeatherItemCategory.temperatureMin.rawValue}).first?.fcstValue
+        let maxTemperature = weatherItemsTemp.filter({$0.fcstTime == "1500" && $0.category == WeatherItemCategory.temperatureMax.rawValue}).first?.fcstValue
         
         let skystatus = weatherItemsTemp.filter { $0.fcstTime == currentTime && $0.category == WeatherItemCategory.skyStatus.rawValue }.first?.fcstValue
         let rainingStatus = weatherItemsTemp.filter { $0.fcstTime == currentTime && $0.category == WeatherItemCategory.rainingStatus.rawValue }.first?.fcstValue

@@ -87,7 +87,6 @@ class MainView: UIView {
             otherWeathersStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             otherWeathersStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
             
-
         ])
     
 
