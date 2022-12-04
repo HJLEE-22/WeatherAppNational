@@ -42,6 +42,26 @@ public struct DateCalculate {
             let savedDateString = myFormatter.string(from: tomorrow)
             return savedDateString
         }
+    
+    static var yesterdayDateShortString: String {
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        let myFormatter = DateFormatter()
+            myFormatter.locale = Locale(identifier: "ko_KR")
+            myFormatter.timeZone = TimeZone(abbreviation: "KST")
+            myFormatter.dateFormat = "dd"
+            let savedDateString = myFormatter.string(from: yesterday)
+            return savedDateString
+        }
+    
+    static var tomorrowDateShortString: String {
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+        let myFormatter = DateFormatter()
+            myFormatter.locale = Locale(identifier: "ko_KR")
+            myFormatter.timeZone = TimeZone(abbreviation: "KST")
+            myFormatter.dateFormat = "dd"
+            let savedDateString = myFormatter.string(from: tomorrow)
+            return savedDateString
+        }
 }
 
 public struct TimeCalculate{

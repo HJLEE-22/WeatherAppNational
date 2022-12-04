@@ -66,8 +66,6 @@ class MainView: UIView {
     
     func setupUI() {
         self.addSubview(todayWeatherView)
-//        self.addSubview(yesterdayWeatherView)
-//        self.addSubview(tomorrowdayWeatherView)
         self.addSubview(otherWeathersStackView)
         
         todayWeatherView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +74,7 @@ class MainView: UIView {
         otherWeathersStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            todayWeatherView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            todayWeatherView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
             todayWeatherView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             todayWeatherView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
 //            todayWeatherView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -350),
@@ -86,15 +84,10 @@ class MainView: UIView {
             otherWeathersStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
             otherWeathersStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             otherWeathersStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
-            
         ])
-    
-
-            
-        
     }
     
-    
+
     
     
     
