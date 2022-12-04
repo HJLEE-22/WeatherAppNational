@@ -25,7 +25,7 @@ class YesterdayWeatherView: UIView {
         let label = UILabel()
         label.text = "어제"
 //        label.font = UIFont.systemFont(ofSize: 25)
-        label.font = UIFont(name: "Binggrae-Bold", size: 25)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
     }()
     
