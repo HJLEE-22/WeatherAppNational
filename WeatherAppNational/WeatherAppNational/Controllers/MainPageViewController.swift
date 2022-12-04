@@ -50,13 +50,11 @@ class MainPageViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupNav()
-        setupPageControll()
+//        setupPageControll()
         pageViewController.didMove(toParent: self)
         setupViewControllers()
         setViewControllersInPageVC()
         checkUserDeviceLocationServiceAuthorization()
-
-        
     }
 
     
@@ -78,7 +76,7 @@ class MainPageViewController: UIViewController {
     }
     
     func setupNav() {
-        navigationItem.title = "현재 위치"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: AppFontName.bold, size: 12)!]
         navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = listButton
         navigationItem.leftBarButtonItem = settingButton
@@ -87,13 +85,26 @@ class MainPageViewController: UIViewController {
                                                 target: self,
                                                 action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemBlue
+        appearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: AppFontName.bold, size: 20)!]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance =
+        navigationController?.navigationBar.standardAppearance
+        
     }
     
     
     func setupPageControll() {
-        let pageControl = UIPageControl()
-        pageControl.pageIndicatorTintColor = .white
-        pageControl.currentPageIndicatorTintColor = .systemBlue
+        let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
+        pageControl.backgroundColor = .clear
+        pageControl.pageIndicatorTintColor = .systemBlue
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = 4
+        self.view.addSubview(pageControl)
     }
     
     func checkUserDeviceLocationServiceAuthorization() {
@@ -192,28 +203,25 @@ extension MainPageViewController {
             cities.forEach() { city in
                 let vc = WeatherViewController()
                 vc.viewModel = .init(name: city.name, nx: city.nx, ny: city.ny)
+                self.navigationItem.title = vc.viewModel.name
                 subViewControllers.append(vc)
             }
         } else {
             let vc = WeatherViewController()
             vc.viewModel = .init(name: "서울특별시", nx: 60, ny: 127)
-            
+            self.navigationItem.title = vc.viewModel.name
             let vc2 = WeatherViewController()
             vc2.viewModel = .init(name: "부산광역시", nx: 98, ny: 76)
-            
             let vc3 = WeatherViewController()
             vc3.viewModel = .init(name: "남양주시", nx: 60, ny: 127)
-            
             let vc4 = WeatherViewController()
             vc4.viewModel = .init(name: "광주광역시", nx: 98, ny: 76)
-            
             subViewControllers.append(vc)
             subViewControllers.append(vc2)
             subViewControllers.append(vc3)
             subViewControllers.append(vc4)
         }
             currentPage = 0
-        
     }
     
     private func setViewControllersInPageVC() {
@@ -257,6 +265,13 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
         guard let currentVC = pageViewController.viewControllers?.first,
               let currentIndex = subViewControllers.firstIndex(of: currentVC) else { return }
         currentPage = currentIndex
+        
+        if completed {
+            DispatchQueue.main.async {
+                let weatherVC = currentVC as! WeatherViewController
+                self.navigationItem.title = weatherVC.viewModel.name
+            }
+        }
     }
 }
 

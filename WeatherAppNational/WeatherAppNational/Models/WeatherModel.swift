@@ -47,7 +47,6 @@ struct WeatherModel {
     
     var skyStatus: String?
     
-    
 }
 
 

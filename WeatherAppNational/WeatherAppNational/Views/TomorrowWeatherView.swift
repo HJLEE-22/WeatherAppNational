@@ -19,21 +19,21 @@ class TomorrowWeatherView: UIView {
         }
     }
     
-    private lazy var tomorrowTitle: UILabel = {
+    private lazy var tomorrowTitleLabel: UILabel = {
        let label = UILabel()
         label.text = "내일"
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
     }()
     
-    private lazy var tomorrowLabel: UILabel = {
+    private lazy var tomorrowDateLabel: UILabel = {
        let label = UILabel()
-        label.text = "(19일)"
         return label
     }()
     
     private lazy var dayLabelStackView : UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [tomorrowTitle, tomorrowLabel])
-        sv.axis = .horizontal
+        let sv = UIStackView(arrangedSubviews: [tomorrowTitleLabel, tomorrowDateLabel])
+        sv.axis = .vertical
         sv.distribution = .fill
         sv.alignment = .center
         sv.spacing = 10
@@ -42,7 +42,6 @@ class TomorrowWeatherView: UIView {
     
     private lazy var mainTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "10°"
         label.font = UIFont.boldSystemFont(ofSize: 50)
 
         return label
@@ -50,7 +49,6 @@ class TomorrowWeatherView: UIView {
     
     private lazy var minTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "7°"
         return label
     }()
     
@@ -62,7 +60,6 @@ class TomorrowWeatherView: UIView {
     
     private lazy var maxTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "19°"
         return label
     }()
     
@@ -73,12 +70,12 @@ class TomorrowWeatherView: UIView {
         sv.alignment = .center
         sv.spacing = 10
         return sv
-
     }()
     
     private lazy var weatherImageView : UIImageView = {
-        let image = UIImage(systemName: "cloud")
+        let image = UIImage()
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
         return imageView
         
     }()
@@ -89,13 +86,12 @@ class TomorrowWeatherView: UIView {
     }()
     
     private lazy var mainStackView : UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [dayLabelStackView, mainTemperatureLabel, tempLabelStackView, weatherImageView, emptyView])
+        let sv = UIStackView(arrangedSubviews: [dayLabelStackView, mainTemperatureLabel, tempLabelStackView, weatherImageView])
         sv.axis = .vertical
-        sv.distribution = .fillEqually
+        sv.distribution = .equalSpacing
         sv.alignment = .center
         sv.spacing = 10
         return sv
-        
     }()
     
     
@@ -119,15 +115,17 @@ class TomorrowWeatherView: UIView {
         
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         weatherImageView.translatesAutoresizingMaskIntoConstraints = false
+ 
         
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
         
-            weatherImageView.widthAnchor.constraint(equalToConstant: 130)
-            
+            weatherImageView.widthAnchor.constraint(equalToConstant: 130),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 130),
+
         ])
         
         
@@ -137,11 +135,12 @@ class TomorrowWeatherView: UIView {
     
     func configureUI(_ data: WeatherModel) {
         self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
-        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "") °C"
+        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°C"
         self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
         self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
 //        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
 //        print("DEBUG: view model in view exists \(viewModel)")
+        self.tomorrowDateLabel.text = DateCalculate.tomorrowDateShortString + "일"
     }
 
     func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String) -> UIImage {
@@ -156,7 +155,8 @@ class TomorrowWeatherView: UIView {
                 case .gray :
                     return UIImage(systemName: WeatherSystemName.cloud)!
                 }
-            } else {
+            }
+        } else {
                 if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
                     switch rainStatusCategory {
                     case .raining:
@@ -170,10 +170,8 @@ class TomorrowWeatherView: UIView {
                     case .noRain:
                         break
                     }
-                    
                 }
             }
-        }
         return UIImage()
     }
     

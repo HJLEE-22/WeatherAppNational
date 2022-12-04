@@ -11,6 +11,8 @@ class YesterdayWeatherView: UIView {
     
     // MARK: - Properties
     
+    private lazy var yesterdayTemp: String = "로딩중"
+    
     var weatherModel: WeatherModel? {
         didSet {
             if let weatherModel = weatherModel {
@@ -19,38 +21,36 @@ class YesterdayWeatherView: UIView {
         }
     }
     
-    private lazy var yesterdayTitle: UILabel = {
-       let label = UILabel()
+    private lazy var yesterdayTitleLabel: UILabel = {
+        let label = UILabel()
         label.text = "어제"
+//        label.font = UIFont.systemFont(ofSize: 25)
+        label.font = UIFont(name: "Binggrae-Bold", size: 25)
         return label
     }()
     
-    private lazy var yesterdayLabel: UILabel = {
-       let label = UILabel()
-        label.text = "(17일)"
+    private lazy var yesterdayDateLabel: UILabel = {
+        let label = UILabel()
         return label
     }()
     
     private lazy var dayLabelStackView : UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [yesterdayTitle, yesterdayLabel])
-        sv.axis = .horizontal
+        let sv = UIStackView(arrangedSubviews: [yesterdayTitleLabel, yesterdayDateLabel])
+        sv.axis = .vertical
         sv.distribution = .fill
         sv.alignment = .center
         sv.spacing = 10
         return sv
-        
     }()
     
     private lazy var mainTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "10°"
         label.font = UIFont.boldSystemFont(ofSize: 50)
         return label
     }()
     
     private lazy var minTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "7°"
         return label
     }()
     
@@ -62,7 +62,6 @@ class YesterdayWeatherView: UIView {
     
     private lazy var maxTemperatureLabel: UILabel = {
        let label = UILabel()
-        label.text = "19°"
         return label
     }()
     
@@ -77,8 +76,9 @@ class YesterdayWeatherView: UIView {
     }()
     
     private lazy var weatherImageView : UIImageView = {
-        let image = UIImage(systemName: "cloud")
+        let image = UIImage()
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
         return imageView
         
     }()
@@ -89,9 +89,9 @@ class YesterdayWeatherView: UIView {
     }()
     
     private lazy var mainStackView : UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [dayLabelStackView, mainTemperatureLabel, tempLabelStackView, weatherImageView, emptyView])
+        let sv = UIStackView(arrangedSubviews: [dayLabelStackView, mainTemperatureLabel, tempLabelStackView, weatherImageView])
         sv.axis = .vertical
-        sv.distribution = .fillEqually
+        sv.distribution = .equalSpacing
         sv.alignment = .center
         sv.spacing = 10
         return sv
@@ -105,10 +105,18 @@ class YesterdayWeatherView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupDelegate()
+        print("DEBUG: yesterday temp2: \(yesterdayTemp)")
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupDelegate(){
+        let todayWeatherView = TodayWeatherView()
+        todayWeatherView.timeDifferenceDelegate = self
     }
     
     // MARK: - UI setup
@@ -123,11 +131,12 @@ class YesterdayWeatherView: UIView {
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
         
-            weatherImageView.widthAnchor.constraint(equalToConstant: 130)
-            
+            weatherImageView.widthAnchor.constraint(equalToConstant: 130),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 130),
+
         ])
         
         
@@ -137,11 +146,14 @@ class YesterdayWeatherView: UIView {
     
     func configureUI(_ data: WeatherModel) {
         self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
-        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "") °C"
+        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°C"
         self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
         self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
+        self.yesterdayTemp = data.temperaturePerHour ?? ""
 //        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
 //        print("DEBUG: view model in view exists \(viewModel)")
+        self.yesterdayDateLabel.text = DateCalculate.yesterdayDateShortString + "일"
+        
     }
 
     func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String) -> UIImage {
@@ -156,7 +168,8 @@ class YesterdayWeatherView: UIView {
                 case .gray :
                     return UIImage(systemName: WeatherSystemName.cloud)!
                 }
-            } else {
+            }
+        } else {
                 if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
                     switch rainStatusCategory {
                     case .raining:
@@ -170,13 +183,16 @@ class YesterdayWeatherView: UIView {
                     case .noRain:
                         break
                     }
-                    
                 }
             }
-        }
         return UIImage()
     }
-    
-    
-    
+}
+
+extension YesterdayWeatherView: TempDiffrenceDelegate {
+    func fetchYesterdayTemp() -> String {
+//        guard let yesterdayTemp = yesterdayTemp else { return ""}
+        print("DEBUG: yesterday temp1: \(yesterdayTemp)")
+        return yesterdayTemp
+    }
 }

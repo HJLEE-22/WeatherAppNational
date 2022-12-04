@@ -57,6 +57,7 @@ class WeatherService {
         let humidityStatus = weatherItemsTemp.filter { $0.fcstTime == currentTime && $0.category == WeatherItemCategory.humidityStatus.rawValue }.first?.fcstValue
         let windSpeed = weatherItemsTemp.filter { $0.fcstTime == currentTime && $0.category == WeatherItemCategory.windSpeed.rawValue }.first?.fcstValue
         
+        
         return .init(humidityStatus: humidityStatus, temperatureMax: maxTemperature, temperatureMin: minTemperature, temperaturePerHour: currentTemperature, windSpeed: windSpeed, rainingStatus: rainingStatus, skyStatus: skystatus)
         
         

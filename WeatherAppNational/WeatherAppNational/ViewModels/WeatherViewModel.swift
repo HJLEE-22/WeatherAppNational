@@ -24,12 +24,13 @@ class WeatherViewModel {
     private var yesterdayDate = DateCalculate.yesterdayDateString
     private var tomorrowDate = DateCalculate.tomorrowDateString
     private var nowTime = TimeCalculate.nowTimeString
-    private var name: String!
+    var name: String!
     private var nx: Int!
     private var ny: Int!
     
     private var todayWeatherModel: WeatherModel = WeatherModel() {
         didSet{
+            print(todayWeatherModel)
             notify(updateValue: [Day.today: todayWeatherModel])
         }
     }
@@ -91,7 +92,6 @@ class WeatherViewModel {
                     print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
                 }
             }
-            
         }
         // 내일 날씨
         DispatchQueue.global().async { [weak self] in
@@ -107,12 +107,8 @@ class WeatherViewModel {
                     print("DEBUG: 내일 날씨 불러오기 실패", error.localizedDescription)
                 }
             }
-            
         }
-        
-        
     }
-    
 }
 
 // MARK: - Subscriber 선언

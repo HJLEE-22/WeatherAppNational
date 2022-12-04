@@ -43,6 +43,7 @@ class CitiesViewController: UIViewController  {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         navigationItem.titleView = searchBar
         searchBar.placeholder = "도시를 검색하세요."
+        searchBar.searchTextField.font = UIFont.systemFont(ofSize: 15)
         searchBar.delegate = self
     }
         
