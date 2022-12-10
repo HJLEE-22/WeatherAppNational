@@ -42,7 +42,6 @@ class WeatherViewController: UIViewController {
             
         ])
     }
-
 }
 
 extension WeatherViewController: Observer {
@@ -60,9 +59,6 @@ extension WeatherViewController: Observer {
                 break
             }
         }
-        
     }
-    
-    
 }
 

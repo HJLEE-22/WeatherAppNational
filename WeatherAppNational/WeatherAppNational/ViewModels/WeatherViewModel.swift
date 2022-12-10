@@ -30,7 +30,6 @@ class WeatherViewModel {
     
     private var todayWeatherModel: WeatherModel = WeatherModel() {
         didSet{
-            print(todayWeatherModel)
             notify(updateValue: [Day.today: todayWeatherModel])
         }
     }

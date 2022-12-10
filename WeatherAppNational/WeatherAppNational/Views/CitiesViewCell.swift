@@ -13,18 +13,23 @@ protocol CellButtonActionDelegate: AnyObject {
     func bookmarkButtonTapped(_ id: String)
 }
 
-
-
 class CitiesViewCell: UITableViewCell {
 
     // MARK: - Properties
     
     var cellDelegate: CellButtonActionDelegate?
 
+//    var locationGridModel: LocationGridModel? {
+//        didSet {
+//            if let locationGridModel = locationGridModel {
+//                self.configureUIByData(locationGridModel)
+//            }
+//        }
+//    }
+    
     lazy var locationLabel: UILabel = {
        
         let label = UILabel()
-        label.text = "강남구"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
@@ -51,7 +56,7 @@ class CitiesViewCell: UITableViewCell {
     }()
     
     lazy var weatherImageView: UIImageView = {
-        let image = UIImage(systemName: "sun.max")
+        let image = UIImage()
         let iv = UIImageView(image: image)
         return iv
         
@@ -60,7 +65,7 @@ class CitiesViewCell: UITableViewCell {
     lazy var currentDegreeTitle: UILabel = {
        let label = UILabel()
         label.textAlignment = .center
-        label.text = "18°C"
+        label.text = "°C"
         label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
         
@@ -185,7 +190,6 @@ class CitiesViewCell: UITableViewCell {
             
             weatherImageView.widthAnchor.constraint(equalToConstant: 80),
             weatherImageView.heightAnchor.constraint(equalToConstant: 80),
-
             
             contentView.heightAnchor.constraint(equalToConstant: 150)
         ])
@@ -193,7 +197,11 @@ class CitiesViewCell: UITableViewCell {
 
     }
     
-
+    func configureUIByData(_ data: LocationGridData) {
+        // UI updates 할 것
+        
+        
+    }
     
 
 }
