@@ -32,21 +32,13 @@ enum RainStatusCategory: String, CaseIterable {
 }
 
 struct WeatherModel {
-    
     var humidityStatus: String?
-    
     var temperatureMax: String?
-    
     var temperatureMin: String?
- 
     var temperaturePerHour: String?
-    
     var windSpeed: String?
-    
     var rainingStatus: String?
-    
     var skyStatus: String?
-    
 }
 
 

@@ -48,7 +48,6 @@
 		ADFF81F6293C7AF700FB883F /* LocationGridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF81F5293C7AF700FB883F /* LocationGridModel.swift */; };
 		ADFF81F8293EFED300FB883F /* CitiesListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF81F7293EFED300FB883F /* CitiesListViewCell.swift */; };
 		ADFF81FA293F2CF500FB883F /* CitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF81F9293F2CF500FB883F /* CitiesViewModel.swift */; };
-		ADFF81FC293F35BE00FB883F /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF81FB293F35BE00FB883F /* LocationModel.swift */; };
 		ADFF81FE294079AB00FB883F /* CitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF81FD294079AB00FB883F /* CitiesView.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,7 +95,6 @@
 		ADFF81F5293C7AF700FB883F /* LocationGridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGridModel.swift; sourceTree = "<group>"; };
 		ADFF81F7293EFED300FB883F /* CitiesListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesListViewCell.swift; sourceTree = "<group>"; };
 		ADFF81F9293F2CF500FB883F /* CitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesViewModel.swift; sourceTree = "<group>"; };
-		ADFF81FB293F35BE00FB883F /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		ADFF81FD294079AB00FB883F /* CitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -240,7 +238,6 @@
 				ADFF81EF293C775900FB883F /* LocationGrid+CoreDataClass.swift */,
 				ADFF81F5293C7AF700FB883F /* LocationGridModel.swift */,
 				ADFF81F3293C785B00FB883F /* CoreDataManager.swift */,
-				ADFF81FB293F35BE00FB883F /* LocationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -353,7 +350,6 @@
 				ADB471AD28F8006B005F8AA5 /* WeatherDataManager.swift in Sources */,
 				ADB4719528F69615005F8AA5 /* MainPageViewController.swift in Sources */,
 				AD6FA1E82920AD2E00492FE9 /* UserDefaultsUtil.swift in Sources */,
-				ADFF81FC293F35BE00FB883F /* LocationModel.swift in Sources */,
 				ADE9CEFC2907C3BF002EDB9E /* CitiesViewCell.swift in Sources */,
 				ADB471AB28F705BF005F8AA5 /* WeatherDataModel.swift in Sources */,
 				AD30F68C29386CE400C68732 /* DefaultFontChange.swift in Sources */,

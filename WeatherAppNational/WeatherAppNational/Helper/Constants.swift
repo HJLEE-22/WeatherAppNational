@@ -39,3 +39,8 @@ public struct CoreDataNames {
     static let fileType = "json"
     private init () {}
 }
+
+public struct ImageSystemNames {
+    static let star = "star"
+    static let starFill = "star.fill"
+}

@@ -11,12 +11,10 @@ import UIKit
 class CitiesViewController: UIViewController  {
     
     // MARK: -  Properties
-//    let bookmarkCitiesTableView = UITableView()
-//    let cityListForSearchTableView = UITableView()
-//    var cities: [LocationGridData] = []
-    
-    private lazy var citiesView = CitiesView()
-    
+    let bookmarkCitiesTableView = UITableView()
+    let cityListForSearchTableView = UITableView()
+    var cities: [LocationGridData] = []
+        
     var viewModel : CitiesViewModel! {
         didSet {
             viewModel.subscribe(observer: self)
@@ -27,15 +25,17 @@ class CitiesViewController: UIViewController  {
     
     override func viewDidLoad() {
         setupNavigationItem()
-//        setupBookmarkCitiesTableView()
-//        setupBookmarkCitiesTableViewConstraints()
-//        setupSearchbar()
+        setupBookmarkCitiesTableView()
+        setupBookmarkCitiesTableViewConstraints()
+        setupSearchbar()
 
         //        tableView.dragDelegate = self
         //        tableView.dropDelegate = self
-        //        self.navigationItem.leftBarButtonItem?.title = .none
+                self.navigationItem.leftBarButtonItem?.title = .none
 //        cities = CoreDataManager.shared.getLocationGridListFromCoreData()
 //        updateLocationGridsByBookmark()
+//        setupUI()
+        setupViewModel()
     }
     
     deinit {
@@ -43,18 +43,7 @@ class CitiesViewController: UIViewController  {
     }
     
     // MARK: - Helpers
-    
-    func setupUI() {
-        self.view.addSubview(citiesView)
-        citiesView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            citiesView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            citiesView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            citiesView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            citiesView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        
-    }
+
     
     
     // 고민지점
@@ -64,24 +53,22 @@ class CitiesViewController: UIViewController  {
     // searchBar를 tableView와 같이 View로 옮겼는데, 이러면 VC에 있어야겠지...?
     // 서치바 텍스트를 받는 변수를 전역으로 만들어서 그걸로 주고받아야 될 것 같은데 깔끔한 코드는 아닌것 같은데...
     func setupViewModel() {
-//        self.viewModel = .init(parameterForFiltering: <#T##String?#>, bookmarkBool: <#T##Bool?#>)
-        
+        self.viewModel = .init(parameterForFiltering: "서울", bookmarkBool: false)
     }
     
     
-//    func setupSearchbar() {
-//        navigationItem.titleView = citiesView.searchBar
-//        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
-//        navigationItem.titleView = searchBar
-//        searchBar.placeholder = "도시를 검색하세요."
-//        searchBar.searchTextField.font = UIFont.systemFont(ofSize: 15)
-//        searchBar.delegate = self
-//    }
+    func setupSearchbar() {
+        let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
+        navigationItem.titleView = searchBar
+        searchBar.placeholder = "도시를 검색하세요."
+        searchBar.searchTextField.font = UIFont.systemFont(ofSize: 15)
+        searchBar.delegate = self
+    }
     
     func setupNavigationItem() {
         navigationItem.largeTitleDisplayMode = .never
     }
-    /*
+    
     func setupBookmarkCitiesTableView() {
         bookmarkCitiesTableView.delegate = self
         bookmarkCitiesTableView.dataSource = self
@@ -136,9 +123,9 @@ class CitiesViewController: UIViewController  {
     func getLocationGrid() -> [LocationGridData] {
         CoreDataManager.shared.getLocationGridListFromCoreData()
     }
-    */
+
 }
-/*
+
 // MARK: - tableView dataSource extension
 extension CitiesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -154,6 +141,7 @@ extension CitiesViewController: UITableViewDataSource {
             return cell
         case cityListForSearchTableView :
             let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesListCell) as! CitiesListViewCell
+            cell.city = self.cities[indexPath.row]
             cell.cellDelegate = self
             return cell
         default :
@@ -165,8 +153,7 @@ extension CitiesViewController: UITableViewDataSource {
         return UITableViewCell()
     }
 }
- */
-/*
+
 // MARK: - UITableViewDelegate
 
 extension CitiesViewController: UITableViewDelegate {
@@ -205,7 +192,7 @@ extension CitiesViewController: UITableViewDelegate {
         }
     }
     
-*/
+
 
     
 // MARK: - tableview move / drag / drop delegate
@@ -257,10 +244,10 @@ extension CitiesViewController: UITableViewDropDelegate {
     }
     
 */
-//}
+}
 
 
-/*
+
 // MARK: - 서치바 익스텐션
 extension CitiesViewController: UISearchBarDelegate {
     // 서치바에서 검색을 시작할 때 호출
@@ -320,11 +307,43 @@ extension CitiesViewController: UISearchBarDelegate {
     }
 }
 
- */
+ 
 
 extension CitiesViewController: CellButtonActionDelegate {
-    func bookmarkButtonTapped(_ id: String) {
-        
+    func bookmarkButtonTapped(_ name: String) {
+        // cities의 city 중 distrcit가 nil이 아닐 때
+//        if cities.forEach({ $0.district }) != "" {
+//            if let index = cities.firstIndex(where: { $0.district == name }) {
+//                cities[index].bookmark.toggle()
+//                CoreDataManager.shared.updateLocationGridData(newLocationGridData: cities[index]) {
+//                    DispatchQueue.main.async {[weak self] in
+//                        guard let self = self else { return }
+//                        self.cityListForSearchTableView.reloadData()
+//                        self.bookmarkCitiesTableView.reloadData()
+//                    }
+//                }
+        //            }
+        cities.forEach { data in
+            if data.district != "" {
+                
+                if let index = getLocationGrid().firstIndex(where: { $0.district == name }) {
+                    print("DEBUG: index touched \(index)")
+                    cities[index].bookmark.toggle()
+                    CoreDataManager.shared.updateLocationGridData(newLocationGridData: cities[index]) {
+                        DispatchQueue.main.async {[weak self] in
+                            guard let self = self else { return }
+                            self.cityListForSearchTableView.reloadData()
+                            self.bookmarkCitiesTableView.reloadData()
+                        }
+                    }
+                }
+            }
+            
+            //        } else {
+            //            if let index = cities.firstIndex(where: { $0.city == name }) {
+            //                cities[index].bookmark.toggle()
+            //            }
+        }
     }
 }
 
@@ -333,7 +352,7 @@ extension CitiesViewController: Observer {
     func update<T>(updateValue: T) {
         guard let value = updateValue as? [LocationGridData] else { return }
         DispatchQueue.main.async { [weak self] in
-            self?.citiesView.cities = value
+            self?.cities = value
         }
     }
 }

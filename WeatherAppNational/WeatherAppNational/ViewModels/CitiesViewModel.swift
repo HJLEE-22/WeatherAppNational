@@ -13,24 +13,6 @@ class CitiesViewModel {
     
     var observer: (any Observer)?
     
-//    private var locaionModel: LocationModel? = LocationModel() {
-//        didSet {
-//            notify(updateValue: locaionModel)
-//        }
-//    }
-//
-//    private var locationModelFiltered: LocationModel? = LocationModel() {
-//        didSet {
-//
-//        }
-//    }
-//
-//    private var locations: [LocationModel]? {
-//        didSet {
-//            notify(updateValue: locations)
-//        }
-//    }
-    
     private var locationGridDatas: [LocationGridData]? = [LocationGridData]() {
         didSet {
             notify(updateValue: locationGridDatas)
@@ -44,8 +26,6 @@ class CitiesViewModel {
     // 내가 반환할건 [locationModel]이고, 이걸 정제해야 한다.
     // 그러면 필요한 건 1. searchBar에서 검색 내용을 보여주기 위한 filter String input
     // 2. bookmark된 날씨들을 위한 bookmark 여부
-    // 잘 생각해야 할 건 내가 코어데이터에 넣기 위해 decode용으로 만든 LocationGridModel은 사용할 수 없다.
-        // 추가: locationGridModel 왜 갑자기 사용가능하지...?
     // 내가 사용하는 데이터는? 코어데이터에 저장한 데이터를 가져오는건 [LocationGridData]가 맞다.
     // 근데 필터링해서 내보내는 데이터도 저건가? 아니면 다른 임의의 location 모델을 추가로 만들어야 하나?
     // 이런 고민으로 만들어놓은게 LocationModel.
@@ -66,19 +46,22 @@ class CitiesViewModel {
     func bind() {
         
         locationGridDatas = getLocationGrid()
-        
+
         if let parameterForFiltering = parameterForFiltering {
             getWeatherDataDependingText(parameterForFiltering)
         }
-        if let bookmarkBool = bookmarkBool {
-            updateLocationGridsByBookmark()
-        }
+        updateLocationGridsByBookmark(bookmark: bookmarkBool)
 
-        
     }
     
-    func updateLocationGridsByBookmark() {
-        locationGridDatas = getLocationGrid().filter({ $0.bookmark == true })
+    func updateLocationGridsByBookmark(bookmark: Bool?) {
+        if bookmark == true {
+            locationGridDatas = getLocationGrid().filter({ $0.bookmark == true })
+        } else if bookmark == false {
+            locationGridDatas = getLocationGrid().filter({ $0.bookmark == false })
+        } else {
+            locationGridDatas = getLocationGrid()
+        }
     }
     
     func getLocationGrid() -> [LocationGridData] {

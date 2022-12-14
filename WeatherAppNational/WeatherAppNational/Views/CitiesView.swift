@@ -4,7 +4,7 @@
 //
 //  Created by 이형주 on 2022/12/07.
 //
-
+/*
 import UIKit
 
 class CitiesView: UIView {
@@ -24,7 +24,6 @@ class CitiesView: UIView {
     
     lazy var searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: 30))
 
-    
 /*
  // bookmark된 cities 프로퍼티...
  var citiesBookmarked: [LocationGridData]? {
@@ -55,7 +54,7 @@ class CitiesView: UIView {
         //        tableView.dropDelegate = self
         //        self.navigationItem.leftBarButtonItem?.title = .none
 //        cities = CoreDataManager.shared.getLocationGridListFromCoreData()
-        
+//        setupSearchbar()
     }
     
     required init?(coder: NSCoder) {
@@ -80,7 +79,7 @@ class CitiesView: UIView {
         bookmarkCitiesTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bookmarkCitiesTableView.topAnchor.constraint(equalTo: self.topAnchor),
-            bookmarkCitiesTableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            bookmarkCitiesTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             bookmarkCitiesTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             bookmarkCitiesTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
@@ -102,7 +101,7 @@ class CitiesView: UIView {
         cityListForSearchTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cityListForSearchTableView.topAnchor.constraint(equalTo: self.topAnchor),
-            cityListForSearchTableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            cityListForSearchTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             cityListForSearchTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             cityListForSearchTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
@@ -176,7 +175,7 @@ extension CitiesView: UITableViewDelegate {
     }
     
 }
-
+/*
 // MARK: - 서치바 익스텐션
 extension CitiesView: UISearchBarDelegate {
     // 서치바에서 검색을 시작할 때 호출
@@ -236,3 +235,6 @@ extension CitiesView: UISearchBarDelegate {
 //        }
     }
 }
+
+*/
+*/

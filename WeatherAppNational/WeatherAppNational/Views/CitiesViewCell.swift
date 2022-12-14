@@ -10,7 +10,7 @@ import UIKit
 import CoreMedia
 
 protocol CellButtonActionDelegate: AnyObject {
-    func bookmarkButtonTapped(_ id: String)
+    func bookmarkButtonTapped(_ name: String)
 }
 
 class CitiesViewCell: UITableViewCell {
