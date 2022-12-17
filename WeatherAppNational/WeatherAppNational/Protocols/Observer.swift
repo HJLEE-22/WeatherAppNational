@@ -11,13 +11,13 @@ protocol Observer {
     func update<T>(updateValue: T)
 }
 
-protocol ViewModelObserver {
+protocol ViewModelObserver: Equatable {
+    var uuid: UUID { get set }
     func update<T>(updateValue: T)
-    func isEqual(_ object: ViewModelObserver) -> Bool
 }
 
-extension ViewModelObserver where Self: Equatable {
-    func isEqual(to: ViewModelObserver) -> Bool {
-        return (to as? Self).flatMap({ $0 == self}) ?? false
+extension ViewModelObserver {
+    static func ==(lhs: any ViewModelObserver, rhs: any ViewModelObserver) -> Bool {
+        return lhs.uuid == rhs.uuid
     }
 }

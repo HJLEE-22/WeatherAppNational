@@ -17,5 +17,5 @@ struct LocationGridModel: Codable {
     var gridX: Int16
     var gridY: Int16
     var bookmark: Bool = false
-    
+    var updatedDate: Date?
 }

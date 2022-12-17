@@ -10,12 +10,13 @@ import CoreData
 
 //MARK: - To do 관리하는 매니저 (코어데이터 관리)
 
-final class CoreDataManager: CoreDataSubscriber {
-    var observers: ([ViewModelObserver])?
+final class CoreDataManager {
     
     // 싱글톤으로 만들기
     static let shared = CoreDataManager()
     private init() {}
+    
+    var observers: ([any ViewModelObserver])?
     
     // 앱 델리게이트
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -53,11 +54,12 @@ final class CoreDataManager: CoreDataSubscriber {
     
     // MARK: - [Read] 코어데이터에 저장된 데이터 모두 읽어오기
     func getLocationGridList() -> [LocationGridData] {
-        var LocationGridList: [LocationGridData] = []
+        var locationGridList: [LocationGridData] = []
         // 임시저장소 있는지 확인
         if let context = context {
             // 요청서
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
+            
             // 정렬순서를 정해서 요청서에 넘겨주기
             //                let dateOrder = NSSortDescriptor(key: "date", ascending: false)
             //                request.sortDescriptors = [dateOrder]
@@ -68,23 +70,24 @@ final class CoreDataManager: CoreDataSubscriber {
             do {
                 // 임시저장소에서 (요청서를 통해서) 데이터 가져오기 (fetch메서드)
                 if let fetchedLocationList = try context.fetch(request) as? [LocationGridData] {
-                    LocationGridList = fetchedLocationList
+                    locationGridList = fetchedLocationList
                 }
             } catch {
                 print("DEBUG: 전체대이터 로드 실패")
             }
         }
-        return LocationGridList
+        return locationGridList
     }
     
     // MARK: - [Read] 코어데이터에 저장된 데이터 중 북마크 된 것 읽어오기
-
     func getBookmarkedLocationGridList() -> [LocationGridData] {
         var LocationGridList: [LocationGridData] = []
         if let context = context {
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
-            let orderForSort = NSSortDescriptor(key: sortDescriptorName, ascending: true)
+            
+            let orderForSort = NSSortDescriptor(key: "updatedDate", ascending: true)
             request.sortDescriptors = [orderForSort]
+            
             do {
                 if let fetchedLocationList = try context.fetch(request) as? [LocationGridData] {
                     LocationGridList = fetchedLocationList.filter({ $0.bookmark == true })
@@ -97,7 +100,6 @@ final class CoreDataManager: CoreDataSubscriber {
     }
     
     // MARK: - [Read] 코어데이터에 저장된 데이터 중 도시 이름 filter해 읽어오기
-    
     func getFilteredLocationGridList(by locationName: String) -> [LocationGridData] {
         var LocationGridList: [LocationGridData] = []
         if let context = context {
@@ -117,7 +119,7 @@ final class CoreDataManager: CoreDataSubscriber {
 
    
     // MARK: - [Update] 코어데이터에서 데이터 수정하기 (일치하는 데이터 찾아서 ===> 수정)
-    func updateLocationGridData(newLocationGridData: LocationGridData, completion: @escaping () -> Void) {
+    func updateLocationGridData(newLocationGridData: LocationGridData, completion: @escaping (Bool) -> Void) {
 
         guard let cityData = newLocationGridData.city,
               let districtData = newLocationGridData.district,
@@ -133,42 +135,41 @@ final class CoreDataManager: CoreDataSubscriber {
             if let fetchedLocationGridList = try context.fetch(request) as? [LocationGridData] {
                 // 배열의 첫번째
                 if var targetLocationGrid = fetchedLocationGridList.first {
-                    
+                    targetLocationGrid.updatedDate = Date()
                     // MARK: - LocationGridData에 실제 데이터 재할당(바꾸기) ⭐️
                     targetLocationGrid.bookmark = !targetLocationGrid.bookmark
+                    targetLocationGrid.bookmark == true ? notify(updateValue: (newLocationGridData, true)) : notify(updateValue: (newLocationGridData, false))
                     appDelegate?.saveContext()
                 }
             }
-            completion()
+            
+            //notify(updateValue: getBookmarkedLocationGridList())
+            completion(true)
         } catch {
             print("update 실패")
-            completion()
+            completion(false)
         }
     }
 }
 
-extension CoreDataManager {
+extension CoreDataManager: CoreDataSubscriber  {
     func subscribe(observer: (any ViewModelObserver)?) {
-        guard var observers = observers,
-              let observer = observer
+        guard let observer = observer
         else { return }
-        
-        observers.append(observer)
+        observers == nil ? observers = [] : observers?.append(observer)
     }
     
     func unSubscribe(observer: (any ViewModelObserver)?) {
-        guard var observers = observers,
+        guard
               let observer = observer,
-              let index = observers.firstIndex(where: { $0.isEqual(observer)})
+              let index = observers?.firstIndex(where: { $0.uuid == observer.uuid })
         else { return }        
         
-        observers.remove(at: index)
+        observers?.remove(at: index)
     }
     
     func notify<T>(updateValue: T) {
-        guard let observers = observers else { return }
-        
-        observers.forEach {
+        observers?.forEach {
             $0.update(updateValue: updateValue)
         }
     }

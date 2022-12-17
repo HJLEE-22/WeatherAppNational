@@ -11,7 +11,7 @@ class WeatherViewController: UIViewController {
     
     // MARK: - Properties
     private lazy var mainView = MainView()
-
+    
     var viewModel: WeatherViewModel! {
         didSet {
             viewModel.subscribe(observer: self)

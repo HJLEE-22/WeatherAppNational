@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "CoreDataManager.notify&lt;&#x3c4;_0_0&gt;(updateValue:):CoreDataManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "CoreDataManager.observers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CoreDataManager.getLocationGridList():CoreDataManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MainPageViewController.setupViewControllers(_:):MainPageViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CoreDataManager.subscribe(observer:):CoreDataManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MainPageViewController.setupViewControllers(_:):MainPageViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "location.city">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MainPageViewController.update&lt;&#x3c4;_0_0&gt;(updateValue:):MainPageViewController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

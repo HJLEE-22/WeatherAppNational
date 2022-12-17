@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E905187294DCB4B00326BD9 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E905186294DCB4B00326BD9 /* HomeViewModel.swift */; };
 		AD30F68229373AB400C68732 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30F68129373AB400C68732 /* Colors.swift */; };
 		AD30F68529379E1800C68732 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30F68429379E1800C68732 /* Extensions.swift */; };
 		AD30F6882938698A00C68732 /* Binggrae.otf in Resources */ = {isa = PBXBuildFile; fileRef = AD30F6872938698A00C68732 /* Binggrae.otf */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E905186294DCB4B00326BD9 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		AD30F68129373AB400C68732 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		AD30F68429379E1800C68732 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AD30F6872938698A00C68732 /* Binggrae.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Binggrae.otf; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 		ADE9CF072907E4EB002EDB9E /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				2E905186294DCB4B00326BD9 /* HomeViewModel.swift */,
 				AD6FA1E3291FC50E00492FE9 /* WeatherViewModel.swift */,
 				ADE9CF1529112D32002EDB9E /* SettingViewModel.swift */,
 				ADFF81F9293F2CF500FB883F /* CitiesViewModel.swift */,
@@ -367,6 +370,7 @@
 				ADB4719128F69615005F8AA5 /* AppDelegate.swift in Sources */,
 				AD6FA1E4291FC50E00492FE9 /* WeatherViewModel.swift in Sources */,
 				ADE9CEFE2907C3E2002EDB9E /* SettingViewCell.swift in Sources */,
+				2E905187294DCB4B00326BD9 /* HomeViewModel.swift in Sources */,
 				ADE9CF14290FCE66002EDB9E /* ConvertXY.swift in Sources */,
 				ADD43DB5294C2BEA000DE026 /* TouchableOpacityView.swift in Sources */,
 				ADE9CEF62907C322002EDB9E /* Constants.swift in Sources */,

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "AF6527A5-8052-4699-AF11-9750F8FDFE4C"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "887CD59C-E3A0-4B45-82EF-B6A95219899F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/WeatherViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "WeatherViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5C7BE858-C814-488B-BDC3-FBA7CF7C47E8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "unSubscribe(observer:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E0DA228F-E614-4FEE-B437-614A76217B55"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/MainPageViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "setupViewControllers(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E0DA228F-E614-4FEE-B437-614A76217B55 - 1062b7410ff41afd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.MainPageViewController.setupViewControllers(Swift.Array&lt;WeatherAppNational.LocationGridData&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/minguseo/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/MainPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "201"
+                  endingLineNumber = "201"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "E0DA228F-E614-4FEE-B437-614A76217B55 - 410e71912391482d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (WeatherAppNational.LocationGridData) -&gt; () in WeatherAppNational.MainPageViewController.setupViewControllers(Swift.Array&lt;WeatherAppNational.LocationGridData&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/minguseo/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/MainPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "202"
+                  endingLineNumber = "202"
+                  offsetFromSymbolStart = "144">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "827E233E-454F-4E6C-8ECC-877BC55B9ADD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/MainPageViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "setViewControllersInPageVC(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "827E233E-454F-4E6C-8ECC-877BC55B9ADD - 33b7b546122555df"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.MainPageViewController.setViewControllersInPageVC(Swift.Optional&lt;WeatherAppNational.WeatherViewController&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/minguseo/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/MainPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
+                  offsetFromSymbolStart = "272">
+               </Location>
+               <Location
+                  uuid = "827E233E-454F-4E6C-8ECC-877BC55B9ADD - 33b7b546122555df"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.MainPageViewController.setViewControllersInPageVC(Swift.Optional&lt;WeatherAppNational.WeatherViewController&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/minguseo/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/MainPageViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
+                  offsetFromSymbolStart = "364">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

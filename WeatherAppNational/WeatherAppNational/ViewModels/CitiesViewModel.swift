@@ -30,9 +30,11 @@ class CitiesViewModel {
         locationGridDatas = getBookmarkedLocationGridForViewModel()
     }
     
-    func updateLocationGridsBookmark(_ locationGridData: LocationGridData) {
-        CoreDataManager.shared.updateLocationGridData(newLocationGridData: locationGridData) { [weak self] in
-//            self?.locationGridDatas = self?.getBookmarkedLocationGrid()
+    func updateLocationGridsBookmark(_ locationGridData: LocationGridData, completion: @escaping () -> Void) {
+        CoreDataManager.shared.updateLocationGridData(newLocationGridData: locationGridData) { result in
+            if result {
+                completion()
+            }
         }
     }
     // 외부 return용

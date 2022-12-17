@@ -100,28 +100,13 @@ extension CitiesViewController: UITableViewDataSource {
             cell.configureUIByData(model)
         }
         cell.bookmarkButton.setOpaqueTapGestureRecognizer { [weak self] in
-            self?.viewModel.updateLocationGridsBookmark(model)
-            tableView.reloadData()
+            self?.viewModel.updateLocationGridsBookmark(model) {
+                tableView.beginUpdates()
+                tableView.reloadRows(at: [indexPath], with: .none)
+                tableView.endUpdates()
+            }
         }
         return cell
-        
-//        switch tableView {
-//        case bookmarkCitiesTableView :
-//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesCell) as! CitiesViewCell
-//            cell.cellDelegate = self
-//            return cell
-//        case cityListForSearchTableView :
-//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesListCell) as! CitiesListViewCell
-//            cell.city = self.cities[indexPath.row]
-//            cell.cellDelegate = self
-//            return cell
-//        default :
-//            break
-//    }
-        
-//        let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesCell) as! CitiesViewCell
-        // 임의의 전체반환 셀이 필요한데 이거를 방지혀려면 차라리 if문이 나을까?
-//        return UITableViewCell()
     }
 }
 

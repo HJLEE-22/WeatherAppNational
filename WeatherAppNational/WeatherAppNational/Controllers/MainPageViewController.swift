@@ -11,10 +11,10 @@ import UIKit
 import CoreLocation
 
 class MainPageViewController: UIViewController {
-
-// MARK: - properties
     
-    private var subViewControllers: [UIViewController] = []
+    // MARK: - properties
+    
+    private var subViewControllers: [WeatherViewController] = []
     
     var currentPage: Int?{
         didSet {
@@ -22,7 +22,9 @@ class MainPageViewController: UIViewController {
             bind(oldValue: oldValue ?? 0, newValue: currentPage)
         }
     }
-
+    
+    private var viewModel: HomeViewModel = HomeViewModel()
+    
     var locationManager = CLLocationManager()
     
     lazy var listButton: UIBarButtonItem = {
@@ -34,7 +36,7 @@ class MainPageViewController: UIViewController {
         let btn = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingButtonTapped))
         return btn
     }()
-
+    
     private lazy var pageViewController: UIPageViewController = {
         let pageVC = UIPageViewController(transitionStyle: .scroll,
                                           navigationOrientation: .horizontal)
@@ -43,22 +45,23 @@ class MainPageViewController: UIViewController {
         pageVC.dataSource = self
         return pageVC
     }()
-
+    
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.subscribe(observer: self)
         setupLayout()
         setupNav()
         pageViewController.didMove(toParent: self)
-        setupViewControllers()
         checkUserDeviceLocationServiceAuthorization()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        
+    
+    deinit {
+        print("MainPageViewController Deinit~~~~")
     }
+    
     // MARK: - Helpers
     
     func setupLayout(){
@@ -193,14 +196,13 @@ class MainPageViewController: UIViewController {
 // MARK: - Set VCs in PageVC
 extension MainPageViewController {
     
-    private func setupViewControllers(){
+    private func setupViewControllers(_ cities: [LocationGridData]) {
+        let vc = WeatherViewController()
+        vc.viewModel = .init(name: "현재위치", nx: 47, ny: 47)
+        self.navigationItem.title = vc.viewModel.name
+        subViewControllers.append(vc)
+        setViewControllersInPageVC()
         
-//        if 현재위치 받았으면 {
-//            현재위치VC 전체VC에 넣어주기
-//        }
-        
-        
-        let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
         cities.forEach(){ location in
             let vc = WeatherViewController()
             guard let city = location.city,
@@ -210,43 +212,19 @@ extension MainPageViewController {
             let locationGridY = Int(location.gridY)
             vc.viewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
             self.navigationItem.title = vc.viewModel.name
+            subViewControllers.append(vc)
             setViewControllersInPageVC()
-            subViewControllers.append(vc)
         }
-        /*
-        
-        if let cities = UserDefaultsUtil.shared.getCities() {
-            cities.forEach() { city in
-                let vc = WeatherViewController()
-                vc.viewModel = .init(name: city.name, nx: city.nx, ny: city.ny)
-                self.navigationItem.title = vc.viewModel.name
-                subViewControllers.append(vc)
-            }
-        } else {
-            // 기본값 살려두기?
-            let vc = WeatherViewController()
-            vc.viewModel = .init(name: "서울특별시", nx: 60, ny: 127)
-            self.navigationItem.title = vc.viewModel.name
-            let vc2 = WeatherViewController()
-            vc2.viewModel = .init(name: "부산광역시", nx: 98, ny: 76)
-            let vc3 = WeatherViewController()
-            vc3.viewModel = .init(name: "광주광역시", nx: 58, ny: 74)
-            let vc4 = WeatherViewController()
-            vc4.viewModel = .init(name: "남양주시", nx: 64, ny: 128)
-            subViewControllers.append(vc)
-            subViewControllers.append(vc2)
-            subViewControllers.append(vc3)
-            subViewControllers.append(vc4)
-        }
-         */
-            currentPage = 0
+        currentPage = 0
     }
     
-    private func setViewControllersInPageVC() {
-        if let firstVC = subViewControllers.first {
-            pageViewController.setViewControllers([firstVC], direction: .forward, animated: false)
-            let vc = firstVC as? WeatherViewController
-            self.navigationItem.title = vc?.viewModel.name
+    private func setViewControllersInPageVC(_ vc: WeatherViewController? = nil) {
+        if let vc = vc {
+            pageViewController.setViewControllers([vc], direction: .forward, animated: false)
+        } else {
+            if let firstVC = subViewControllers.first {
+                pageViewController.setViewControllers([firstVC], direction: .forward, animated: false)
+            }
         }
     }
     
@@ -261,7 +239,7 @@ extension MainPageViewController {
 extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 
-        guard let index = subViewControllers.firstIndex(of: viewController) else { return nil }
+        guard let index = subViewControllers.firstIndex(of: viewController as! WeatherViewController) else { return nil }
         let previousIndex = index - 1
         if previousIndex < 0 {
             return nil
@@ -271,7 +249,7 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
 
-        guard let index = subViewControllers.firstIndex(of: viewController) else { return nil}
+        guard let index = subViewControllers.firstIndex(of: viewController as! WeatherViewController) else { return nil}
         let afterIndex = index + 1
         if afterIndex == subViewControllers.count {
             return nil
@@ -283,7 +261,7 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         guard let currentVC = pageViewController.viewControllers?.first,
-              let currentIndex = subViewControllers.firstIndex(of: currentVC) else { return }
+              let currentIndex = subViewControllers.firstIndex(of: currentVC as! WeatherViewController) else { return }
         currentPage = currentIndex
         
         if completed {
@@ -348,7 +326,45 @@ extension MainPageViewController: UpdatingLocationButtonDelegate {
             print("DEBUG: update to reject for location")
             locationManager.startUpdatingLocation()
         }
+    }
+}
+
+extension MainPageViewController: Observer {
+    func update<T>(updateValue: T) {
         
+        if let value = updateValue as? [LocationGridData] {
+            DispatchQueue.main.async { [weak self] in
+                self?.setupViewControllers(value)
+            }
+        }
+        
+        if let value = updateValue as? (data: LocationGridData, shouldAdd: Bool) {
+            DispatchQueue.main.async { [weak self] in
+                self?.updateViewWeatherViews(value.data, shouldAdd: value.shouldAdd)
+            }
+        }
     }
     
+    func updateViewWeatherViews(_ location: LocationGridData, shouldAdd: Bool) {
+        guard let city = location.city,
+              let district = location.district else { return }
+        let locationName = "\(city) \(district)"
+        
+        if shouldAdd {
+            let vc = WeatherViewController()
+            let locationGridX = Int(location.gridX)
+            let locationGridY = Int(location.gridY)
+            vc.viewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
+            self.navigationItem.title = vc.viewModel.name
+            subViewControllers.append(vc)
+            setViewControllersInPageVC(vc)
+            currentPage = subViewControllers.count - 1
+        } else {
+            
+            subViewControllers.removeAll(where: { $0.viewModel.name ?? "" == locationName})
+            setViewControllersInPageVC()
+            currentPage = 0
+        }
+        
+    }
 }
