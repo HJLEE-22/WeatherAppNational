@@ -25,6 +25,7 @@ class CitiesViewModel {
         self.bindLocationGridData()
     }
     
+    // MARK: - Helpers for data
     func bindLocationGridData() {
         locationGridDatas = getBookmarkedLocationGridForViewModel()
     }
