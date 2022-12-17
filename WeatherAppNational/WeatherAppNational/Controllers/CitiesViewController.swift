@@ -9,94 +9,142 @@
 import UIKit
 
 class CitiesViewController: UIViewController  {
-
     
     // MARK: -  Properties
-    let tableView = UITableView()
-    var cities = ["now", "Gangnam-gu"]
+    let cityListForSearchTableView = UITableView()
 
+        
+    private var viewModel: CitiesViewModel = CitiesViewModel() {
+        didSet {
+            viewModel.subscribe(observer: self)
+        }
+    }
     
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
         setupNavigationItem()
-        setupTableView()
-        setupTableViewConstraints()
+        setupCityListForSearchTableView()
+        setupCityListForSearchTableViewConstraints()
         setupSearchbar()
-        tableView.isUserInteractionEnabled = true
-        tableView.allowsSelectionDuringEditing = true
-        tableView.dragInteractionEnabled = true
-//        tableView.dragDelegate = self
-//        tableView.dropDelegate = self
-//        self.navigationItem.leftBarButtonItem?.title = .none
-
-        
+        //        tableView.dragDelegate = self
+        //        tableView.dropDelegate = self
+        self.navigationItem.leftBarButtonItem?.title = .none
     }
     
+    deinit {
+        viewModel.unSubscribe(observer: self)
+    }
     
     // MARK: - Helpers
-    
-    
-
+    //
+    // 어차피 viewModel 객체 만들때 인스턴스 생성하는데
+    // 구지 초기화 구문이나, viewModel = CitiesViewModel()과 같은 대입 구문이 필요할까?
+    // 객체만들 때 인스턴스 생성 시 장점 : 강제옵셔널해제 안해도 됨
+//
+//    func setupViewModel() {
+//        self.viewModel = .init()
+//    }
     
     func setupSearchbar() {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         navigationItem.titleView = searchBar
         searchBar.placeholder = "도시를 검색하세요."
+        searchBar.searchTextField.font = UIFont.systemFont(ofSize: 15)
         searchBar.delegate = self
     }
-        
+    
     func setupNavigationItem() {
         navigationItem.largeTitleDisplayMode = .never
     }
     
-    func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(CitiesViewCell.self, forCellReuseIdentifier: cellID.forCitiesCell)
-        tableView.allowsSelection = false
-        tableView.separatorStyle = .none
+    func setupCityListForSearchTableView() {
+        cityListForSearchTableView.delegate = self
+        cityListForSearchTableView.dataSource = self
+        cityListForSearchTableView.register(CitiesListViewCell.self, forCellReuseIdentifier: CellID.forCitiesListCell)
+        cityListForSearchTableView.allowsSelection = true
+        cityListForSearchTableView.separatorStyle = .none
+        cityListForSearchTableView.isUserInteractionEnabled = true
+        cityListForSearchTableView.allowsSelectionDuringEditing = true
+        cityListForSearchTableView.dragInteractionEnabled = true
     }
-
-    func setupTableViewConstraints() {
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+    
+    func setupCityListForSearchTableViewConstraints() {
+        view.addSubview(cityListForSearchTableView)
+        cityListForSearchTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            cityListForSearchTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            cityListForSearchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            cityListForSearchTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            cityListForSearchTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-        
-        
     
+    
+    // MARK: - Helpers for data
+    // MVVM에선 VC에 data와 관련된 코드가 있으면 안됨!
+
 }
 
 // MARK: - tableView dataSource extension
 extension CitiesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cities.count
+        return viewModel.getLocationGrid().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesCell) as! CitiesViewCell
         
-       
-
-        cell.cellDelegate = self
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesListCell) as! CitiesListViewCell
+        let model = viewModel.getLocationGrid()[indexPath.row]
+        DispatchQueue.main.async {
+            cell.configureUIByData(model)
+        }
+        cell.bookmarkButton.setOpaqueTapGestureRecognizer { [weak self] in
+            self?.viewModel.updateLocationGridsBookmark(model)
+            tableView.reloadData()
+        }
         return cell
+        
+//        switch tableView {
+//        case bookmarkCitiesTableView :
+//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesCell) as! CitiesViewCell
+//            cell.cellDelegate = self
+//            return cell
+//        case cityListForSearchTableView :
+//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesListCell) as! CitiesListViewCell
+//            cell.city = self.cities[indexPath.row]
+//            cell.cellDelegate = self
+//            return cell
+//        default :
+//            break
+//    }
+        
+//        let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesCell) as! CitiesViewCell
+        // 임의의 전체반환 셀이 필요한데 이거를 방지혀려면 차라리 if문이 나을까?
+//        return UITableViewCell()
     }
-
-
-    
 }
 
 // MARK: - UITableViewDelegate
 
 extension CitiesViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let weatherVC = WeatherViewController()
+
+        let selectedLocation = viewModel.getLocationGrid()[indexPath.row]
+        guard let city = selectedLocation.city,
+              let district = selectedLocation.district else { return }
+        let selectedLocationName = "\(city) \(district)"
+        let selectedLocationGridX = Int(selectedLocation.gridX)
+        let selectedLocationGridY = Int(selectedLocation.gridY)
+        
+        weatherVC.viewModel = .init(name: selectedLocationName, nx: selectedLocationGridX, ny: selectedLocationGridY)
+        show(weatherVC, sender: nil)
+        weatherVC.navigationItem.title = weatherVC.viewModel.name
+        
+        
+    }
     
 //    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //
@@ -187,65 +235,71 @@ extension CitiesViewController: UITableViewDropDelegate {
 }
 
 
+
 // MARK: - 서치바 익스텐션
 extension CitiesViewController: UISearchBarDelegate {
     // 서치바에서 검색을 시작할 때 호출
+//    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        getWeatherDataDependingText(searchBar: searchBar)
+//        self.cityListForSearchTableView.reloadData()
+//        navigationItem.rightBarButtonItem = .none
+//        searchBar.showsCancelButton = true
+//        cityListForSearchTableView.dragInteractionEnabled = false
+//    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        getWeatherDataDependingText(searchBar: searchBar)
-        self.tableView.reloadData()
+        guard let text = searchBar.text else {
+            // 🥵여기서 텍스트가 없을 시 전체목록을 가져오기
+            self.viewModel.getLocationGridForViewMdodel()
+            cityListForSearchTableView.reloadData()
+            return
+        }
+        viewModel.getFilteredLocationGrid(by: text)
+        self.cityListForSearchTableView.reloadData()
         navigationItem.rightBarButtonItem = .none
         searchBar.showsCancelButton = true
-        tableView.dragInteractionEnabled = false
-        
+        cityListForSearchTableView.dragInteractionEnabled = false
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        getWeatherDataDependingText(searchBar: searchBar)
-        self.tableView.reloadData()
-        tableView.dragInteractionEnabled = false
-
+        guard let text = searchBar.text else {
+            // 여기서 텍스트가 없을 시 전체목록을 가져와야 할까?
+            return
+        }
+        viewModel.getFilteredLocationGrid(by: text)
+        self.cityListForSearchTableView.reloadData()
+        cityListForSearchTableView.dragInteractionEnabled = false
     }
     
     // 서치바에서 검색버튼을 눌렀을 때 호출
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        getWeatherDataDependingText(searchBar: searchBar)
-        self.tableView.reloadData()
+        guard let text = searchBar.text else {
+            // 여기서 텍스트가 없을 시 전체목록을 가져와야 할까?
+            return
+        }
+        viewModel.getFilteredLocationGrid(by: text)
+        self.cityListForSearchTableView.reloadData()
         searchBar.resignFirstResponder()
-        tableView.dragInteractionEnabled = false
-
+        cityListForSearchTableView.dragInteractionEnabled = false
     }
     
     // 서치바에서 취소 버튼을 눌렀을 때 호출
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-
         searchBar.text = ""
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
-        self.tableView.reloadData()
-        tableView.dragInteractionEnabled = true
-
     }
     
     // 서치바 검색이 끝났을 때 호출
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.tableView.reloadData()
     }
-    
-    func getWeatherDataDependingText(searchBar: UISearchBar) {
-        if searchBar.text!.isEmpty {
-            
-        } else {
-            
+}
+
+extension CitiesViewController: Observer {
+    func update<T>(updateValue: T) {
+        guard let value = updateValue as? [LocationGridData] else { return }
+        DispatchQueue.main.async { [weak self] in
+            self?.cityListForSearchTableView.reloadData()
         }
     }
 }
-
-extension CitiesViewController: CellButtonActionDelegate {
-    func bookmarkButtonTapped(_ id: String) {
-        
-    }
-
-}
-
-
-

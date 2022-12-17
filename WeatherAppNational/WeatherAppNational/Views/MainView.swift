@@ -39,7 +39,7 @@ class MainView: UIView {
         return view
     }()
     
-    lazy var emptyBottonStackView: UIStackView = {
+    lazy var otherWeathersStackView: UIStackView = {
        let sv = UIStackView(arrangedSubviews: [yesterdayWeatherView, tomorrowdayWeatherView])
         sv.axis = .horizontal
         sv.distribution = .fillEqually
@@ -66,28 +66,30 @@ class MainView: UIView {
     
     func setupUI() {
         self.addSubview(todayWeatherView)
-//        self.addSubview(yesterdayWeatherView)
-//        self.addSubview(tomorrowdayWeatherView)
-        self.addSubview(emptyBottonStackView)
+        self.addSubview(otherWeathersStackView)
         
         todayWeatherView.translatesAutoresizingMaskIntoConstraints = false
         yesterdayWeatherView.translatesAutoresizingMaskIntoConstraints = false
         tomorrowdayWeatherView.translatesAutoresizingMaskIntoConstraints = false
-        emptyBottonStackView.translatesAutoresizingMaskIntoConstraints = false
+        otherWeathersStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            todayWeatherView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            todayWeatherView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
             todayWeatherView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             todayWeatherView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
 //            todayWeatherView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -350),
             todayWeatherView.heightAnchor.constraint(equalToConstant: 300),
             
-            emptyBottonStackView.topAnchor.constraint(equalTo: todayWeatherView.bottomAnchor, constant: 10),
-            emptyBottonStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
-            emptyBottonStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            emptyBottonStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
-            
-
+            otherWeathersStackView.topAnchor.constraint(equalTo: todayWeatherView.bottomAnchor, constant: 10),
+            otherWeathersStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
+            otherWeathersStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
+            otherWeathersStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
         ])
     }
+    
+
+    
+    
+    
+    
 }

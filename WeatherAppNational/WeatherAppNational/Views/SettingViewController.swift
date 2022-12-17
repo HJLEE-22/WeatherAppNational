@@ -40,7 +40,7 @@ class SettingViewController: UITableViewController {
     
     func setupTableView() {
         
-        tableView.register(SettingViewCell.self, forCellReuseIdentifier: cellID.forSettingsCell)
+        tableView.register(SettingViewCell.self, forCellReuseIdentifier: CellID.forSettingsCell)
         
         
     }
@@ -83,7 +83,7 @@ class SettingViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forSettingsCell, for: indexPath) as! SettingViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forSettingsCell, for: indexPath) as! SettingViewCell
         
         if indexPath.section == 0 {
             cell.mainLabel.text = "사용가능"

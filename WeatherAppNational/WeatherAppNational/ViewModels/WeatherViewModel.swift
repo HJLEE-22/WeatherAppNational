@@ -2,7 +2,7 @@
 //  WeatherViewModel.swift
 //  WeatherAppNational
 //
-//  Created by Mingu Seo on 2022/11/05.
+//  Created by 이형주 on 2022/11/12.
 //
 
 import UIKit
@@ -15,59 +15,64 @@ enum Day {
 }
 
 class WeatherViewModel {
-    internal var observer: (any Observer)?
+    
+    // MARK: - Properties
+    var observer: (any Observer)?
     
     private var locationManager = CLLocationManager()
-    private var todayDate: String = DateCalculate.todayDateString
-    private var yesterdayDate: String = DateCalculate.yesterdayDateString
-    private var tomorrowDate: String = DateCalculate.tomorrowDateString
-    private var nowtime: String = TimeCalculate.nowTimeString
-    private var name: String!
+    private var todayDate = DateCalculate.todayDateString
+    private var yesterdayDate = DateCalculate.yesterdayDateString
+    private var tomorrowDate = DateCalculate.tomorrowDateString
+    private var nowTime = TimeCalculate.nowTimeString
+    var name: String!
     private var nx: Int!
     private var ny: Int!
     
     private var todayWeatherModel: WeatherModel = WeatherModel() {
-        didSet {
-            notify(updatedValue: [Day.today: todayWeatherModel])
+        didSet{
+            notify(updateValue: [Day.today: todayWeatherModel])
         }
     }
     
-    private var yesterdayWeatherModel: WeatherModel = WeatherModel() {
-        didSet {
-            notify(updatedValue: [Day.yesterday: yesterdayWeatherModel])
+    private var yesterDayWeatherModel: WeatherModel = WeatherModel() {
+        didSet{
+            notify(updateValue: [Day.yesterday: yesterDayWeatherModel])
         }
     }
     
     private var tomorrowWeatherModel: WeatherModel = WeatherModel() {
-        didSet {
-            notify(updatedValue: [Day.tomorrow: tomorrowWeatherModel])
+        didSet{
+            notify(updateValue: [Day.tomorrow: tomorrowWeatherModel])
         }
     }
+    
+    // MARK: - Lifecycle
     
     init(name: String, nx: Int, ny: Int) {
         self.name = name
         self.nx = nx
         self.ny = ny
         
-        bind()
-        
+        self.bind()
     }
     
-    private func bind() {
+    // MARK: - Helpers
+    
+    func bind() {
+        
         // 오늘 날씨
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: Day.today,
+            WeatherService.shared.fetchWeatherData(dayType: .today,
                                                    date: DateCalculate.yesterdayDateString,
                                                    time: "2300",
-                                                   nx: selfRef.nx,
-                                                   ny: selfRef.ny) { result in
+                                                   nx: selfRef.nx, ny: selfRef.ny) { result in
                 switch result {
                 case .success(let weatherModel):
                     selfRef.todayWeatherModel = weatherModel
-                    
+                    print("DEBUG: weatherModel : \(weatherModel)")
                 case .failure(let error):
-                    print("오늘 날씨 불러오기 실패", error.localizedDescription)
+                    print("DEBUG: 오늘 날씨 불러오기 실패", error.localizedDescription)
                 }
             }
         }
@@ -75,52 +80,49 @@ class WeatherViewModel {
         // 어제 날씨
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: Day.yesterday,
-                                                   date: DateCalculate.dayBeforeYesterdayDateString,
-                                                   time: "2300",
-                                                   nx: selfRef.nx,
-                                                   ny: selfRef.ny) { result in
+            WeatherService.shared.fetchWeatherData(dayType: .yesterday,
+                                                   date: DateCalculate.yesterdayDateString,
+                                                   time: "0200",
+                                                   nx: selfRef.nx, ny: selfRef.ny) { result in
                 switch result {
                 case .success(let weatherModel):
-                    selfRef.yesterdayWeatherModel = weatherModel
-                    
+                    selfRef.yesterDayWeatherModel = weatherModel
                 case .failure(let error):
-                    print("어제 날씨 불러오기 실패", error.localizedDescription)
+                    print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
                 }
             }
         }
-      
         // 내일 날씨
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: Day.tomorrow,
+            WeatherService.shared.fetchWeatherData(dayType: .tomorrow,
                                                    date: DateCalculate.yesterdayDateString,
                                                    time: "2300",
-                                                   nx: selfRef.nx,
-                                                   ny: selfRef.ny) { result in
+                                                   nx: selfRef.nx, ny: selfRef.ny) { result in
                 switch result {
                 case .success(let weatherModel):
                     selfRef.tomorrowWeatherModel = weatherModel
-                    
                 case .failure(let error):
-                    print("내일 날씨 불러오기 실패", error)
+                    print("DEBUG: 내일 날씨 불러오기 실패", error.localizedDescription)
                 }
             }
         }
     }
 }
 
+// MARK: - Subscriber 선언
 extension WeatherViewModel: Subscriber {
+    func subscribe(observer: (Observer)?) {
+        self.observer = observer
+    }
+    
     func unSubscribe(observer: (Observer)?) {
         self.observer = nil
     }
     
-    func subscribe(observer: (any Observer)?) {
-        self.observer = observer
+    func notify<T>(updateValue: T) {
+        observer?.update(updateValue: updateValue)
     }
     
-    func notify<T>(updatedValue: T) {
-        observer?.update(updatedValue: updatedValue)
-    }
+    
 }
-

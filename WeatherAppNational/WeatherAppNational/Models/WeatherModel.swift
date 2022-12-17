@@ -17,7 +17,7 @@ enum WeatherItemCategory: String {
     case windSpeed = "WSD"
 }
 
-enum SkyCategory: String, CaseIterable  {
+enum SkyCategory: String, CaseIterable {
     case sunny = "1"
     case cloudy = "3"
     case gray = "4"
