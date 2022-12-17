@@ -179,8 +179,6 @@ class MainPageViewController: UIViewController {
         
     }
     
-
-    
     @objc func settingButtonTapped() {
         let transition = CATransition()
         transition.duration = 0.5
@@ -197,6 +195,11 @@ class MainPageViewController: UIViewController {
 extension MainPageViewController {
     
     private func setupViewControllers(){
+        
+//        if 현재위치 받았으면 {
+//            현재위치VC 전체VC에 넣어주기
+//        }
+        
         
         let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
         cities.forEach(){ location in
