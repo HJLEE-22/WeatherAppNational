@@ -11,11 +11,10 @@ import UIKit
 class CitiesViewController: UIViewController  {
     
     // MARK: -  Properties
-    let bookmarkCitiesTableView = UITableView()
     let cityListForSearchTableView = UITableView()
-    var cities: [LocationGridData] = []
+
         
-    var viewModel : CitiesViewModel! {
+    private var viewModel: CitiesViewModel = CitiesViewModel() {
         didSet {
             viewModel.subscribe(observer: self)
         }
@@ -25,17 +24,12 @@ class CitiesViewController: UIViewController  {
     
     override func viewDidLoad() {
         setupNavigationItem()
-        setupBookmarkCitiesTableView()
-        setupBookmarkCitiesTableViewConstraints()
+        setupCityListForSearchTableView()
+        setupCityListForSearchTableViewConstraints()
         setupSearchbar()
-
         //        tableView.dragDelegate = self
         //        tableView.dropDelegate = self
-                self.navigationItem.leftBarButtonItem?.title = .none
-//        cities = CoreDataManager.shared.getLocationGridListFromCoreData()
-//        updateLocationGridsByBookmark()
-//        setupUI()
-        setupViewModel()
+        self.navigationItem.leftBarButtonItem?.title = .none
     }
     
     deinit {
@@ -43,19 +37,14 @@ class CitiesViewController: UIViewController  {
     }
     
     // MARK: - Helpers
-
-    
-    
-    // 고민지점
-    // 특정 파라미터에 따라 ViewModel을 초기화하고 만들어줘야 하는 건 여기 VC.
-    // 여기서 만든 viewModel을 update를 통해 View로 전달한다.
-    // 그런데, 나는 원하는 viewModel값을 위해 필터링이 필요하고, 해당 필터링 값은 searchBar의 텍스트 값이나 데이터내의 bool값.
-    // searchBar를 tableView와 같이 View로 옮겼는데, 이러면 VC에 있어야겠지...?
-    // 서치바 텍스트를 받는 변수를 전역으로 만들어서 그걸로 주고받아야 될 것 같은데 깔끔한 코드는 아닌것 같은데...
-    func setupViewModel() {
-        self.viewModel = .init(parameterForFiltering: "서울", bookmarkBool: false)
-    }
-    
+    //
+    // 어차피 viewModel 객체 만들때 인스턴스 생성하는데
+    // 구지 초기화 구문이나, viewModel = CitiesViewModel()과 같은 대입 구문이 필요할까?
+    // 객체만들 때 인스턴스 생성 시 장점 : 강제옵셔널해제 안해도 됨
+//
+//    func setupViewModel() {
+//        self.viewModel = .init()
+//    }
     
     func setupSearchbar() {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
@@ -69,33 +58,11 @@ class CitiesViewController: UIViewController  {
         navigationItem.largeTitleDisplayMode = .never
     }
     
-    func setupBookmarkCitiesTableView() {
-        bookmarkCitiesTableView.delegate = self
-        bookmarkCitiesTableView.dataSource = self
-        bookmarkCitiesTableView.register(CitiesViewCell.self, forCellReuseIdentifier: cellID.forCitiesCell)
-        bookmarkCitiesTableView.allowsSelection = false
-        bookmarkCitiesTableView.separatorStyle = .none
-        bookmarkCitiesTableView.isUserInteractionEnabled = true
-        bookmarkCitiesTableView.allowsSelectionDuringEditing = true
-        bookmarkCitiesTableView.dragInteractionEnabled = true
-    }
-    
-    func setupBookmarkCitiesTableViewConstraints() {
-        view.addSubview(bookmarkCitiesTableView)
-        bookmarkCitiesTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            bookmarkCitiesTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            bookmarkCitiesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            bookmarkCitiesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bookmarkCitiesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-    
     func setupCityListForSearchTableView() {
         cityListForSearchTableView.delegate = self
         cityListForSearchTableView.dataSource = self
-        cityListForSearchTableView.register(CitiesListViewCell.self, forCellReuseIdentifier: cellID.forCitiesListCell)
-        cityListForSearchTableView.allowsSelection = false
+        cityListForSearchTableView.register(CitiesListViewCell.self, forCellReuseIdentifier: CellID.forCitiesListCell)
+        cityListForSearchTableView.allowsSelection = true
         cityListForSearchTableView.separatorStyle = .none
         cityListForSearchTableView.isUserInteractionEnabled = true
         cityListForSearchTableView.allowsSelectionDuringEditing = true
@@ -115,48 +82,69 @@ class CitiesViewController: UIViewController  {
     
     
     // MARK: - Helpers for data
-    
-    func updateLocationGridsByBookmark() {
-        cities = getLocationGrid().filter({ $0.bookmark == true })
-    }
-    
-    func getLocationGrid() -> [LocationGridData] {
-        CoreDataManager.shared.getLocationGridListFromCoreData()
-    }
+    // MVVM에선 VC에 data와 관련된 코드가 있으면 안됨!
 
 }
 
 // MARK: - tableView dataSource extension
 extension CitiesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cities.count
+        return viewModel.getLocationGrid().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch tableView {
-        case bookmarkCitiesTableView :
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesCell) as! CitiesViewCell
-            cell.cellDelegate = self
-            return cell
-        case cityListForSearchTableView :
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesListCell) as! CitiesListViewCell
-            cell.city = self.cities[indexPath.row]
-            cell.cellDelegate = self
-            return cell
-        default :
-            break
-    }
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesListCell) as! CitiesListViewCell
+        let model = viewModel.getLocationGrid()[indexPath.row]
+        DispatchQueue.main.async {
+            cell.configureUIByData(model)
+        }
+        cell.bookmarkButton.setOpaqueTapGestureRecognizer { [weak self] in
+            self?.viewModel.updateLocationGridsBookmark(model)
+            tableView.reloadData()
+        }
+        return cell
+        
+//        switch tableView {
+//        case bookmarkCitiesTableView :
+//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesCell) as! CitiesViewCell
+//            cell.cellDelegate = self
+//            return cell
+//        case cityListForSearchTableView :
+//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesListCell) as! CitiesListViewCell
+//            cell.city = self.cities[indexPath.row]
+//            cell.cellDelegate = self
+//            return cell
+//        default :
+//            break
+//    }
         
 //        let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesCell) as! CitiesViewCell
         // 임의의 전체반환 셀이 필요한데 이거를 방지혀려면 차라리 if문이 나을까?
-        return UITableViewCell()
+//        return UITableViewCell()
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension CitiesViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let weatherVC = WeatherViewController()
+
+        let selectedLocation = viewModel.getLocationGrid()[indexPath.row]
+        guard let city = selectedLocation.city,
+              let district = selectedLocation.district else { return }
+        let selectedLocationName = "\(city) \(district)"
+        let selectedLocationGridX = Int(selectedLocation.gridX)
+        let selectedLocationGridY = Int(selectedLocation.gridY)
+        
+        weatherVC.viewModel = .init(name: selectedLocationName, nx: selectedLocationGridX, ny: selectedLocationGridY)
+        show(weatherVC, sender: nil)
+        weatherVC.navigationItem.title = weatherVC.viewModel.name
+        
+        
+    }
     
 //    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //
@@ -251,33 +239,47 @@ extension CitiesViewController: UITableViewDropDelegate {
 // MARK: - 서치바 익스텐션
 extension CitiesViewController: UISearchBarDelegate {
     // 서치바에서 검색을 시작할 때 호출
+//    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        getWeatherDataDependingText(searchBar: searchBar)
+//        self.cityListForSearchTableView.reloadData()
+//        navigationItem.rightBarButtonItem = .none
+//        searchBar.showsCancelButton = true
+//        cityListForSearchTableView.dragInteractionEnabled = false
+//    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        getWeatherDataDependingText(searchBar: searchBar)
-//        self.bookmarkCitiesTableView.reloadData()
+        guard let text = searchBar.text else {
+            // 🥵여기서 텍스트가 없을 시 전체목록을 가져오기
+            self.viewModel.getLocationGridForViewMdodel()
+            cityListForSearchTableView.reloadData()
+            return
+        }
+        viewModel.getFilteredLocationGrid(by: text)
         self.cityListForSearchTableView.reloadData()
         navigationItem.rightBarButtonItem = .none
         searchBar.showsCancelButton = true
-//        bookmarkCitiesTableView.dragInteractionEnabled = false
         cityListForSearchTableView.dragInteractionEnabled = false
-        setupCityListForSearchTableView()
-        setupCityListForSearchTableViewConstraints()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        getWeatherDataDependingText(searchBar: searchBar)
-//        self.bookmarkCitiesTableView.reloadData()
+        guard let text = searchBar.text else {
+            // 여기서 텍스트가 없을 시 전체목록을 가져와야 할까?
+            return
+        }
+        viewModel.getFilteredLocationGrid(by: text)
         self.cityListForSearchTableView.reloadData()
         cityListForSearchTableView.dragInteractionEnabled = false
-//        bookmarkCitiesTableView.dragInteractionEnabled = false
     }
     
     // 서치바에서 검색버튼을 눌렀을 때 호출
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        getWeatherDataDependingText(searchBar: searchBar)
-//        self.bookmarkCitiesTableView.reloadData()
-        searchBar.resignFirstResponder()
-//        bookmarkCitiesTableView.dragInteractionEnabled = false
+        guard let text = searchBar.text else {
+            // 여기서 텍스트가 없을 시 전체목록을 가져와야 할까?
+            return
+        }
+        viewModel.getFilteredLocationGrid(by: text)
         self.cityListForSearchTableView.reloadData()
+        searchBar.resignFirstResponder()
         cityListForSearchTableView.dragInteractionEnabled = false
     }
     
@@ -286,73 +288,18 @@ extension CitiesViewController: UISearchBarDelegate {
         searchBar.text = ""
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
-        self.cityListForSearchTableView.removeFromSuperview()
-        self.bookmarkCitiesTableView.reloadData()
-        bookmarkCitiesTableView.dragInteractionEnabled = true
     }
     
     // 서치바 검색이 끝났을 때 호출
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.bookmarkCitiesTableView.reloadData()
-        self.cityListForSearchTableView.removeFromSuperview()
-    }
-    
-    func getWeatherDataDependingText(searchBar: UISearchBar) {
-        if searchBar.text!.isEmpty {
-            cities = getLocationGrid()
-        } else {
-            guard let searchBarText = searchBar.text else { return }
-            cities = getLocationGrid().filter({ $0.city!.contains(searchBarText) || $0.district!.contains(searchBarText) })
-        }
     }
 }
-
- 
-
-extension CitiesViewController: CellButtonActionDelegate {
-    func bookmarkButtonTapped(_ name: String) {
-        // cities의 city 중 distrcit가 nil이 아닐 때
-//        if cities.forEach({ $0.district }) != "" {
-//            if let index = cities.firstIndex(where: { $0.district == name }) {
-//                cities[index].bookmark.toggle()
-//                CoreDataManager.shared.updateLocationGridData(newLocationGridData: cities[index]) {
-//                    DispatchQueue.main.async {[weak self] in
-//                        guard let self = self else { return }
-//                        self.cityListForSearchTableView.reloadData()
-//                        self.bookmarkCitiesTableView.reloadData()
-//                    }
-//                }
-        //            }
-        cities.forEach { data in
-            if data.district != "" {
-                
-                if let index = getLocationGrid().firstIndex(where: { $0.district == name }) {
-                    print("DEBUG: index touched \(index)")
-                    cities[index].bookmark.toggle()
-                    CoreDataManager.shared.updateLocationGridData(newLocationGridData: cities[index]) {
-                        DispatchQueue.main.async {[weak self] in
-                            guard let self = self else { return }
-                            self.cityListForSearchTableView.reloadData()
-                            self.bookmarkCitiesTableView.reloadData()
-                        }
-                    }
-                }
-            }
-            
-            //        } else {
-            //            if let index = cities.firstIndex(where: { $0.city == name }) {
-            //                cities[index].bookmark.toggle()
-            //            }
-        }
-    }
-}
-
 
 extension CitiesViewController: Observer {
     func update<T>(updateValue: T) {
         guard let value = updateValue as? [LocationGridData] else { return }
         DispatchQueue.main.async { [weak self] in
-            self?.cities = value
+            self?.cityListForSearchTableView.reloadData()
         }
     }
 }
