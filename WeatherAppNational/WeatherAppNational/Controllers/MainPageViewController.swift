@@ -51,7 +51,6 @@ class MainPageViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupNav()
-//        setupPageControll()
         pageViewController.didMove(toParent: self)
         setupViewControllers()
         checkUserDeviceLocationServiceAuthorization()

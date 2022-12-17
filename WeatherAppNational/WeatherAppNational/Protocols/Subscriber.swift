@@ -14,3 +14,9 @@ protocol Subscriber {
     func notify<T>(updateValue: T)
 }
 
+protocol CoreDataSubscriber {
+    var observers: ([any ViewModelObserver])? { get set }
+    mutating func subscribe(observer: (any ViewModelObserver)?)
+    mutating func unSubscribe(observer: (any ViewModelObserver)?)
+    func notify<T>(updateValue: T)
+}

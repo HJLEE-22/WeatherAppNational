@@ -123,6 +123,4 @@ extension WeatherViewModel: Subscriber {
     func notify<T>(updateValue: T) {
         observer?.update(updateValue: updateValue)
     }
-    
-    
 }

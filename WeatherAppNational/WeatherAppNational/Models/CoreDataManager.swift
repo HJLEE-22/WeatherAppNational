@@ -10,7 +10,8 @@ import CoreData
 
 //MARK: - To do 관리하는 매니저 (코어데이터 관리)
 
-final class CoreDataManager {
+final class CoreDataManager: CoreDataSubscriber {
+    var observers: ([ViewModelObserver])?
     
     // 싱글톤으로 만들기
     static let shared = CoreDataManager()
@@ -143,6 +144,32 @@ final class CoreDataManager {
             print("update 실패")
             completion()
         }
+    }
+}
+
+extension CoreDataManager {
+    func subscribe(observer: (any ViewModelObserver)?) {
+        guard var observers = observers,
+              let observer = observer
+        else { return }
         
+        observers.append(observer)
+    }
+    
+    func unSubscribe(observer: (any ViewModelObserver)?) {
+        guard var observers = observers,
+              let observer = observer,
+              let index = observers.firstIndex(where: { $0.isEqual(observer)})
+        else { return }        
+        
+        observers.remove(at: index)
+    }
+    
+    func notify<T>(updateValue: T) {
+        guard let observers = observers else { return }
+        
+        observers.forEach {
+            $0.update(updateValue: updateValue)
+        }
     }
 }
