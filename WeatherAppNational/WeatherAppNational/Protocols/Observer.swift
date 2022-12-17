@@ -11,6 +11,3 @@ protocol Observer {
     func update<T>(updateValue: T)
 }
 
-protocol ViewModelObserver {
-    func update<T>(updateValue: T)
-}

@@ -21,7 +21,6 @@ class WeatherViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
         setupUI()
     }
@@ -42,7 +41,6 @@ class WeatherViewController: UIViewController {
             
         ])
     }
-
 }
 
 extension WeatherViewController: Observer {
@@ -60,9 +58,6 @@ extension WeatherViewController: Observer {
                 break
             }
         }
-        
     }
-    
-    
 }
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "CitiesViewController.tableView(_:cellForRowAt:):CitiesViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.cities">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LocationGridModel.init(from:):LocationGridModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SceneDelegate.scene(_:willConnectTo:options:):SceneDelegate.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CitiesViewController.__deallocating_deinit:CitiesViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CitiesViewController.setupViewModel():CitiesViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CitiesViewController.viewModel.didset:CitiesViewController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

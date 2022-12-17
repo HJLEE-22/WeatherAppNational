@@ -8,10 +8,11 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    var locationForDecoder: [LocationGridModel]?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let scene = (scene as? UIWindowScene) else { return }
@@ -19,7 +20,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = UINavigationController(rootViewController: MainPageViewController())
         window?.makeKeyAndVisible()
         
+        // MARK: - JSON decoder part
         
+        let existedData = CoreDataManager.shared.getLocationGridList()
+        var locationGridModel: [LocationGridModel]?
+        let fileName = CoreDataNames.fileName
+        let fileType = CoreDataNames.fileType
+        
+        guard let jsonPath = Bundle.main.path(forResource: fileName, ofType: fileType),
+              let jsonDataLoaded = loadJsonData(fileLocation: jsonPath)
+        else { return }
+        
+        if UserDefaults.standard.bool(forKey: "launchedBefore") == true {
+        } else {
+            do {
+                self.locationForDecoder = try JSONDecoder().decode([LocationGridModel].self, from: jsonDataLoaded)
+                if let locationForDecoder = locationForDecoder {
+                    locationForDecoder.forEach {
+                        CoreDataManager.shared.saveLocationGridData(locationGrid: $0, completion: {})
+                    }
+                    UserDefaults.standard.set(true, forKey: "launchedBefore")
+                    print("DEBUG: success to save")
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        func loadJsonData(fileLocation: String) -> Data? {
+            let data = try? String(contentsOfFile: fileLocation).data(using: .utf8)
+            return data
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -52,7 +83,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
-
-
 }
 

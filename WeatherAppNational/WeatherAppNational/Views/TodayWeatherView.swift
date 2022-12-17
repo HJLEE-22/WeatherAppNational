@@ -28,7 +28,7 @@ class TodayWeatherView: UIView {
     var weatherModel: WeatherModel? {
         didSet {
             if let weatherModel = weatherModel {
-                self.configureUI(weatherModel)
+                self.configureUIByData(weatherModel)
             }
         }
     }
@@ -55,7 +55,6 @@ class TodayWeatherView: UIView {
         sv.axis = .horizontal
         sv.alignment = .fill
         sv.distribution = .fillEqually
-        
         return sv
     }()
     
@@ -125,8 +124,6 @@ class TodayWeatherView: UIView {
         sv.layer.cornerRadius = 5
         sv.layer.borderColor = UIColor(white: 1, alpha: 0).cgColor
         sv.backgroundColor = .systemBlue
-        
-        
         return sv
     }()
     
@@ -203,7 +200,7 @@ class TodayWeatherView: UIView {
 //        var delegate: TempDiffrenceDelegate?
 //    }
     
-    // MARK: - UI setup from ViewModel
+    // MARK: - UI setup
     
     func setupUI() {
         self.addSubview(todayStackView)
@@ -270,7 +267,7 @@ class TodayWeatherView: UIView {
         
     }
     
-    func configureUI(_ data: WeatherModel) {
+    func configureUIByData(_ data: WeatherModel) {
         self.todayWeatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
         self.todayDegreeLabel.text = "\(data.temperaturePerHour ?? "")°"
 //        var temMax = String(format: "%d", data.temperatureMax ?? "")
@@ -286,8 +283,7 @@ class TodayWeatherView: UIView {
         
         var gradientByTemperature = self.setBackgroundColor(maxTemperature: data.temperatureMax ?? "0", minTemperature: data.temperatureMin ?? "0")
         self.layer.addSublayer(gradientByTemperature)
-        gradientByTemperature.frame = self.bounds
-        
+        gradientByTemperature.frame = self.frame
         
 //        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
 //        print("DEBUG: view model in view exists \(viewModel)")
