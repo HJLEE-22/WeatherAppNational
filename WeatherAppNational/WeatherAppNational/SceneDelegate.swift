@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // MARK: - JSON decoder part
         
-        let existedData = CoreDataManager.shared.getLocationGridListFromCoreData()
+        let existedData = CoreDataManager.shared.getLocationGridList()
         var locationGridModel: [LocationGridModel]?
         let fileName = CoreDataNames.fileName
         let fileType = CoreDataNames.fileType
@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.locationForDecoder = try JSONDecoder().decode([LocationGridModel].self, from: jsonDataLoaded)
                 if let locationForDecoder = locationForDecoder {
                     locationForDecoder.forEach {
-                        CoreDataManager.shared.saveLocationGridData(locationGrids: $0, completion: {})
+                        CoreDataManager.shared.saveLocationGridData(locationGrid: $0, completion: {})
                     }
                     UserDefaults.standard.set(true, forKey: "launchedBefore")
                     print("DEBUG: success to save")

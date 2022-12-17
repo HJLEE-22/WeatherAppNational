@@ -12,29 +12,11 @@ class CitiesListViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var cellDelegate: CellButtonActionDelegate?
-
     var name: String?
     
-    var city: LocationGridData? {
-        didSet {
-            guard let city = city else { return }
-            DispatchQueue.main.async {
-                self.configureUIByData(city)
-            }
-            if city.district != "" {
-                self.name = city.district
-            } else {
-                self.name = city.city
-            }
-        }
-    }
-    
-    lazy var bookmarkButton: UIButton = {
-        let button = UIButton(type: .system)
-        let bookmarkImage = UIImage(systemName: "star")
-//        print("DEBUG: button size", bookmarkImage?.size)
-        button.setImage(bookmarkImage, for: .normal)
+    lazy var bookmarkButton: TouchableOpacityImageView = {
+        let button = TouchableOpacityImageView(frame: .zero)
+        button.image = UIImage(systemName: "star")
         return button
     }()
     
@@ -66,7 +48,6 @@ class CitiesListViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
-        addActionToButton()
     }
     
     required init?(coder: NSCoder) {
@@ -100,23 +81,11 @@ class CitiesListViewCell: UITableViewCell {
         // UI updates 할 것
         self.cityLabel.text = data.city
         self.districtLabel.text = data.district
-
-    }
-    
-    func addActionToButton() {
-        self.bookmarkButton.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
-    }
-    
-    // MARK: - Actions
-    
-    @objc func bookmarkButtonTapped() {
-        guard let name = name else { return }
-        print("DEBUG: name touched \(name) ")
-        cellDelegate?.bookmarkButtonTapped(name)
-        if bookmarkButton.image(for: .normal) == UIImage(systemName: ImageSystemNames.star) {
-            bookmarkButton.setImage(UIImage(systemName: ImageSystemNames.starFill), for: .normal)
+        if data.bookmark {
+            self.bookmarkButton.image = UIImage(systemName: "star.fill")
         } else {
-            bookmarkButton.setImage(UIImage(systemName: ImageSystemNames.star), for: .normal)
+            self.bookmarkButton.image = UIImage(systemName: "star")
         }
     }
+    
 }

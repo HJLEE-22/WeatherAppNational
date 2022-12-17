@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct cellID {
+public struct CellID {
     static let forCitiesCell = "CitiesCellID"
     static let forCitiesListCell = "CitiesListCellID"
     static let forSettingsCell = "SettingsCellID"

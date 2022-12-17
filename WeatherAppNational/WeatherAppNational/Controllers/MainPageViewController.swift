@@ -16,9 +16,10 @@ class MainPageViewController: UIViewController {
     
     private var subViewControllers: [UIViewController] = []
     
-    var currentPage: Int = 0{
+    var currentPage: Int?{
         didSet {
-            bind(oldValue: oldValue, newValue: currentPage)
+            guard let currentPage = currentPage else { return }
+            bind(oldValue: oldValue ?? 0, newValue: currentPage)
         }
     }
 
@@ -53,11 +54,12 @@ class MainPageViewController: UIViewController {
 //        setupPageControll()
         pageViewController.didMove(toParent: self)
         setupViewControllers()
-        setViewControllersInPageVC()
         checkUserDeviceLocationServiceAuthorization()
     }
 
-    
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
     // MARK: - Helpers
     
     func setupLayout(){
@@ -76,7 +78,7 @@ class MainPageViewController: UIViewController {
     }
     
     func setupNav() {
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: AppFontName.bold, size: 12)!]
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: AppFontName.bold, size: 12)!]
         navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = listButton
         navigationItem.leftBarButtonItem = settingButton
@@ -177,11 +179,7 @@ class MainPageViewController: UIViewController {
         
     }
     
-//    @objc func settingButtonTapped() {
-//        show(SettingViewController(), sender: self)
-//        navigationController?.pushViewController(SettingViewController(), animated: true)
-//
-//    }
+
     
     @objc func settingButtonTapped() {
         let transition = CATransition()
@@ -190,7 +188,7 @@ class MainPageViewController: UIViewController {
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromLeft
         navigationController?.view.layer.add(transition, forKey: kCATransition)
-        self.navigationController?.pushViewController(SettingViewController(), animated: true)
+        show(SettingViewController(), sender: self)
     }
     
 }
@@ -199,6 +197,22 @@ class MainPageViewController: UIViewController {
 extension MainPageViewController {
     
     private func setupViewControllers(){
+        
+        let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
+        cities.forEach(){ location in
+            let vc = WeatherViewController()
+            guard let city = location.city,
+                  let district = location.district else { return }
+            let locationName = "\(city) \(district)"
+            let locationGridX = Int(location.gridX)
+            let locationGridY = Int(location.gridY)
+            vc.viewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
+            self.navigationItem.title = vc.viewModel.name
+            setViewControllersInPageVC()
+            subViewControllers.append(vc)
+        }
+        /*
+        
         if let cities = UserDefaultsUtil.shared.getCities() {
             cities.forEach() { city in
                 let vc = WeatherViewController()
@@ -207,26 +221,30 @@ extension MainPageViewController {
                 subViewControllers.append(vc)
             }
         } else {
+            // 기본값 살려두기?
             let vc = WeatherViewController()
             vc.viewModel = .init(name: "서울특별시", nx: 60, ny: 127)
             self.navigationItem.title = vc.viewModel.name
             let vc2 = WeatherViewController()
             vc2.viewModel = .init(name: "부산광역시", nx: 98, ny: 76)
             let vc3 = WeatherViewController()
-            vc3.viewModel = .init(name: "남양주시", nx: 60, ny: 127)
+            vc3.viewModel = .init(name: "광주광역시", nx: 58, ny: 74)
             let vc4 = WeatherViewController()
-            vc4.viewModel = .init(name: "광주광역시", nx: 98, ny: 76)
+            vc4.viewModel = .init(name: "남양주시", nx: 64, ny: 128)
             subViewControllers.append(vc)
             subViewControllers.append(vc2)
             subViewControllers.append(vc3)
             subViewControllers.append(vc4)
         }
+         */
             currentPage = 0
     }
     
     private func setViewControllersInPageVC() {
         if let firstVC = subViewControllers.first {
             pageViewController.setViewControllers([firstVC], direction: .forward, animated: false)
+            let vc = firstVC as? WeatherViewController
+            self.navigationItem.title = vc?.viewModel.name
         }
     }
     
