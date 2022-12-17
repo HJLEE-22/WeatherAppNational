@@ -238,45 +238,30 @@ extension CitiesViewController: UITableViewDropDelegate {
 
 // MARK: - 서치바 익스텐션
 extension CitiesViewController: UISearchBarDelegate {
-    // 서치바에서 검색을 시작할 때 호출
-//    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-//        getWeatherDataDependingText(searchBar: searchBar)
-//        self.cityListForSearchTableView.reloadData()
-//        navigationItem.rightBarButtonItem = .none
-//        searchBar.showsCancelButton = true
-//        cityListForSearchTableView.dragInteractionEnabled = false
-//    }
-    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text else {
-            // 🥵여기서 텍스트가 없을 시 전체목록을 가져오기
+        guard let text = searchBar.text else { return }
+        if text == "" {
             self.viewModel.getLocationGridForViewMdodel()
             cityListForSearchTableView.reloadData()
-            return
+        } else {
+            viewModel.getFilteredLocationGrid(by: text)
+            self.cityListForSearchTableView.reloadData()
+            navigationItem.rightBarButtonItem = .none
+            searchBar.showsCancelButton = true
+            cityListForSearchTableView.dragInteractionEnabled = false
         }
-        viewModel.getFilteredLocationGrid(by: text)
-        self.cityListForSearchTableView.reloadData()
-        navigationItem.rightBarButtonItem = .none
-        searchBar.showsCancelButton = true
-        cityListForSearchTableView.dragInteractionEnabled = false
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard let text = searchBar.text else {
-            // 여기서 텍스트가 없을 시 전체목록을 가져와야 할까?
-            return
-        }
+        guard let text = searchBar.text else { return }
         viewModel.getFilteredLocationGrid(by: text)
         self.cityListForSearchTableView.reloadData()
         cityListForSearchTableView.dragInteractionEnabled = false
     }
-    
+
     // 서치바에서 검색버튼을 눌렀을 때 호출
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text else {
-            // 여기서 텍스트가 없을 시 전체목록을 가져와야 할까?
-            return
-        }
+        guard let text = searchBar.text else { return }
         viewModel.getFilteredLocationGrid(by: text)
         self.cityListForSearchTableView.reloadData()
         searchBar.resignFirstResponder()
@@ -288,6 +273,8 @@ extension CitiesViewController: UISearchBarDelegate {
         searchBar.text = ""
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
+        viewModel.bindLocationGridData()
+        self.cityListForSearchTableView.reloadData()
     }
     
     // 서치바 검색이 끝났을 때 호출
