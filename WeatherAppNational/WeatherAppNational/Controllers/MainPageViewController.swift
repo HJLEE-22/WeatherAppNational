@@ -23,7 +23,11 @@ class MainPageViewController: UIViewController {
         }
     }
 
-    var locationManager = CLLocationManager()
+    lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        return manager
+    }()
     
     lazy var listButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(listButtonTapped))
@@ -44,22 +48,33 @@ class MainPageViewController: UIViewController {
         return pageVC
     }()
 
+    var convertedGridX: Int?
+    var convertedGridY: Int?
+
+    
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLayout()
+//        setupLayout()
         setupNav()
 //        setupPageControll()
         pageViewController.didMove(toParent: self)
-        setupViewControllers()
-        checkUserDeviceLocationServiceAuthorization()
+        checkLocationServiceAuthorizationByVersion(self.locationManager)
+//        setupViewControllers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
     }
+    
+//    override func didBecomeActive() {
+//        super.didBecomeActive()
+//
+//    }
+    
+    
     // MARK: - Helpers
     
     func setupLayout(){
@@ -78,7 +93,7 @@ class MainPageViewController: UIViewController {
     }
     
     func setupNav() {
-//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: AppFontName.bold, size: 12)!]
+
         navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = listButton
         navigationItem.leftBarButtonItem = settingButton
@@ -105,39 +120,34 @@ class MainPageViewController: UIViewController {
         pageControl.pageIndicatorTintColor = .systemBlue
         pageControl.currentPageIndicatorTintColor = .black
         pageControl.currentPage = 0
-        pageControl.numberOfPages = 4
+        pageControl.numberOfPages = subViewControllers.count
         self.view.addSubview(pageControl)
     }
     
-    func checkUserDeviceLocationServiceAuthorization() {
+    func checkLocationServiceAuthorizationByVersion(_ locationManager: CLLocationManager) {
             
         locationManager.delegate = self
-        guard CLLocationManager.locationServicesEnabled() else {
-            // 시스템 설정으로 유도하는 커스텀 얼럿
-            showRequestLocationServiceAlert()
-            return
-        }
-
-        let authorizationStatus: CLAuthorizationStatus
-            
-        // 앱의 권한 상태 가져오는 코드 (iOS 버전에 따라 분기처리)
         if #available(iOS 14.0, *) {
-            authorizationStatus = locationManager.authorizationStatus
-        }else {
-            authorizationStatus = CLLocationManager.authorizationStatus()
+            if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse {
+                // 여기서 위치권한이 있을때 실행할 코드 입력
+                locationManager.startUpdatingLocation()
+                
+            } else {
+                // 여기서 위치권환 off일때 실행할 코드 입력
+                switchUserCurrentLocationAuthorization(locationManager.authorizationStatus)
+            }
+        } else {
+            guard CLLocationManager.locationServicesEnabled() else {
+                // 시스템 설정으로 유도하는 커스텀 얼럿
+                switchUserCurrentLocationAuthorization(CLLocationManager.authorizationStatus())
+                return
+            }
         }
-            
-        // 권한 상태값에 따라 분기처리를 수행하는 메서드 실행
-        checkUserCurrentLocationAuthorization(authorizationStatus)
     }
     
-    func checkUserCurrentLocationAuthorization(_ status: CLAuthorizationStatus) {
+    func switchUserCurrentLocationAuthorization(_ status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:
-            // 사용자가 권한에 대한 설정을 선택하지 않은 상태
-            // 권한 요청을 보내기 전에 desiredAccuracy 설정 필요
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            
             // 권한 요청을 보낸다.
             locationManager.requestWhenInUseAuthorization()
                 
@@ -199,6 +209,15 @@ extension MainPageViewController {
 //        if 현재위치 받았으면 {
 //            현재위치VC 전체VC에 넣어주기
 //        }
+        if let currentGridX = convertedGridX,
+           let currentGridY = convertedGridY{
+            let vc = WeatherViewController()
+            vc.viewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
+            self.navigationItem.title = vc.viewModel.name
+            setViewControllersInPageVC()
+            subViewControllers.append(vc)
+            
+        }
         
         
         let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
@@ -301,7 +320,7 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
 extension MainPageViewController:CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("DidUpdateLocation")
+        print("DEBUG: DidUpdateLocation")
         
         // 위치 정보를 배열로 입력받는데, 마지막 index값이 가장 정확하다고 한다.
         if let coordinate = locations.last?.coordinate {
@@ -309,15 +328,19 @@ extension MainPageViewController:CLLocationManagerDelegate {
             print("DEBUG: 위도 \(coordinate.latitude)")
             print("DEBUG: 경도 \(coordinate.longitude)")
             
-            let lat = coordinate.latitude
-            let lon = coordinate.longitude
-            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: lat, lng_Y: lon)
+            let latitude = coordinate.latitude
+            let longitude = coordinate.longitude
+            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: latitude, lng_Y: longitude)
             print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
+            self.convertedGridX = convertedGrid.x
+            self.convertedGridY = convertedGrid.y
         }
         
         // startUpdatingLocation()을 사용하여 사용자 위치를 가져왔다면
         // 불필요한 업데이트를 방지하기 위해 stopUpdatingLocation을 호출
-        locationManager.stopUpdatingLocation()
+        manager.stopUpdatingLocation()
+        self.setupLayout()
+        self.setupViewControllers()
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -327,13 +350,13 @@ extension MainPageViewController:CLLocationManagerDelegate {
     // 앱에 대한 권한 설정이 변경되면 호출 (iOS 14 이상)
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         // 사용자 디바이스의 위치 서비스가 활성화 상태인지 확인하는 메서드 호출
-        checkUserDeviceLocationServiceAuthorization()
+        checkLocationServiceAuthorizationByVersion(manager)
     }
     
     // 앱에 대한 권한 설정이 변경되면 호출 (iOS 14 미만)
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // 사용자 디바이스의 위치 서비스가 활성화 상태인지 확인하는 메서드 호출
-        checkUserDeviceLocationServiceAuthorization()
+        checkLocationServiceAuthorizationByVersion(manager)
     }
 }
 
