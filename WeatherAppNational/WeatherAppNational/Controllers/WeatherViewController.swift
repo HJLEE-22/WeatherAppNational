@@ -11,10 +11,16 @@ class WeatherViewController: UIViewController {
     
     // MARK: - Properties
     private lazy var mainView = MainView()
-
-    var viewModel: WeatherViewModel! {
+    
+    var weatherViewModel: WeatherViewModel! {
         didSet {
-            viewModel.subscribe(observer: self)
+            weatherViewModel.subscribe(observer: self)
+        }
+    }
+    
+    var colorsViewModel: ColorsViewModel! {
+        didSet {
+            colorsViewModel.subscribe(observer: self)
         }
     }
     
@@ -25,10 +31,19 @@ class WeatherViewController: UIViewController {
         setupUI()
     }
     
-    deinit {
-        viewModel.unSubscribe(observer: self)
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//            DispatchQueue.main.async {
+//                self.mainView.todayWeatherView.backgroundGraidentLayer?.frame = self.mainView.todayWeatherView.bounds
+//                self.mainView.todayWeatherView.layer.addSublayer(self.mainView.todayWeatherView.backgroundGraidentLayer)
+//        }
+//    }
     
+    deinit {
+        weatherViewModel.unSubscribe(observer: self)
+        colorsViewModel.unSubscribe(observer: self)
+    }
+
     // MARK: - Helpers
     func setupUI() {
         self.view.addSubview(mainView)
@@ -38,10 +53,11 @@ class WeatherViewController: UIViewController {
             mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),
             mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            
         ])
     }
 }
+
+
 
 extension WeatherViewController: Observer {
     func update<T>(updateValue: T) {
@@ -52,6 +68,7 @@ extension WeatherViewController: Observer {
                 self?.mainView.todayWeatherView.weatherModel = value[.today]
             case .yesterday:
                 self?.mainView.yesterdayWeatherView.weatherModel = value[.yesterday]
+                self?.mainView.todayWeatherView.yesterdayDegree = value[.yesterday]?.temperaturePerHour
             case .tomorrow:
                 self?.mainView.tomorrowdayWeatherView.weatherModel = value[.tomorrow]
             case .none:
@@ -61,3 +78,20 @@ extension WeatherViewController: Observer {
     }
 }
 
+
+extension WeatherViewController: ColorsObserver {
+    func colorsUpdate<T>(updateValue: T) {
+        guard let value = updateValue as? [Day: CAGradientLayer] else { return }
+            switch value.first?.key {
+            case .today:
+                self.mainView.todayWeatherView.backgroundGraidentLayer = value[.today]
+                print("DEBUG: backgroundGraidentLayer:\(self.mainView.todayWeatherView.backgroundGraidentLayer)")
+            case .yesterday:
+                self.mainView.yesterdayWeatherView.backgroundGraidentLayer = value[.yesterday]
+            case .tomorrow:
+                self.mainView.tomorrowdayWeatherView.backgroundGraidentLayer = value[.tomorrow]
+            case .none:
+                break
+        }
+    }
+}

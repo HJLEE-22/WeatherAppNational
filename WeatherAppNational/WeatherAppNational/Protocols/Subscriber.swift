@@ -14,3 +14,9 @@ protocol Subscriber {
     func notify<T>(updateValue: T)
 }
 
+protocol ColorsSubscriber {
+    var observer: (any ColorsObserver)? { get set }
+    mutating func subscribe(observer: (any ColorsObserver)?)
+    mutating func unSubscribe(observer: (any ColorsObserver)?)
+    func notify<T>(updateValue: T)
+}

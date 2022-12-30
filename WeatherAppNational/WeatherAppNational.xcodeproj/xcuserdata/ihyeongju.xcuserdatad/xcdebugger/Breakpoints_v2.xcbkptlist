@@ -3,4 +3,118 @@
    uuid = "DE94C1C4-A80B-4DE1-BC36-DFA0ECD15483"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C5F9DCE9-1B2B-4BAA-A229-619FF425C7BC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Views/TodayWeatherView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "backgroundGraidentLayer"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9391EE35-5B98-41AA-997F-1F5E0AE36CB0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Views/TodayWeatherView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "backgroundGraidentLayer"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "9391EE35-5B98-41AA-997F-1F5E0AE36CB0 - d4a963294c0dcdaa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "9391EE35-5B98-41AA-997F-1F5E0AE36CB0 - d4a963294c0dcdaa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "232">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "542C3347-F24D-4131-A394-E7C3E0ABE938"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Views/TodayWeatherView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "backgroundGraidentLayer"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "542C3347-F24D-4131-A394-E7C3E0ABE938 - d4a963294c0dcd89"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
+                  offsetFromSymbolStart = "256">
+               </Location>
+               <Location
+                  uuid = "542C3347-F24D-4131-A394-E7C3E0ABE938 - 54d6a4f3ff93e15e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

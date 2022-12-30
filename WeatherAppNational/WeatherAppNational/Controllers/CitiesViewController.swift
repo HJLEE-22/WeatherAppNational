@@ -139,9 +139,9 @@ extension CitiesViewController: UITableViewDelegate {
         let selectedLocationGridX = Int(selectedLocation.gridX)
         let selectedLocationGridY = Int(selectedLocation.gridY)
         
-        weatherVC.viewModel = .init(name: selectedLocationName, nx: selectedLocationGridX, ny: selectedLocationGridY)
+        weatherVC.weatherViewModel = .init(name: selectedLocationName, nx: selectedLocationGridX, ny: selectedLocationGridY)
         show(weatherVC, sender: nil)
-        weatherVC.navigationItem.title = weatherVC.viewModel.name
+        weatherVC.navigationItem.title = weatherVC.weatherViewModel.name
         
         
     }

@@ -21,17 +21,35 @@ class TodayWeatherView: UIView {
     
     var buttonDelegate: UpdatingLocationButtonDelegate?
     
-    var timeDifferenceDelegate: TempDiffrenceDelegate?
+    var tempDifferenceDelegate: TempDiffrenceDelegate?
     
     // MARK: - Today's properties
     
     var weatherModel: WeatherModel? {
         didSet {
             if let weatherModel = weatherModel {
-                self.configureUIByData(weatherModel)
+                DispatchQueue.main.async {
+                    self.configureUIByData(weatherModel)
+                }
             }
         }
     }
+    
+    var backgroundGraidentLayer: CAGradientLayer? {
+        didSet {
+            if let backgroundGraidentLayer = backgroundGraidentLayer {
+                DispatchQueue.main.async {
+                    self.backgroundGraidentLayer?.frame = self.bounds
+                    print("DEBUG: backgroundGraidentLayer frame:\(self.backgroundGraidentLayer?.frame)")
+                    self.layer.addSublayer(backgroundGraidentLayer)
+                    print("DEBUG: Layer:\(self.layer)")
+
+                }
+            }
+        }
+    }
+
+    var yesterdayDegree: String?
     
     // 이미지와 온도 스택
     private lazy var todayWeatherImageView: UIImageView = {
@@ -44,9 +62,7 @@ class TodayWeatherView: UIView {
     private lazy var todayDegreeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 80)
-        
-        
+        label.font = UIFont.boldSystemFont(ofSize: 60)
         return label
     }()
     
@@ -58,16 +74,11 @@ class TodayWeatherView: UIView {
         return sv
     }()
     
-
-    
     // 온도 슬라이더 스택
     private lazy var todayDegreeSlider: UISlider = {
         let slider = UISlider()
         
         // 맥스와 미니멈 밸류는 오늘 최고/최저 기온으로 변경할 것
-        
-        slider.maximumValue = 50
-        slider.minimumValue = -50
         slider.thumbTintColor = .clear
         slider.isUserInteractionEnabled = false
         return slider
@@ -95,11 +106,10 @@ class TodayWeatherView: UIView {
     
     // 날씨 설명 스택
     
-    private lazy var todayExplanationLabel: UILabel = {
+    lazy var todayExplanationLabel: UILabel = {
         let label = UILabel()
-        label.text = "어제보다 -2° 추워요"
+        label.text = " "
         label.textAlignment = .left
-        
         return label
     }()
     
@@ -181,7 +191,7 @@ class TodayWeatherView: UIView {
         btn.setImage(UIImage(systemName: "location"), for: .normal)
         return btn
     }()
-    
+        
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -189,6 +199,8 @@ class TodayWeatherView: UIView {
         setupUI()
 //        setupDelegate()
         addActionToButton()
+
+
 
     }
     
@@ -246,11 +258,11 @@ class TodayWeatherView: UIView {
             todayDegreeSlider.heightAnchor.constraint(equalToConstant: 5),
             
             minLabelForSlider.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            minLabelForSlider.widthAnchor.constraint(equalToConstant: 50),
+            minLabelForSlider.widthAnchor.constraint(equalToConstant: 60),
             minLabelForSlider.heightAnchor.constraint(equalToConstant: 40),
             
             maxLabelForSlider.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
-            maxLabelForSlider.widthAnchor.constraint(equalToConstant: 50),
+            maxLabelForSlider.widthAnchor.constraint(equalToConstant: 60),
             maxLabelForSlider.heightAnchor.constraint(equalToConstant: 40),
             
             todayExplanationLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
@@ -262,9 +274,7 @@ class TodayWeatherView: UIView {
             
             currentLocationButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             currentLocationButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
-
         ])
-        
     }
     
     func configureUIByData(_ data: WeatherModel) {
@@ -276,33 +286,42 @@ class TodayWeatherView: UIView {
         self.maxLabelForSlider.text = "\(data.temperatureMax ?? "")°"
         self.minLabelForSlider.text = "\(data.temperatureMin ?? "")°"
         self.todayDegreeSlider.value = (data.temperaturePerHour as? NSString ?? "0" ).floatValue
+        self.todayDegreeSlider.maximumValue = (data.temperatureMax as? NSString ?? "0" ).floatValue
+        self.todayDegreeSlider.minimumValue = (data.temperatureMin as? NSString ?? "0" ).floatValue
         self.windSpeedLabel.text = data.windSpeed ?? ""
         self.nowHumidityLabel.text = data.humidityStatus ?? ""
-        self.todayExplanationLabel.text = self.timeDifferenceDelegate?.fetchYesterdayTemp()
-        print("DEBUG: fetching yesterday temp \(self.timeDifferenceDelegate?.fetchYesterdayTemp())")
-        
-        var gradientByTemperature = self.setBackgroundColor(maxTemperature: data.temperatureMax ?? "0", minTemperature: data.temperatureMin ?? "0")
-        self.layer.addSublayer(gradientByTemperature)
-        gradientByTemperature.frame = self.frame
-        
+        self.todayExplanationLabel.text = calculateDegreeExplanation(data)
+
 //        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
 //        print("DEBUG: view model in view exists \(viewModel)")
         addActionToButton()
     }
-
-//    func setTodayExplanationLabel() -> String {
-//
-//        
-//    }
-
-//    var todayDegreenMessage: NSAttributedString {
-//        let todayDegree =
-//        let attributedText = NSMutableAttributedString(string: username, attributes: [.font: UIFont.boldSystemFont(ofSize: 14)])
-//            attributedText.append(NSAttributedString(string: message, attributes: [.font: UIFont.systemFont(ofSize: 14)]))
-//            attributedText.append(NSAttributedString(string: "  2m", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.lightGray]))
-//            return attributedText
-//        }
     
+    func calculateDegreeExplanation(_ data: WeatherModel) -> String {
+
+        guard let yesterdayDegreeString = yesterdayDegree,
+              let todayDegreeString = data.temperaturePerHour else { return "" }
+        let todayDegree = (todayDegreeString as NSString).intValue
+        let yesterdayDegree = (yesterdayDegreeString as NSString).intValue
+        
+        switch todayDegree {
+        case ..<20:
+            if todayDegree > yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 따뜻합니다."
+            } else if todayDegree < yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 춥습니다."
+            }
+        case 20...:
+            if todayDegree > yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 덥습니다."
+            } else if todayDegree < yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 시원합니다."
+            }
+        default:
+            break
+        }
+        return ""
+    }
     
     func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String) -> UIImage {
         if rainStatusCategory == "0" {
@@ -335,71 +354,8 @@ class TodayWeatherView: UIView {
         return UIImage()
     }
     
-    func setBackgroundColor(maxTemperature: String, minTemperature: String) -> CAGradientLayer {
-        let maxColor = switchColorsForBackground(temperature: Int((maxTemperature as NSString).intValue))
-        let minColor = switchColorsForBackground(temperature: Int((minTemperature as NSString).intValue))
-        let gradient = CAGradientLayer()
-        gradient.colors = [maxColor, minColor]
-        gradient.locations = [0, 1]
-        return gradient
-    }
-            
-    func switchColorsForBackground(temperature: Int) -> UIColor? {
-        var choosenColor: UIColor?
-        switch temperature {
-        case 39...:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor39)
-        case 36..<39:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor36)
-        case 33..<36:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor33)
-        case 30..<33:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor30)
-        case 27..<30:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor27)
-        case 24..<27:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor24)
-        case 21..<24:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor21)
-        case 18..<21:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor18)
-        case 15..<18:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor15)
-        case 12..<15:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor12)
-        case 9..<12:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor09)
-        case 6..<9:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor06)
-        case 3..<6:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor03)
-        case 0..<3:
-            choosenColor = UIColor(named: ColorsByTemperature.colorFor0)
-        case -5..<0:
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus5)
-        case -10 ..< -5:
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus10)
-        case -15 ..< -10:
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus15)
-        case -20 ..< -15:
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus20)
-        case -25 ..< -20:
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus25)
-        case -30 ..< -25:
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus30)
-        case -35 ..< -30:
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus35)
-        case -40 ..< -35 :
-            choosenColor = UIColor(named: ColorsByTemperature.colorForMinus40)
-        default :
-            choosenColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        }
-        return choosenColor
-    }
+    
                 
-
-    
-    
     func addActionToButton() {
         self.currentLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }

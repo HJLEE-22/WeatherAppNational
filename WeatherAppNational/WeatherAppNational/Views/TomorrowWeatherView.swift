@@ -19,6 +19,16 @@ class TomorrowWeatherView: UIView {
         }
     }
     
+    var backgroundGraidentLayer: CAGradientLayer? {
+        didSet {
+            if let backgroundGraidentLayer = backgroundGraidentLayer {
+                DispatchQueue.main.async {
+                    
+                }
+            }
+        }
+    }
+    
     private lazy var tomorrowTitleLabel: UILabel = {
        let label = UILabel()
         label.text = "내일"
@@ -127,15 +137,13 @@ class TomorrowWeatherView: UIView {
             weatherImageView.heightAnchor.constraint(equalToConstant: 130),
 
         ])
-        
-        
     }
     
     // MARK: - Helpers
     
     func configureUI(_ data: WeatherModel) {
         self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
-        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°C"
+        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°"
         self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
         self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
 //        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)

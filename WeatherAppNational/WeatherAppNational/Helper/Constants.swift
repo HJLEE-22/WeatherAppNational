@@ -44,3 +44,9 @@ public struct ImageSystemNames {
     static let star = "star"
     static let starFill = "star.fill"
 }
+
+public enum Day {
+    case today
+    case yesterday
+    case tomorrow
+}

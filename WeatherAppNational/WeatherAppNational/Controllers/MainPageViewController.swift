@@ -65,14 +65,6 @@ class MainPageViewController: UIViewController {
 //        setupViewControllers()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-//    override func didBecomeActive() {
-//        super.didBecomeActive()
-//
-//    }
     
     
     // MARK: - Helpers
@@ -212,13 +204,12 @@ extension MainPageViewController {
         if let currentGridX = convertedGridX,
            let currentGridY = convertedGridY{
             let vc = WeatherViewController()
-            vc.viewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
-            self.navigationItem.title = vc.viewModel.name
+            vc.weatherViewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
+            vc.colorsViewModel = .init(weatherViewModel: vc.weatherViewModel)
+            self.navigationItem.title = vc.weatherViewModel.name
             setViewControllersInPageVC()
             subViewControllers.append(vc)
-            
         }
-        
         
         let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
         cities.forEach(){ location in
@@ -228,37 +219,12 @@ extension MainPageViewController {
             let locationName = "\(city) \(district)"
             let locationGridX = Int(location.gridX)
             let locationGridY = Int(location.gridY)
-            vc.viewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
-            self.navigationItem.title = vc.viewModel.name
+            vc.weatherViewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
+            vc.colorsViewModel = .init(weatherViewModel: vc.weatherViewModel)
+            self.navigationItem.title = vc.weatherViewModel.name
             setViewControllersInPageVC()
             subViewControllers.append(vc)
         }
-        /*
-        
-        if let cities = UserDefaultsUtil.shared.getCities() {
-            cities.forEach() { city in
-                let vc = WeatherViewController()
-                vc.viewModel = .init(name: city.name, nx: city.nx, ny: city.ny)
-                self.navigationItem.title = vc.viewModel.name
-                subViewControllers.append(vc)
-            }
-        } else {
-            // 기본값 살려두기?
-            let vc = WeatherViewController()
-            vc.viewModel = .init(name: "서울특별시", nx: 60, ny: 127)
-            self.navigationItem.title = vc.viewModel.name
-            let vc2 = WeatherViewController()
-            vc2.viewModel = .init(name: "부산광역시", nx: 98, ny: 76)
-            let vc3 = WeatherViewController()
-            vc3.viewModel = .init(name: "광주광역시", nx: 58, ny: 74)
-            let vc4 = WeatherViewController()
-            vc4.viewModel = .init(name: "남양주시", nx: 64, ny: 128)
-            subViewControllers.append(vc)
-            subViewControllers.append(vc2)
-            subViewControllers.append(vc3)
-            subViewControllers.append(vc4)
-        }
-         */
             currentPage = 0
     }
     
@@ -266,7 +232,7 @@ extension MainPageViewController {
         if let firstVC = subViewControllers.first {
             pageViewController.setViewControllers([firstVC], direction: .forward, animated: false)
             let vc = firstVC as? WeatherViewController
-            self.navigationItem.title = vc?.viewModel.name
+            self.navigationItem.title = vc?.weatherViewModel.name
         }
     }
     
@@ -309,7 +275,7 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
         if completed {
             DispatchQueue.main.async {
                 let weatherVC = currentVC as! WeatherViewController
-                self.navigationItem.title = weatherVC.viewModel.name
+                self.navigationItem.title = weatherVC.weatherViewModel.name
             }
         }
     }

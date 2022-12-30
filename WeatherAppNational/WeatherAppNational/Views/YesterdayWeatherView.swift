@@ -21,6 +21,16 @@ class YesterdayWeatherView: UIView {
         }
     }
     
+    var backgroundGraidentLayer: CAGradientLayer? {
+        didSet {
+            if let backgroundGraidentLayer = backgroundGraidentLayer {
+                DispatchQueue.main.async {
+                    
+                }
+            }
+        }
+    }
+    
     private lazy var yesterdayTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "어제"
@@ -99,14 +109,12 @@ class YesterdayWeatherView: UIView {
     }()
     
     
-    
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
         setupDelegate()
-        print("DEBUG: yesterday temp2: \(yesterdayTemp)")
 
     }
     
@@ -115,8 +123,7 @@ class YesterdayWeatherView: UIView {
     }
     
     func setupDelegate(){
-        let todayWeatherView = TodayWeatherView()
-        todayWeatherView.timeDifferenceDelegate = self
+        TodayWeatherView().tempDifferenceDelegate = self
     }
     
     // MARK: - UI setup
@@ -146,7 +153,7 @@ class YesterdayWeatherView: UIView {
     
     func configureUI(_ data: WeatherModel) {
         self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
-        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°C"
+        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°"
         self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
         self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
         self.yesterdayTemp = data.temperaturePerHour ?? ""
