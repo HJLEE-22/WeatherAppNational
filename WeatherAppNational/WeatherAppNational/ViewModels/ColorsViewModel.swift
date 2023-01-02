@@ -11,49 +11,29 @@ class ColorsViewModel {
     
     // MARK: - Properties
     
-    var observer: (any ColorsObserver)?
+    var colorsObserver: (any ColorsObserver)?
     
-    var todayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
+    var backgroundColorLayer: CAGradientLayer = CAGradientLayer() {
         didSet {
-            notify(updateValue: [Day.today: todayBackgroundColorLayer])
+            notify(updateValue: backgroundColorLayer)
         }
     }
-    var yesterdayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
-        didSet {
-            notify(updateValue: [Day.yesterday: yesterdayBackgroundColorLayer])
-        }
-    }
-    var tomorrowBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
-        didSet {
-            notify(updateValue: [Day.tomorrow: tomorrowBackgroundColorLayer])
-        }
-    }
-    
+
     // MARK: - Life cycle
     
-    init(weatherViewModel: WeatherViewModel) {
-        bind(weatherViewModel: weatherViewModel)
+    init(weatherModel: WeatherModel?) {
+        bind(weatherModel: weatherModel)
     }
 
-    
     // MARK: - Helpers
     
-    func bind(weatherViewModel: WeatherViewModel?) {
-        guard let viewModel = weatherViewModel,
-              // viewModel은 받아왔지만, viewModel 안의 today/yesterday/tomorrow WeatherModel들은 생성이 아직 안된 상태
-              // 데이터 로드 속도에 따른 듯.
-              // 따라서, gaurd문으로 식 종료. todayBackgroundLayer가 호출되지 않음으로 didSet도 움직이지 않아 notify로 동작하는
-              // ColorsViewModel의 observer도 동작 안함...
-              let todayMax = viewModel.todayWeatherModel.temperatureMax,
-              let todayMin = viewModel.todayWeatherModel.temperatureMin,
-              let yesterdayMax = viewModel.yesterdayWeatherModel.temperatureMax,
-              let yesterdayMin = viewModel.yesterdayWeatherModel.temperatureMin,
-              let tomorrowMax = viewModel.tomorrowWeatherModel.temperatureMax,
-              let tomorrowMin = viewModel.tomorrowWeatherModel.temperatureMin else { return }
-
-        todayBackgroundColorLayer = setBackgroundColor(maxTemperature: todayMax, minTemperature: todayMin)
-        yesterdayBackgroundColorLayer = setBackgroundColor(maxTemperature: yesterdayMax, minTemperature: yesterdayMin)
-        tomorrowBackgroundColorLayer = setBackgroundColor(maxTemperature: tomorrowMax, minTemperature: tomorrowMin)
+    func bind(weatherModel: WeatherModel?) {
+        guard let weatherModel,
+// 왜 bind할 때 colorsObserver가 계속 nil이 되지?
+              let maxTemperature = weatherModel.temperatureMax,
+              let minTemperature = weatherModel.temperatureMin else { return }
+              
+        self.backgroundColorLayer = setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
     }
     
     func setBackgroundColor(maxTemperature: String, minTemperature: String) -> CAGradientLayer {
@@ -121,15 +101,15 @@ class ColorsViewModel {
 
 extension ColorsViewModel: ColorsSubscriber {
     func subscribe(observer: (ColorsObserver)?) {
-        self.observer = observer
+        self.colorsObserver = observer
     }
     
     func unSubscribe(observer: (ColorsObserver)?) {
-        self.observer = nil
+        self.colorsObserver = nil
     }
     
     func notify<T>(updateValue: T) {
-        observer?.colorsUpdate(updateValue: updateValue)
+        colorsObserver?.colorsUpdate(updateValue: updateValue)
     }
 }
 

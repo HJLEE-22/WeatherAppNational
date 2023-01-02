@@ -10,7 +10,7 @@ import UIKit
 class WeatherViewController: UIViewController {
     
     // MARK: - Properties
-    private lazy var mainView = MainView()
+    lazy var mainView = MainView()
     
     var weatherViewModel: WeatherViewModel! {
         didSet {
@@ -31,14 +31,6 @@ class WeatherViewController: UIViewController {
         setupUI()
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//            DispatchQueue.main.async {
-//                self.mainView.todayWeatherView.backgroundGraidentLayer?.frame = self.mainView.todayWeatherView.bounds
-//                self.mainView.todayWeatherView.layer.addSublayer(self.mainView.todayWeatherView.backgroundGraidentLayer)
-//        }
-//    }
-    
     deinit {
         weatherViewModel.unSubscribe(observer: self)
         colorsViewModel.unSubscribe(observer: self)
@@ -57,8 +49,6 @@ class WeatherViewController: UIViewController {
     }
 }
 
-
-
 extension WeatherViewController: Observer {
     func update<T>(updateValue: T) {
         guard let value = updateValue as? [Day: WeatherModel] else { return }
@@ -66,11 +56,14 @@ extension WeatherViewController: Observer {
             switch value.first?.key {
             case .today:
                 self?.mainView.todayWeatherView.weatherModel = value[.today]
+                self?.colorsViewModel = .init(weatherModel: value[.today])
             case .yesterday:
                 self?.mainView.yesterdayWeatherView.weatherModel = value[.yesterday]
                 self?.mainView.todayWeatherView.yesterdayDegree = value[.yesterday]?.temperaturePerHour
+                self?.colorsViewModel = .init(weatherModel: value[.yesterday])
             case .tomorrow:
                 self?.mainView.tomorrowdayWeatherView.weatherModel = value[.tomorrow]
+                self?.colorsViewModel = .init(weatherModel: value[.tomorrow])
             case .none:
                 break
             }
@@ -78,7 +71,18 @@ extension WeatherViewController: Observer {
     }
 }
 
+extension WeatherViewController: ColorsObserver {
+    func colorsUpdate<T>(updateValue: T) {
+        print("DEBUG: checking for colorsObserver:\(updateValue)")
+// 문제: colorsViewModel을 subscribe할 때 observer를 self로 등록했음에도 계속 nil...
+        // 아닌데? nil 아니고 제대로 self(VC) 받는데?
+        // -> 저기선 nil이 아닌데, ColorsVM에서 nil이 된다!
+        guard let value = updateValue as? CAGradientLayer else { return }
+        
+    }
+}
 
+/*
 extension WeatherViewController: ColorsObserver {
     func colorsUpdate<T>(updateValue: T) {
         guard let value = updateValue as? [Day: CAGradientLayer] else { return }
@@ -95,3 +99,6 @@ extension WeatherViewController: ColorsObserver {
         }
     }
 }
+*/
+
+

@@ -114,7 +114,6 @@ class YesterdayWeatherView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        setupDelegate()
 
     }
     
@@ -122,9 +121,6 @@ class YesterdayWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupDelegate(){
-        TodayWeatherView().tempDifferenceDelegate = self
-    }
     
     // MARK: - UI setup
     
@@ -196,10 +192,3 @@ class YesterdayWeatherView: UIView {
     }
 }
 
-extension YesterdayWeatherView: TempDiffrenceDelegate {
-    func fetchYesterdayTemp() -> String {
-//        guard let yesterdayTemp = yesterdayTemp else { return ""}
-        print("DEBUG: yesterday temp1: \(yesterdayTemp)")
-        return yesterdayTemp
-    }
-}

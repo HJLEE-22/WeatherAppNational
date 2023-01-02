@@ -82,9 +82,9 @@ class CitiesListViewCell: UITableViewCell {
         self.cityLabel.text = data.city
         self.districtLabel.text = data.district
         if data.bookmark {
-            self.bookmarkButton.image = UIImage(systemName: "star.fill")
+            self.bookmarkButton.image = UIImage(systemName: SystemIconNames.starFill)
         } else {
-            self.bookmarkButton.image = UIImage(systemName: "star")
+            self.bookmarkButton.image = UIImage(systemName: SystemIconNames.star)
         }
     }
     

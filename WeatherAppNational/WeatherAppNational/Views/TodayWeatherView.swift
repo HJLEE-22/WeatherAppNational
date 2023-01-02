@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol TempDiffrenceDelegate: AnyObject {
-    func fetchYesterdayTemp() -> String
-}
-
 protocol UpdatingLocationButtonDelegate {
     func updatingLocationButtonTapped()
 }
@@ -20,30 +16,30 @@ class TodayWeatherView: UIView {
     // MARK: - Delegate Property
     
     var buttonDelegate: UpdatingLocationButtonDelegate?
-    
-    var tempDifferenceDelegate: TempDiffrenceDelegate?
-    
+
     // MARK: - Today's properties
+
     
     var weatherModel: WeatherModel? {
         didSet {
             if let weatherModel = weatherModel {
                 DispatchQueue.main.async {
                     self.configureUIByData(weatherModel)
+                    self.configureBackgroundColorByColorsViewModel(weatherModel)
                 }
             }
         }
     }
     
-    var backgroundGraidentLayer: CAGradientLayer? {
+    
+    var backgroundGradientLayer: CAGradientLayer? {
         didSet {
-            if let backgroundGraidentLayer = backgroundGraidentLayer {
+            if let backgroundGraidentLayer = backgroundGradientLayer {
                 DispatchQueue.main.async {
-                    self.backgroundGraidentLayer?.frame = self.bounds
-                    print("DEBUG: backgroundGraidentLayer frame:\(self.backgroundGraidentLayer?.frame)")
+                    self.backgroundGradientLayer?.frame = self.bounds
+                    print("DEBUG: backgroundGraidentLayer frame:\(self.backgroundGradientLayer?.frame)")
                     self.layer.addSublayer(backgroundGraidentLayer)
                     print("DEBUG: Layer:\(self.layer)")
-
                 }
             }
         }
@@ -186,37 +182,31 @@ class TodayWeatherView: UIView {
         
     }()
     
-    private lazy var currentLocationButton: UIButton = {
+    private lazy var updateLocationButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setImage(UIImage(systemName: "location"), for: .normal)
+        btn.setImage(UIImage(systemName: SystemIconNames.update), for: .normal)
         return btn
     }()
         
+
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-//        setupDelegate()
         addActionToButton()
-
-
-
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    func setupDelegate() {
-//        var delegate: TempDiffrenceDelegate?
-//    }
+
     
     // MARK: - UI setup
     
     func setupUI() {
         self.addSubview(todayStackView)
-        self.addSubview(currentLocationButton)
+        self.addSubview(updateLocationButton)
         
         todayWeatherImageView.translatesAutoresizingMaskIntoConstraints = false
         todayDegreeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -237,7 +227,7 @@ class TodayWeatherView: UIView {
         
         todayStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        currentLocationButton.translatesAutoresizingMaskIntoConstraints = false
+        updateLocationButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             todayStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -272,17 +262,14 @@ class TodayWeatherView: UIView {
             humadityAndTemperatureStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
             humadityAndTemperatureStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
             
-            currentLocationButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            currentLocationButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+            updateLocationButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            updateLocationButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
     }
     
     func configureUIByData(_ data: WeatherModel) {
         self.todayWeatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
         self.todayDegreeLabel.text = "\(data.temperaturePerHour ?? "")°"
-//        var temMax = String(format: "%d", data.temperatureMax ?? "")
-//        print("DEBUG: temMax: \(temMax)")
-//        print("DEBUG: temperatureMax : \(data.temperatureMax)")
         self.maxLabelForSlider.text = "\(data.temperatureMax ?? "")°"
         self.minLabelForSlider.text = "\(data.temperatureMin ?? "")°"
         self.todayDegreeSlider.value = (data.temperaturePerHour as? NSString ?? "0" ).floatValue
@@ -291,10 +278,16 @@ class TodayWeatherView: UIView {
         self.windSpeedLabel.text = data.windSpeed ?? ""
         self.nowHumidityLabel.text = data.humidityStatus ?? ""
         self.todayExplanationLabel.text = calculateDegreeExplanation(data)
-
-//        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
-//        print("DEBUG: view model in view exists \(viewModel)")
-        addActionToButton()
+        self.addActionToButton()
+    }
+    
+    func configureBackgroundColorByColorsViewModel(_ data: WeatherModel) {
+        
+        
+//        self.backgroundGradientLayer?.frame = self.bounds
+//        guard let backgroundGradientLayer else { return }
+//        self.layer.addSublayer(backgroundGradientLayer)
+        
     }
     
     func calculateDegreeExplanation(_ data: WeatherModel) -> String {
@@ -357,13 +350,14 @@ class TodayWeatherView: UIView {
     
                 
     func addActionToButton() {
-        self.currentLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
+        self.updateLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Actions
     
     @objc func locationButtonTapped() {
         buttonDelegate?.updatingLocationButtonTapped()
+
     }
     
 }

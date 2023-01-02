@@ -30,12 +30,12 @@ class MainPageViewController: UIViewController {
     }()
     
     lazy var listButton: UIBarButtonItem = {
-        let btn = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(listButtonTapped))
+        let btn = UIBarButtonItem(image: UIImage(systemName: SystemIconNames.listDash), style: .plain, target: self, action: #selector(listButtonTapped))
         return btn
     }()
     
     lazy var settingButton: UIBarButtonItem = {
-        let btn = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingButtonTapped))
+        let btn = UIBarButtonItem(image: UIImage(systemName: SystemIconNames.gearShape), style: .plain, target: self, action: #selector(settingButtonTapped))
         return btn
     }()
 
@@ -50,27 +50,28 @@ class MainPageViewController: UIViewController {
 
     var convertedGridX: Int?
     var convertedGridY: Int?
-
     
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupLayout()
         setupNav()
 //        setupPageControll()
         pageViewController.didMove(toParent: self)
         checkLocationServiceAuthorizationByVersion(self.locationManager)
-//        setupViewControllers()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupViewControllersForBookmarked()
+    }
     
     
     // MARK: - Helpers
     
     func setupLayout(){
-        addChild(pageViewController)
+        self.addChild(pageViewController)
         view.addSubview(pageViewController.view)
         
         pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -204,11 +205,28 @@ extension MainPageViewController {
         if let currentGridX = convertedGridX,
            let currentGridY = convertedGridY{
             let vc = WeatherViewController()
+            
             vc.weatherViewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
-            vc.colorsViewModel = .init(weatherViewModel: vc.weatherViewModel)
+            
             self.navigationItem.title = vc.weatherViewModel.name
-            setViewControllersInPageVC()
             subViewControllers.append(vc)
+            setupFisrtViewController()
+        }
+            currentPage = 0
+    }
+    
+    private func setupViewControllersForBookmarked(){
+
+        subViewControllers.removeAll()
+        
+        if let currentGridX = convertedGridX,
+           let currentGridY = convertedGridY{
+            let vc = WeatherViewController()
+            vc.weatherViewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
+            vc.mainView.todayWeatherView.buttonDelegate = self
+            self.navigationItem.title = vc.weatherViewModel.name
+            subViewControllers.append(vc)
+            setupFisrtViewController()
         }
         
         let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
@@ -220,15 +238,15 @@ extension MainPageViewController {
             let locationGridX = Int(location.gridX)
             let locationGridY = Int(location.gridY)
             vc.weatherViewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
-            vc.colorsViewModel = .init(weatherViewModel: vc.weatherViewModel)
+            vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherViewModel.name
-            setViewControllersInPageVC()
             subViewControllers.append(vc)
+            setupFisrtViewController()
         }
             currentPage = 0
     }
     
-    private func setViewControllersInPageVC() {
+    private func setupFisrtViewController() {
         if let firstVC = subViewControllers.first {
             pageViewController.setViewControllers([firstVC], direction: .forward, animated: false)
             let vc = firstVC as? WeatherViewController
@@ -238,8 +256,9 @@ extension MainPageViewController {
     
     // 어떻게 활용하지??
     private func bind(oldValue: Int, newValue: Int) {
-//                let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
-//                pageViewController.setViewControllers([subViewControllers[currentPage]], direction: direction, animated: false, completion: nil)
+//        guard let currentPage else { return }
+//        let direction: UIPageViewController.NavigationDirection = oldValue < newValue ? .forward : .reverse
+//        pageViewController.setViewControllers([subViewControllers[currentPage]], direction: direction, animated: false, completion: nil)
     }
 }
 
@@ -305,6 +324,7 @@ extension MainPageViewController:CLLocationManagerDelegate {
         // startUpdatingLocation()을 사용하여 사용자 위치를 가져왔다면
         // 불필요한 업데이트를 방지하기 위해 stopUpdatingLocation을 호출
         manager.stopUpdatingLocation()
+        // 가져온 Location으로 현재위치 날씨를 VC에 추가
         self.setupLayout()
         self.setupViewControllers()
     }
@@ -329,16 +349,7 @@ extension MainPageViewController:CLLocationManagerDelegate {
 // MARK: - Location Button Delegate
 extension MainPageViewController: UpdatingLocationButtonDelegate {
     func updatingLocationButtonTapped() {
-        print("DEBUG: check for location button ")
-
-        if locationManager.allowsBackgroundLocationUpdates {
-            print("DEBUG: update to allow for location ")
-            locationManager.stopUpdatingLocation()
-        } else {
-            print("DEBUG: update to reject for location")
-            locationManager.startUpdatingLocation()
-        }
-        
+        print("DEBUG: check for location button!")
+        self.setupViewControllersForBookmarked()
     }
-    
 }

@@ -7,63 +7,111 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C5F9DCE9-1B2B-4BAA-A229-619FF425C7BC"
+            uuid = "24ADCD38-30B3-4147-87E8-30AAC7CFD6B7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherAppNational/Views/TodayWeatherView.swift"
+            filePath = "WeatherAppNational/Controllers/WeatherViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "backgroundGraidentLayer"
-            landmarkType = "24">
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "colorsUpdate(updateValue:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9391EE35-5B98-41AA-997F-1F5E0AE36CB0"
+            uuid = "51A9CB65-5230-4D33-A2F8-7CB8FB9DC21F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherAppNational/Views/TodayWeatherView.swift"
+            filePath = "WeatherAppNational/Controllers/WeatherViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "backgroundGraidentLayer"
-            landmarkType = "24">
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "colorsUpdate(updateValue:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E0BE513-15E0-48E0-B2FA-168BDD5579D2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/WeatherViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "update(updateValue:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74E5E4A6-BB51-4BF1-9D6A-54EE99C08D43"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/ColorsViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "init(weatherModel:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CD150BC3-8288-4A74-8467-DB05936293CE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/ColorsViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "bind(weatherModel:)"
+            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "9391EE35-5B98-41AA-997F-1F5E0AE36CB0 - d4a963294c0dcdaa"
+                  uuid = "CD150BC3-8288-4A74-8467-DB05936293CE - db98fd0f5eafe716"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
+                  symbolName = "WeatherAppNational.ColorsViewModel.bind(weatherModel: Swift.Optional&lt;WeatherAppNational.WeatherModel&gt;) -&gt; ()"
                   moduleName = "WeatherAppNational"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/ColorsViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "148">
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "124">
                </Location>
                <Location
-                  uuid = "9391EE35-5B98-41AA-997F-1F5E0AE36CB0 - d4a963294c0dcdaa"
+                  uuid = "CD150BC3-8288-4A74-8467-DB05936293CE - db98fd0f5eafe716"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
+                  symbolName = "WeatherAppNational.ColorsViewModel.bind(weatherModel: Swift.Optional&lt;WeatherAppNational.WeatherModel&gt;) -&gt; ()"
                   moduleName = "WeatherAppNational"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/ColorsViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "232">
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "176">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -71,49 +119,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "542C3347-F24D-4131-A394-E7C3E0ABE938"
+            uuid = "D263EFB5-D22A-43D1-8CCE-D182E36836BB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WeatherAppNational/Views/TodayWeatherView.swift"
+            filePath = "WeatherAppNational/ViewModels/ColorsViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "backgroundGraidentLayer"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "backgroundColorLayer"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "542C3347-F24D-4131-A394-E7C3E0ABE938 - d4a963294c0dcd89"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
-                  moduleName = "WeatherAppNational"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "41"
-                  endingLineNumber = "41"
-                  offsetFromSymbolStart = "256">
-               </Location>
-               <Location
-                  uuid = "542C3347-F24D-4131-A394-E7C3E0ABE938 - 54d6a4f3ff93e15e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in WeatherAppNational.TodayWeatherView.backgroundGraidentLayer.didset : Swift.Optional&lt;__C.CAGradientLayer&gt;"
-                  moduleName = "WeatherAppNational"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational/WeatherAppNational/WeatherAppNational/Views/TodayWeatherView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

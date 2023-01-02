@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               let jsonDataLoaded = loadJsonData(fileLocation: jsonPath)
         else { return }
         
-        if UserDefaults.standard.bool(forKey: "launchedBefore") == true {
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == true {
         } else {
             do {
                 self.locationForDecoder = try JSONDecoder().decode([LocationGridModel].self, from: jsonDataLoaded)
@@ -39,7 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     locationForDecoder.forEach {
                         CoreDataManager.shared.saveLocationGridData(locationGrid: $0, completion: {})
                     }
-                    UserDefaults.standard.set(true, forKey: "launchedBefore")
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKeys.launchedBefore)
                     print("DEBUG: success to save")
                 }
             } catch {
