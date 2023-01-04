@@ -37,15 +37,7 @@ class CitiesViewController: UIViewController  {
     }
     
     // MARK: - Helpers
-    //
-    // 어차피 viewModel 객체 만들때 인스턴스 생성하는데
-    // 구지 초기화 구문이나, viewModel = CitiesViewModel()과 같은 대입 구문이 필요할까?
-    // 객체만들 때 인스턴스 생성 시 장점 : 강제옵셔널해제 안해도 됨
-//
-//    func setupViewModel() {
-//        self.viewModel = .init()
-//    }
-    
+
     func setupSearchbar() {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         navigationItem.titleView = searchBar
@@ -74,7 +66,7 @@ class CitiesViewController: UIViewController  {
         cityListForSearchTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cityListForSearchTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            cityListForSearchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            cityListForSearchTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             cityListForSearchTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cityListForSearchTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])

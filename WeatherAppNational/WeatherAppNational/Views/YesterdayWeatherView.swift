@@ -99,7 +99,7 @@ class YesterdayWeatherView: UIView {
     }()
     
     private lazy var mainStackView : UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [dayLabelStackView, mainTemperatureLabel, tempLabelStackView, weatherImageView])
+        let sv = UIStackView(arrangedSubviews: [yesterdayTitleLabel, yesterdayDateLabel, mainTemperatureLabel, tempLabelStackView, weatherImageView])
         sv.axis = .vertical
         sv.distribution = .equalSpacing
         sv.alignment = .center
@@ -134,14 +134,12 @@ class YesterdayWeatherView: UIView {
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
-        
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
             weatherImageView.widthAnchor.constraint(equalToConstant: 130),
-            weatherImageView.heightAnchor.constraint(equalToConstant: 130),
-
+            weatherImageView.heightAnchor.constraint(equalToConstant: 130)
         ])
-        
+
         
     }
     

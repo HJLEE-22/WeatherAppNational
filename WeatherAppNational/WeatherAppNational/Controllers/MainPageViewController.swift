@@ -42,7 +42,7 @@ class MainPageViewController: UIViewController {
     private lazy var pageViewController: UIPageViewController = {
         let pageVC = UIPageViewController(transitionStyle: .scroll,
                                           navigationOrientation: .horizontal)
-        pageVC.view.backgroundColor = .clear
+        pageVC.view.backgroundColor = .white
         pageVC.delegate = self
         pageVC.dataSource = self
         return pageVC
@@ -51,14 +51,22 @@ class MainPageViewController: UIViewController {
     var convertedGridX: Int?
     var convertedGridY: Int?
     
+    lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
+        pageControl.backgroundColor = .white
+        pageControl.pageIndicatorTintColor = .black
+        pageControl.currentPageIndicatorTintColor = .systemBlue
+        pageControl.currentPage = 0
+        return pageControl
+    }()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNav()
-//        setupPageControll()
         pageViewController.didMove(toParent: self)
+        locationManager.delegate = self
         checkLocationServiceAuthorizationByVersion(self.locationManager)
     }
 
@@ -73,6 +81,7 @@ class MainPageViewController: UIViewController {
     func setupLayout(){
         self.addChild(pageViewController)
         view.addSubview(pageViewController.view)
+        self.view.addSubview(pageControl)
         
         pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -106,20 +115,10 @@ class MainPageViewController: UIViewController {
         
     }
     
-    
-    func setupPageControll() {
-        let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
-        pageControl.backgroundColor = .clear
-        pageControl.pageIndicatorTintColor = .systemBlue
-        pageControl.currentPageIndicatorTintColor = .black
-        pageControl.currentPage = 0
-        pageControl.numberOfPages = subViewControllers.count
-        self.view.addSubview(pageControl)
-    }
+
     
     func checkLocationServiceAuthorizationByVersion(_ locationManager: CLLocationManager) {
             
-        locationManager.delegate = self
         if #available(iOS 14.0, *) {
             if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse {
                 // 여기서 위치권한이 있을때 실행할 코드 입력
@@ -127,7 +126,11 @@ class MainPageViewController: UIViewController {
                 
             } else {
                 // 여기서 위치권환 off일때 실행할 코드 입력
-                switchUserCurrentLocationAuthorization(locationManager.authorizationStatus)
+                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == false {
+                    switchUserCurrentLocationAuthorization(locationManager.authorizationStatus)
+                }
+                self.convertedGridX = nil
+                self.convertedGridY = nil
             }
         } else {
             guard CLLocationManager.locationServicesEnabled() else {
@@ -149,7 +152,8 @@ class MainPageViewController: UIViewController {
             // 시스템 설정에서 설정값을 변경하도록 유도한다.
             // 시스템 설정으로 유도하는 커스텀 얼럿
             showRequestLocationServiceAlert()
-            
+            self.setupLayout()
+            self.setupViewControllers()
         case .authorizedWhenInUse:
             // 앱을 사용중일 때, 위치 서비스를 이용할 수 있는 상태
             // manager 인스턴스를 사용하여 사용자의 위치를 가져온다.
@@ -226,6 +230,7 @@ extension MainPageViewController {
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherViewModel.name
             subViewControllers.append(vc)
+            self.pageControl.numberOfPages = subViewControllers.count
             setupFisrtViewController()
         }
         
@@ -241,6 +246,8 @@ extension MainPageViewController {
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherViewModel.name
             subViewControllers.append(vc)
+            self.pageControl.numberOfPages = subViewControllers.count
+            
             setupFisrtViewController()
         }
             currentPage = 0
@@ -262,7 +269,7 @@ extension MainPageViewController {
     }
 }
 
-
+// MARK: - PageViewController Delegate
 extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 
@@ -290,6 +297,7 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
         guard let currentVC = pageViewController.viewControllers?.first,
               let currentIndex = subViewControllers.firstIndex(of: currentVC) else { return }
         currentPage = currentIndex
+        self.pageControl.currentPage = currentIndex
         
         if completed {
             DispatchQueue.main.async {
@@ -326,7 +334,7 @@ extension MainPageViewController:CLLocationManagerDelegate {
         manager.stopUpdatingLocation()
         // 가져온 Location으로 현재위치 날씨를 VC에 추가
         self.setupLayout()
-        self.setupViewControllers()
+        self.setupViewControllersForBookmarked()
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -337,12 +345,16 @@ extension MainPageViewController:CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         // 사용자 디바이스의 위치 서비스가 활성화 상태인지 확인하는 메서드 호출
         checkLocationServiceAuthorizationByVersion(manager)
+        self.setupLayout()
+        self.setupViewControllers()
     }
     
     // 앱에 대한 권한 설정이 변경되면 호출 (iOS 14 미만)
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // 사용자 디바이스의 위치 서비스가 활성화 상태인지 확인하는 메서드 호출
-        checkLocationServiceAuthorizationByVersion(manager)
+//        checkLocationServiceAuthorizationByVersion(manager)
+        self.setupLayout()
+        self.setupViewControllers()
     }
 }
 
