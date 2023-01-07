@@ -88,34 +88,24 @@ class SettingViewController: UITableViewController {
         if indexPath.section == 0 {
             cell.mainLabel.text = "사용가능"
             cell.switchBtn.isEnabled = true
-            
+            cell.selectionStyle = .none
             
             // 스위치 버튼 상태 업데이트 하는 곳
             print("DEBUG: location status \(CLLocationManager.authorizationStatus() )")
             cell.switchBtn.isOn = settingViewModel.isSwitchButtonOn
             
-            /*
-            if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
-                cell.switchBtn.isOn = true
-            } else {
-                cell.switchBtn.isOn = false
-            }
-             */
-            
             cell.cellDelegate = self
             
         } else if indexPath.section == 1 {
-            cell.mainLabel.text = "hyungjuice@naver.com"
-            cell.switchBtn.isHidden = true
-        } else if indexPath.section == 2 {
             cell.mainLabel.text = "링크"
             cell.switchBtn.isHidden = true
-        } else if indexPath.section == 3 {
+        } else if indexPath.section == 2 {
             cell.mainLabel.text = "HJLEE"
             cell.switchBtn.isHidden = true
+        } else if indexPath.section == 3 {
+            cell.mainLabel.text = "메일 보내기"
+            cell.switchBtn.isHidden = true
         }
-        
-        
         return cell
 
     }
@@ -142,7 +132,9 @@ extension SettingViewController: SwitchButtonDelegate {
                 UIApplication.shared.open(appSetting)
             }
         }
-        let cancel = UIAlertAction(title: "취소", style: .default)
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
+            
+        }
         requestLocationServiceAlert.addAction(cancel)
         requestLocationServiceAlert.addAction(goSetting)
         
@@ -155,7 +147,7 @@ extension SettingViewController: SwitchButtonDelegate {
                 UIApplication.shared.open(appSetting)
             }
         }
-        let cancel = UIAlertAction(title: "취소", style: .default)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         requestLocationServiceAlert.addAction(cancel)
         requestLocationServiceAlert.addAction(goSetting)
         

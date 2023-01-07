@@ -67,13 +67,13 @@ class SettingViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             mainLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
 //            mainLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-            mainLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            mainLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
 //            mainLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
             mainLabel.trailingAnchor.constraint(equalTo: switchBtn.leadingAnchor, constant: 10),
             
 //            switchBtn.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             switchBtn.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            switchBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            switchBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             
         ])
        

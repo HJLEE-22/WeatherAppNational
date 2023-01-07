@@ -25,23 +25,17 @@ class TodayWeatherView: UIView {
             if let weatherModel = weatherModel {
                 DispatchQueue.main.async {
                     self.configureUIByData(weatherModel)
-                    self.configureBackgroundColorByColorsViewModel(weatherModel)
                 }
             }
         }
     }
     
-    
     var backgroundGradientLayer: CAGradientLayer? {
         didSet {
-            if let backgroundGraidentLayer = backgroundGradientLayer {
-                DispatchQueue.main.async {
-                    self.backgroundGradientLayer?.frame = self.bounds
-                    print("DEBUG: backgroundGraidentLayer frame:\(self.backgroundGradientLayer?.frame)")
-                    self.layer.addSublayer(backgroundGraidentLayer)
-                    print("DEBUG: Layer:\(self.layer)")
-                }
-            }
+//            self.layoutSubviews()
+            self.layoutIfNeeded()
+//            self.setNeedsLayout()
+//            self.setNeedsDisplay()
         }
     }
 
@@ -77,6 +71,7 @@ class TodayWeatherView: UIView {
         // 맥스와 미니멈 밸류는 오늘 최고/최저 기온으로 변경할 것
         slider.thumbTintColor = .clear
         slider.isUserInteractionEnabled = false
+        slider.tintColor = .systemGray2
         return slider
     }()
     
@@ -129,7 +124,7 @@ class TodayWeatherView: UIView {
         sv.layer.borderWidth = 1
         sv.layer.cornerRadius = 5
         sv.layer.borderColor = UIColor(white: 1, alpha: 0).cgColor
-        sv.backgroundColor = .systemBlue
+        sv.backgroundColor = UIColor(white: 1, alpha: 0.3)
         return sv
     }()
     
@@ -154,7 +149,7 @@ class TodayWeatherView: UIView {
         sv.layer.borderWidth = 1
         sv.layer.cornerRadius = 5
         sv.layer.borderColor = UIColor(white: 1, alpha: 0).cgColor
-        sv.backgroundColor = .systemBlue
+        sv.backgroundColor = UIColor(white: 1, alpha: 0.3)
         return sv
     }()
     
@@ -185,6 +180,7 @@ class TodayWeatherView: UIView {
     private lazy var updateLocationButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(UIImage(systemName: SystemIconNames.update), for: .normal)
+        btn.tintColor = .systemGray2
         return btn
     }()
         
@@ -193,16 +189,51 @@ class TodayWeatherView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
-        addActionToButton()
+        self.addActionToButton()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        self.setupBackgroundLayer()
+//    }
+    
+//    override func setNeedsLayout() {
+//        super.setNeedsLayout()
+//        self.setupBackgroundLayer()
+//    }
+    
+    override func layoutIfNeeded() {
+        super.setNeedsLayout()
+        self.setupBackgroundLayer()
+    }
+    
+//    override func setNeedsDisplay() {
+//        super.setNeedsDisplay()
+//        self.setupBackgroundLayer()
+//    }
     
     // MARK: - UI setup
+    
+    func setupBackgroundLayer() {
+        DispatchQueue.main.async {
+            if let backgroundGradientLayer = self.backgroundGradientLayer {
+                if self.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
+                    print("DEBUG: frame:\(self.frame)")
+                    print("DEBUG: bounds:\(self.bounds)")
+//                    backgroundGradientLayer.frame = CGRect(x: 10, y: 10, width: 300, height: 300)
+                    backgroundGradientLayer.frame = self.bounds
+                    print("DEBUG: backgroundGrdientFrame:\(backgroundGradientLayer.frame)")
+                    self.layer.addSublayer(backgroundGradientLayer)
+                    self.layer.borderWidth = 0
+                    self.setupUI()
+                }
+            }
+        }
+    }
     
     func setupUI() {
         self.addSubview(todayStackView)
@@ -268,7 +299,8 @@ class TodayWeatherView: UIView {
     }
     
     func configureUIByData(_ data: WeatherModel) {
-        self.todayWeatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+//        self.todayWeatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+        self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
         self.todayDegreeLabel.text = "\(data.temperaturePerHour ?? "")°"
         self.maxLabelForSlider.text = "\(data.temperatureMax ?? "")°"
         self.minLabelForSlider.text = "\(data.temperatureMin ?? "")°"
@@ -279,15 +311,6 @@ class TodayWeatherView: UIView {
         self.nowHumidityLabel.text = data.humidityStatus ?? ""
         self.todayExplanationLabel.text = calculateDegreeExplanation(data)
         self.addActionToButton()
-    }
-    
-    func configureBackgroundColorByColorsViewModel(_ data: WeatherModel) {
-        
-        
-//        self.backgroundGradientLayer?.frame = self.bounds
-//        guard let backgroundGradientLayer else { return }
-//        self.layer.addSublayer(backgroundGradientLayer)
-        
     }
     
     func calculateDegreeExplanation(_ data: WeatherModel) -> String {
@@ -321,7 +344,8 @@ class TodayWeatherView: UIView {
             if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
                 switch skyStatusCategory {
                 case .sunny :
-                    return UIImage(systemName: WeatherSystemName.sunMax)!
+                    guard let image = UIImage(systemName: WeatherSystemName.sunMax) else { return UIImage() }
+                    return image
                 case .cloudy :
                     return UIImage(systemName: WeatherSystemName.cloudSun)!
                 case .gray :
@@ -347,6 +371,49 @@ class TodayWeatherView: UIView {
         return UIImage()
     }
     
+    func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
+        if rainStatusCategory == "0" {
+            if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
+                switch skyStatusCategory {
+                case .sunny :
+                    guard let image = UIImage(systemName: WeatherSystemName.sunMax) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemRed
+                case .cloudy :
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSun) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemOrange
+                case .gray :
+                    guard let image = UIImage(systemName: WeatherSystemName.cloud) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemGray
+                }
+            }
+        } else {
+            if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
+                switch rainStatusCategory {
+                case .raining:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudRain) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemGray3
+                case .rainingAndSnowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSleet) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemGray2
+                case .snowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSnow) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .white
+                case .showering:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudHeavyRain) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemBlue
+                case .noRain:
+                    break
+                }
+            }
+        }
+    }
     
                 
     func addActionToButton() {

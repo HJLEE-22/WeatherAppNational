@@ -19,15 +19,13 @@ class TomorrowWeatherView: UIView {
         }
     }
     
-    var backgroundGraidentLayer: CAGradientLayer? {
+    var backgroundGradientLayer: CAGradientLayer? {
         didSet {
-            if let backgroundGraidentLayer = backgroundGraidentLayer {
-                DispatchQueue.main.async {
-                    
-                }
-            }
+//            self.layoutSubviews()
         }
     }
+
+
     
     private lazy var tomorrowTitleLabel: UILabel = {
        let label = UILabel()
@@ -110,14 +108,39 @@ class TomorrowWeatherView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        self.setupBackgroundLayer()
+//    }
+    
+//    override func setNeedsLayout() {
+//        super.setNeedsLayout()
+//        self.setupBackgroundLayer()
+//    }
+    
     // MARK: - UI setup
+    
+    func setupBackgroundLayer() {
+        DispatchQueue.main.async {
+            if let backgroundGradientLayer = self.backgroundGradientLayer {
+                if self.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
+                    print("DEBUG: frame:\(self.frame)")
+                    print("DEBUG: bounds:\(self.bounds)")
+                    backgroundGradientLayer.frame = self.bounds
+                    print("DEBUG: backgroundGrdientFrame:\(backgroundGradientLayer.frame)")
+                    self.layer.addSublayer(backgroundGradientLayer)
+                    self.setupUI()
+                    self.layer.borderWidth = 0
+                }
+            }
+        }
+    }
     
     func setupUI() {
         
@@ -142,7 +165,9 @@ class TomorrowWeatherView: UIView {
     // MARK: - Helpers
     
     func configureUI(_ data: WeatherModel) {
-        self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+//        self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+        self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
+
         self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°"
         self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
         self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
@@ -151,37 +176,48 @@ class TomorrowWeatherView: UIView {
         self.tomorrowDateLabel.text = DateCalculate.tomorrowDateShortString + "일"
     }
 
-    func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String) -> UIImage {
-        
+    func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
         if rainStatusCategory == "0" {
             if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
                 switch skyStatusCategory {
                 case .sunny :
-                    return UIImage(systemName: WeatherSystemName.sunMax)!
+                    guard let image = UIImage(systemName: WeatherSystemName.sunMax) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
                 case .cloudy :
-                    return UIImage(systemName: WeatherSystemName.cloudSun)!
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSun) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
                 case .gray :
-                    return UIImage(systemName: WeatherSystemName.cloud)!
+                    guard let image = UIImage(systemName: WeatherSystemName.cloud) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
                 }
             }
         } else {
-                if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
-                    switch rainStatusCategory {
-                    case .raining:
-                        return UIImage(systemName: WeatherSystemName.cloudRain)!
-                    case .rainingAndSnowing:
-                        return UIImage(systemName: WeatherSystemName.cloudSleet)!
-                    case .snowing:
-                        return UIImage(systemName: WeatherSystemName.cloudSnow)!
-                    case .showering:
-                        return UIImage(systemName: WeatherSystemName.cloudHeavyRain)!
-                    case .noRain:
-                        break
-                    }
+            if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
+                switch rainStatusCategory {
+                case .raining:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudRain) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .rainingAndSnowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSleet) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .snowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSnow) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .showering:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudHeavyRain) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .noRain:
+                    break
                 }
             }
-        return UIImage()
+        }
     }
-    
     
 }

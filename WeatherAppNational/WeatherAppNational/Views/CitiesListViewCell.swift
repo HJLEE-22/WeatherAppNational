@@ -83,8 +83,10 @@ class CitiesListViewCell: UITableViewCell {
         self.districtLabel.text = data.district
         if data.bookmark {
             self.bookmarkButton.image = UIImage(systemName: SystemIconNames.starFill)
+            self.bookmarkButton.tintColor = .systemYellow
         } else {
             self.bookmarkButton.image = UIImage(systemName: SystemIconNames.star)
+            self.bookmarkButton.tintColor = .systemGray
         }
     }
     

@@ -20,6 +20,7 @@ class MainPageViewController: UIViewController {
         didSet {
             guard let currentPage = currentPage else { return }
             bind(oldValue: oldValue ?? 0, newValue: currentPage)
+            
         }
     }
 
@@ -55,7 +56,7 @@ class MainPageViewController: UIViewController {
         let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
         pageControl.backgroundColor = .white
         pageControl.pageIndicatorTintColor = .black
-        pageControl.currentPageIndicatorTintColor = .systemBlue
+        pageControl.currentPageIndicatorTintColor = .systemGray3
         pageControl.currentPage = 0
         return pageControl
     }()
@@ -91,7 +92,6 @@ class MainPageViewController: UIViewController {
             pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
-        
     }
     
     func setupNav() {
@@ -107,7 +107,7 @@ class MainPageViewController: UIViewController {
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemBlue
+        appearance.backgroundColor = .systemGray3
         appearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: AppFontName.bold, size: 20)!]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance =
@@ -126,9 +126,9 @@ class MainPageViewController: UIViewController {
                 
             } else {
                 // 여기서 위치권환 off일때 실행할 코드 입력
-                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == false {
+//                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == false {
                     switchUserCurrentLocationAuthorization(locationManager.authorizationStatus)
-                }
+//                }
                 self.convertedGridX = nil
                 self.convertedGridY = nil
             }
@@ -211,7 +211,7 @@ extension MainPageViewController {
             let vc = WeatherViewController()
             
             vc.weatherViewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
-            
+//            vc.viewWillLayoutSubviews()
             self.navigationItem.title = vc.weatherViewModel.name
             subViewControllers.append(vc)
             setupFisrtViewController()
@@ -303,6 +303,7 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
             DispatchQueue.main.async {
                 let weatherVC = currentVC as! WeatherViewController
                 self.navigationItem.title = weatherVC.weatherViewModel.name
+                
             }
         }
     }

@@ -20,7 +20,7 @@ class WeatherViewController: UIViewController {
     
     var colorsViewModel: ColorsViewModel! {
         didSet {
-            colorsViewModel.subscribe(observer: self)
+            colorsViewModel.colorsSubscribe(observer: self)
         }
     }
     
@@ -32,7 +32,7 @@ class WeatherViewController: UIViewController {
     
     deinit {
         weatherViewModel.unSubscribe(observer: self)
-        colorsViewModel.unSubscribe(observer: self)
+        colorsViewModel.colorsUnSubscribe(observer: self)
     }
 
     // MARK: - Helpers
@@ -55,14 +55,14 @@ extension WeatherViewController: Observer {
             switch value.first?.key {
             case .today:
                 self?.mainView.todayWeatherView.weatherModel = value[.today]
-                self?.colorsViewModel = .init(weatherModel: value[.today])
+                self?.colorsViewModel = .init(weatherModel: [.today: value[.today]])
             case .yesterday:
                 self?.mainView.yesterdayWeatherView.weatherModel = value[.yesterday]
                 self?.mainView.todayWeatherView.yesterdayDegree = value[.yesterday]?.temperaturePerHour
-                self?.colorsViewModel = .init(weatherModel: value[.yesterday])
+                self?.colorsViewModel = .init(weatherModel:[.yesterday: value[.yesterday]] )
             case .tomorrow:
                 self?.mainView.tomorrowdayWeatherView.weatherModel = value[.tomorrow]
-                self?.colorsViewModel = .init(weatherModel: value[.tomorrow])
+                self?.colorsViewModel = .init(weatherModel: [.tomorrow: value[.tomorrow]])
             case .none:
                 break
             }
@@ -72,32 +72,23 @@ extension WeatherViewController: Observer {
 
 extension WeatherViewController: ColorsObserver {
     func colorsUpdate<T>(updateValue: T) {
-        print("DEBUG: checking for colorsObserver:\(updateValue)")
-// 문제: colorsViewModel을 subscribe할 때 observer를 self로 등록했음에도 계속 nil...
-        // 아닌데? nil 아니고 제대로 self(VC) 받는데?
-        // -> 저기선 nil이 아닌데, ColorsVM에서 nil이 된다!
-        guard let value = updateValue as? CAGradientLayer else { return }
-        
-    }
-}
-
-/*
-extension WeatherViewController: ColorsObserver {
-    func colorsUpdate<T>(updateValue: T) {
         guard let value = updateValue as? [Day: CAGradientLayer] else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             switch value.first?.key {
-            case .today:
-                self.mainView.todayWeatherView.backgroundGraidentLayer = value[.today]
-                print("DEBUG: backgroundGraidentLayer:\(self.mainView.todayWeatherView.backgroundGraidentLayer)")
+            case .today :
+                self.mainView.todayWeatherView.backgroundGradientLayer = value[.today]
             case .yesterday:
-                self.mainView.yesterdayWeatherView.backgroundGraidentLayer = value[.yesterday]
+                self.mainView.yesterdayWeatherView.backgroundGradientLayer = value[.yesterday]
             case .tomorrow:
-                self.mainView.tomorrowdayWeatherView.backgroundGraidentLayer = value[.tomorrow]
+                self.mainView.tomorrowdayWeatherView.backgroundGradientLayer = value[.tomorrow]
             case .none:
                 break
+            }
         }
     }
 }
-*/
+
+
 
 

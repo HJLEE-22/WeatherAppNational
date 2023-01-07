@@ -13,32 +13,64 @@ class ColorsViewModel {
     
     var colorsObserver: (any ColorsObserver)?
     
-    var backgroundColorLayer: CAGradientLayer = CAGradientLayer() {
+    var todayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
         didSet {
-            notify(updateValue: backgroundColorLayer)
+            colorsNotify(updateValue: [Day.today: todayBackgroundColorLayer])
+        }
+    }
+    var yesterdayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
+        didSet {
+            colorsNotify(updateValue: [Day.yesterday: yesterdayBackgroundColorLayer])
+        }
+    }
+    var tomorrowBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
+        didSet {
+            colorsNotify(updateValue: [Day.tomorrow: tomorrowBackgroundColorLayer])
         }
     }
 
     // MARK: - Life cycle
     
-    init(weatherModel: WeatherModel?) {
+    init(weatherModel: [Day:WeatherModel?]) {
         bind(weatherModel: weatherModel)
     }
 
     // MARK: - Helpers
     
-    func bind(weatherModel: WeatherModel?) {
-        guard let weatherModel,
-// 왜 bind할 때 colorsObserver가 계속 nil이 되지?
-              let maxTemperature = weatherModel.temperatureMax,
-              let minTemperature = weatherModel.temperatureMin else { return }
-              
-        self.backgroundColorLayer = setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
+    func bind(weatherModel: [Day:WeatherModel?]) {
+        // 대박!! 여기 비동기처리함으로서 드디어 notify와 연결됐다ㅜㅜ
+        // 그런데 왜 여기를 비동기처리해줘야되지...? 안해줘도 값 오는데...
+        DispatchQueue.global().async { [weak self] in
+            guard weatherModel.first?.key == .today,
+                  let self,
+                  let model = weatherModel.first?.value,
+                  let maxTemperature = model.temperatureMax,
+                  let minTemperature = model.temperatureMin else { return }
+            self.todayBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
+        }
+        
+        DispatchQueue.global().async { [weak self] in
+            guard weatherModel.first?.key == .yesterday,
+                  let self,
+                  let model = weatherModel.first?.value,
+                  let maxTemperature = model.temperatureMax,
+                  let minTemperature = model.temperatureMin else { return }
+            self.yesterdayBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
+        }
+        
+        DispatchQueue.global().async { [weak self] in
+            guard weatherModel.first?.key == .tomorrow,
+                  let self,
+                  let model = weatherModel.first?.value,
+                  let maxTemperature = model.temperatureMax,
+                  let minTemperature = model.temperatureMin else { return }
+            self.tomorrowBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
+        }
     }
     
     func setBackgroundColor(maxTemperature: String, minTemperature: String) -> CAGradientLayer {
-        let maxColor = switchColorsForBackground(temperature: Int((maxTemperature as NSString).intValue))
-        let minColor = switchColorsForBackground(temperature: Int((minTemperature as NSString).intValue))
+        let maxColor = switchColorsForBackground(temperature: Int((maxTemperature as NSString).intValue))?.cgColor
+        let minColor = switchColorsForBackground(temperature: Int((minTemperature as NSString).intValue))?.cgColor
         let gradient = CAGradientLayer()
         gradient.colors = [maxColor, minColor]
         gradient.locations = [0, 1]
@@ -100,15 +132,15 @@ class ColorsViewModel {
 }
 
 extension ColorsViewModel: ColorsSubscriber {
-    func subscribe(observer: (ColorsObserver)?) {
+    func colorsSubscribe(observer: (ColorsObserver)?) {
         self.colorsObserver = observer
     }
     
-    func unSubscribe(observer: (ColorsObserver)?) {
+    func colorsUnSubscribe(observer: (ColorsObserver)?) {
         self.colorsObserver = nil
     }
     
-    func notify<T>(updateValue: T) {
+    func colorsNotify<T>(updateValue: T) {
         colorsObserver?.colorsUpdate(updateValue: updateValue)
     }
 }
