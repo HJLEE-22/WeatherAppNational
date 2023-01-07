@@ -11,3 +11,7 @@ protocol Observer {
     func update<T>(updateValue: T)
 }
 
+protocol ColorsObserver {
+    func colorsUpdate<T>(updateValue: T)
+}
+

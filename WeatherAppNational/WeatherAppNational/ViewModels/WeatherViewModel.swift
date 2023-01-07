@@ -8,11 +8,7 @@
 import UIKit
 import CoreLocation
 
-enum Day {
-    case today
-    case yesterday
-    case tomorrow
-}
+
 
 class WeatherViewModel {
     
@@ -28,19 +24,19 @@ class WeatherViewModel {
     private var nx: Int!
     private var ny: Int!
     
-    private var todayWeatherModel: WeatherModel = WeatherModel() {
+    var todayWeatherModel: WeatherModel = WeatherModel() {
         didSet{
             notify(updateValue: [Day.today: todayWeatherModel])
         }
     }
     
-    private var yesterDayWeatherModel: WeatherModel = WeatherModel() {
+    var yesterdayWeatherModel: WeatherModel = WeatherModel() {
         didSet{
-            notify(updateValue: [Day.yesterday: yesterDayWeatherModel])
+            notify(updateValue: [Day.yesterday: yesterdayWeatherModel])
         }
     }
     
-    private var tomorrowWeatherModel: WeatherModel = WeatherModel() {
+    var tomorrowWeatherModel: WeatherModel = WeatherModel() {
         didSet{
             notify(updateValue: [Day.tomorrow: tomorrowWeatherModel])
         }
@@ -86,7 +82,7 @@ class WeatherViewModel {
                                                    nx: selfRef.nx, ny: selfRef.ny) { result in
                 switch result {
                 case .success(let weatherModel):
-                    selfRef.yesterDayWeatherModel = weatherModel
+                    selfRef.yesterdayWeatherModel = weatherModel
                 case .failure(let error):
                     print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
                 }
@@ -123,6 +119,5 @@ extension WeatherViewModel: Subscriber {
     func notify<T>(updateValue: T) {
         observer?.update(updateValue: updateValue)
     }
-    
     
 }

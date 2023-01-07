@@ -27,8 +27,13 @@ public struct WeatherSystemName {
 
 
 public struct SystemIconNames {
+    static let update = "arrow.counterclockwise"
     static let gpsOn = "location.fill"
     static let gpsOff = "location"
+    static let star = "star"
+    static let starFill = "star.fill"
+    static let listDash = "list.dash"
+    static let gearShape = "gearshape"
     private init () {}
 }
 
@@ -40,7 +45,13 @@ public struct CoreDataNames {
     private init () {}
 }
 
-public struct ImageSystemNames {
-    static let star = "star"
-    static let starFill = "star.fill"
+
+public enum Day {
+    case today
+    case yesterday
+    case tomorrow
+}
+
+public struct UserDefaultsKeys {
+    static let launchedBefore = "launchedBefore"
 }

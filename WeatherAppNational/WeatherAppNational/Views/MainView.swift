@@ -67,7 +67,7 @@ class MainView: UIView {
     func setupUI() {
         self.addSubview(todayWeatherView)
         self.addSubview(otherWeathersStackView)
-        
+
         todayWeatherView.translatesAutoresizingMaskIntoConstraints = false
         yesterdayWeatherView.translatesAutoresizingMaskIntoConstraints = false
         tomorrowdayWeatherView.translatesAutoresizingMaskIntoConstraints = false
