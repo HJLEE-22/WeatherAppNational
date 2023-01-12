@@ -12,15 +12,21 @@ class WeatherViewController: UIViewController {
     // MARK: - Properties
     lazy var mainView = MainView()
     
-    var weatherViewModel: WeatherViewModel! {
-        didSet {
-            weatherViewModel.subscribe(observer: self)
-        }
-    }
+//    var weatherViewModel: WeatherViewModel! {
+//        didSet {
+//            weatherViewModel.subscribe(observer: self)
+//        }
+//    }
     
     var colorsViewModel: ColorsViewModel! {
         didSet {
             colorsViewModel.colorsSubscribe(observer: self)
+        }
+    }
+    
+    var weatherKitViewModel: WeatherKitViewModel! {
+        didSet {
+            weatherKitViewModel.subscribe(observer: self)
         }
     }
     
@@ -30,10 +36,12 @@ class WeatherViewController: UIViewController {
         setupUI()
     }
     
-    deinit {
-        weatherViewModel.unSubscribe(observer: self)
-        colorsViewModel.colorsUnSubscribe(observer: self)
-    }
+    // 초기화 해제가 안됨 ( nil을 반환한다며 런타임 오류 뜸)
+//    deinit {
+////        weatherViewModel.unSubscribe(observer: self)
+//        weatherKitViewModel.unsubscribe(observer: self)
+//        colorsViewModel.colorsUnsubscribe(observer: self)
+//    }
 
     // MARK: - Helpers
     func setupUI() {
@@ -47,7 +55,7 @@ class WeatherViewController: UIViewController {
         ])
     }
 }
-
+/*
 extension WeatherViewController: Observer {
     func update<T>(updateValue: T) {
         guard let value = updateValue as? [Day: WeatherModel] else { return }
@@ -63,6 +71,29 @@ extension WeatherViewController: Observer {
             case .tomorrow:
                 self?.mainView.tomorrowdayWeatherView.weatherModel = value[.tomorrow]
                 self?.colorsViewModel = .init(weatherModel: [.tomorrow: value[.tomorrow]])
+            case .none:
+                break
+            }
+        }
+    }
+}
+*/
+
+extension WeatherViewController: WeatherKitObserver {
+    func weatherKitUpdate<T>(updateValue: T) {
+        guard let value = updateValue as? [Day:WeatherKitModel] else { return }
+        DispatchQueue.main.async {
+            switch value.first?.key {
+            case .today:
+                self.mainView.todayWeatherView.weatherKitModel = value[.today]
+                self.colorsViewModel = .init(weatherKitModel: [.today: value[.today]] )
+            case .yesterday:
+                self.mainView.todayWeatherView.yesterdayDegree = value[.yesterday]?.temperature
+                self.mainView.yesterdayWeatherView.weatherKitModel = value[.yesterday]
+                self.colorsViewModel = .init(weatherKitModel: [.yesterday: value[.yesterday]])
+            case .tomorrow:
+                self.mainView.tomorrowdayWeatherView.weatherKitModel = value[.tomorrow]
+                self.colorsViewModel = .init(weatherKitModel: [.tomorrow: value[.tomorrow]])
             case .none:
                 break
             }
@@ -88,7 +119,3 @@ extension WeatherViewController: ColorsObserver {
         }
     }
 }
-
-
-
-

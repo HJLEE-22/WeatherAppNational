@@ -15,3 +15,6 @@ protocol ColorsObserver {
     func colorsUpdate<T>(updateValue: T)
 }
 
+protocol WeatherKitObserver {
+    func weatherKitUpdate<T>(updateValue: T)
+}

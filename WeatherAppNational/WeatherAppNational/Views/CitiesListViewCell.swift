@@ -37,7 +37,7 @@ class CitiesListViewCell: UITableViewCell {
         let stackView = UIStackView(arrangedSubviews: [bookmarkButton, cityLabel, districtLabel])
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.spacing = 40
         return stackView
         

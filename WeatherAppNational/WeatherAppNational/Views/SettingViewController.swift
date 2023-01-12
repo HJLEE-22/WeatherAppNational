@@ -6,6 +6,8 @@
 //
 import UIKit
 import CoreLocation
+import SafariServices
+import MessageUI
 
 class SettingViewController: UITableViewController {
     
@@ -21,31 +23,18 @@ class SettingViewController: UITableViewController {
         setupTableView()
         setupNav()
 //        setupNavPopVCAnimation()
-        
-        
     }
     
     // MARK: - Helpers
     func setupNav() {
-        
-        self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.title = "Settings"
         let backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(setupNavPopVCAnimation))
-        
         self.navigationItem.setLeftBarButton(backButtonItem, animated: true)
-        
     }
-    
-
     
     func setupTableView() {
-        
         tableView.register(SettingViewCell.self, forCellReuseIdentifier: CellID.forSettingsCell)
-        
-        
     }
-    
-    
     
     @objc func setupNavPopVCAnimation() {
             let transition = CATransition()
@@ -57,10 +46,23 @@ class SettingViewController: UITableViewController {
             self.navigationController?.popViewController(animated: true)
     }
     
-    // MARK: - Datasource
+    func openSFSafariForPersonalInformation(_sender: Any) {
+        guard let url = URL(string: "https://thread-pike-aca.notion.site/4a2cacda469448ba836d9d9d572b1b02") else { return }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
+    }
+    
+    func openSFSafariForWeatherKit(_sender: Any) {
+        guard let url = URL(string: "https://weatherkit.apple.com/legal-attribution.html") else { return }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
+    }
+    
+    
+    // MARK: - TableviewDatasource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,6 +79,8 @@ class SettingViewController: UITableViewController {
             return "개발자 정보"
         case 3 :
             return "문의하기"
+        case 4 :
+            return " Weather"
         default :
             return ""
         }
@@ -105,12 +109,26 @@ class SettingViewController: UITableViewController {
         } else if indexPath.section == 3 {
             cell.mainLabel.text = "메일 보내기"
             cell.switchBtn.isHidden = true
+        } else if indexPath.section == 4 {
+            cell.mainLabel.text = "WeatherKit - Data Sources"
+            cell.switchBtn.isHidden = true
         }
         return cell
-
+  
     }
-    
-    
+    // MARK: - TableviewDelegates
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 1:
+            self.openSFSafariForPersonalInformation(_sender: self)
+        case 3:
+            self.sendEmail()
+        case 4:
+            self.openSFSafariForWeatherKit(_sender: self)
+        default:
+            break
+        }
+    }
 }
 
 extension SettingViewController: SwitchButtonDelegate {
@@ -153,6 +171,39 @@ extension SettingViewController: SwitchButtonDelegate {
         
         present(requestLocationServiceAlert, animated: true)
     }
+}
+
+extension SettingViewController: MFMailComposeViewControllerDelegate {
     
-    
+    func showSendMailErrorAlert() {
+           let sendMailErrorAlert = UIAlertController(title: "메일을 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
+           let confirmAction = UIAlertAction(title: "확인", style: .default) {
+               (action) in
+               print("확인")
+           }
+           sendMailErrorAlert.addAction(confirmAction)
+           self.present(sendMailErrorAlert, animated: true, completion: nil)
+       }
+       
+    func sendEmail() {
+           if MFMailComposeViewController.canSendMail() {
+               
+               let compseVC = MFMailComposeViewController()
+               compseVC.mailComposeDelegate = self
+               
+               compseVC.setToRecipients(["leehyungju20@gmail.com"])
+               compseVC.setSubject("'어제보다' 문의")
+               compseVC.setMessageBody("Message Content", isHTML: false)
+               
+               self.present(compseVC, animated: true, completion: nil)
+               
+           }
+           else {
+               self.showSendMailErrorAlert()
+           }
+       }
+       
+       func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+           controller.dismiss(animated: true, completion: nil)
+       }
 }

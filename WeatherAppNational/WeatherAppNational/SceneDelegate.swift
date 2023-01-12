@@ -28,8 +28,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let fileType = CoreDataNames.fileType
         
         guard let jsonPath = Bundle.main.path(forResource: fileName, ofType: fileType),
-              let jsonDataLoaded = loadJsonData(fileLocation: jsonPath)
-        else { return }
+              let jsonDataLoaded = loadJsonData(fileLocation: jsonPath) else { return }
+        /*
+        do {
+            self.locationForDecoder = try JSONDecoder().decode([LocationGridModel].self, from: jsonDataLoaded)
+            if let locationForDecoder = locationForDecoder {
+                locationForDecoder.forEach {
+                    CoreDataManager.shared.saveLocationGridData(locationGrid: $0, completion: {})
+                }
+                UserDefaults.standard.set(true, forKey: UserDefaultsKeys.launchedBefore)
+                print("DEBUG: success to save")
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        */
         
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == true {
         } else {

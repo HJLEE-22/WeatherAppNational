@@ -20,7 +20,6 @@ class MainPageViewController: UIViewController {
         didSet {
             guard let currentPage = currentPage else { return }
             bind(oldValue: oldValue ?? 0, newValue: currentPage)
-            
         }
     }
 
@@ -49,14 +48,17 @@ class MainPageViewController: UIViewController {
         return pageVC
     }()
 
-    var convertedGridX: Int?
-    var convertedGridY: Int?
+//    var convertedGridX: Int?
+//    var convertedGridY: Int?
+    var currentLatitude: Double?
+    var currentLongitude: Double?
+    
     
     lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
         pageControl.backgroundColor = .white
-        pageControl.pageIndicatorTintColor = .black
-        pageControl.currentPageIndicatorTintColor = .systemGray3
+        pageControl.pageIndicatorTintColor = .systemGray5
+        pageControl.currentPageIndicatorTintColor = .systemGray
         pageControl.currentPage = 0
         return pageControl
     }()
@@ -69,15 +71,20 @@ class MainPageViewController: UIViewController {
         pageViewController.didMove(toParent: self)
         locationManager.delegate = self
         checkLocationServiceAuthorizationByVersion(self.locationManager)
+
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupViewControllersForBookmarked()
+        setPageControlForCurrentLocation()
     }
     
     
     // MARK: - Helpers
+
+
     
     func setupLayout(){
         self.addChild(pageViewController)
@@ -112,7 +119,6 @@ class MainPageViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance =
         navigationController?.navigationBar.standardAppearance
-        
     }
     
 
@@ -123,14 +129,15 @@ class MainPageViewController: UIViewController {
             if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse {
                 // 여기서 위치권한이 있을때 실행할 코드 입력
                 locationManager.startUpdatingLocation()
-                
             } else {
                 // 여기서 위치권환 off일때 실행할 코드 입력
 //                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == false {
                     switchUserCurrentLocationAuthorization(locationManager.authorizationStatus)
 //                }
-                self.convertedGridX = nil
-                self.convertedGridY = nil
+//                self.convertedGridX = nil
+//                self.convertedGridY = nil
+                self.currentLatitude = nil
+                self.currentLongitude = nil
             }
         } else {
             guard CLLocationManager.locationServicesEnabled() else {
@@ -178,6 +185,16 @@ class MainPageViewController: UIViewController {
         
         present(requestLocationServiceAlert, animated: true)
     }
+    
+    func setPageControlForCurrentLocation() {
+        DispatchQueue.main.async {
+            if self.currentLatitude != nil {
+                self.pageControl.setIndicatorImage(UIImage(systemName: SystemIconNames.gpsOn), forPage: 0)
+            } else {
+                self.pageControl.setIndicatorImage(UIImage(systemName: "circlebadge.fill"), forPage: 0)
+            }
+        }
+    }
 
     // MARK: - Actions
     
@@ -200,7 +217,7 @@ class MainPageViewController: UIViewController {
 
 // MARK: - Set VCs in PageVC
 extension MainPageViewController {
-    
+    /*
     private func setupViewControllers(){
         
 //        if 현재위치 받았으면 {
@@ -211,8 +228,24 @@ extension MainPageViewController {
             let vc = WeatherViewController()
             
             vc.weatherViewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
-//            vc.viewWillLayoutSubviews()
             self.navigationItem.title = vc.weatherViewModel.name
+            subViewControllers.append(vc)
+            setupFisrtViewController()
+        }
+            currentPage = 0
+    }
+     */
+    private func setupViewControllers(){
+        
+//        if 현재위치 받았으면 {
+//            현재위치VC 전체VC에 넣어주기
+//        }
+        if let currentLatitude,
+           let currentLongitude {
+            let vc = WeatherViewController()
+            vc.weatherKitViewModel = .init(name: "현재 위치", latitude: currentLatitude, longitude: currentLongitude)
+            vc.mainView.todayWeatherView.buttonDelegate = self
+            self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
             setupFisrtViewController()
         }
@@ -223,12 +256,12 @@ extension MainPageViewController {
 
         subViewControllers.removeAll()
         
-        if let currentGridX = convertedGridX,
-           let currentGridY = convertedGridY{
+        if let currentLatitude,
+           let currentLongitude {
             let vc = WeatherViewController()
-            vc.weatherViewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
+            vc.weatherKitViewModel = .init(name: "현재 위치", latitude: currentLatitude, longitude: currentLongitude)
             vc.mainView.todayWeatherView.buttonDelegate = self
-            self.navigationItem.title = vc.weatherViewModel.name
+            self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
             self.pageControl.numberOfPages = subViewControllers.count
             setupFisrtViewController()
@@ -240,11 +273,13 @@ extension MainPageViewController {
             guard let city = location.city,
                   let district = location.district else { return }
             let locationName = "\(city) \(district)"
-            let locationGridX = Int(location.gridX)
-            let locationGridY = Int(location.gridY)
-            vc.weatherViewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
+//            let locationGridX = Int(location.gridX)
+//            let locationGridY = Int(location.gridY)
+//            vc.weatherViewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
+            vc.weatherKitViewModel = .init(name: locationName, latitude: location.latitude, longitude: location.longitude)
             vc.mainView.todayWeatherView.buttonDelegate = self
-            self.navigationItem.title = vc.weatherViewModel.name
+//            self.navigationItem.title = vc.weatherViewModel.name
+            self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
             self.pageControl.numberOfPages = subViewControllers.count
             
@@ -257,7 +292,8 @@ extension MainPageViewController {
         if let firstVC = subViewControllers.first {
             pageViewController.setViewControllers([firstVC], direction: .forward, animated: false)
             let vc = firstVC as? WeatherViewController
-            self.navigationItem.title = vc?.weatherViewModel.name
+//            self.navigationItem.title = vc?.weatherViewModel.name
+            self.navigationItem.title = vc?.weatherKitViewModel.name
         }
     }
     
@@ -302,8 +338,11 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
         if completed {
             DispatchQueue.main.async {
                 let weatherVC = currentVC as! WeatherViewController
-                self.navigationItem.title = weatherVC.weatherViewModel.name
-                
+//                self.navigationItem.title = weatherVC.weatherViewModel.name
+                self.navigationItem.title = weatherVC.weatherKitViewModel.name
+                weatherVC.mainView.todayWeatherView.layoutIfNeeded()
+                weatherVC.mainView.yesterdayWeatherView.layoutIfNeeded()
+                weatherVC.mainView.tomorrowdayWeatherView.layoutIfNeeded()
             }
         }
     }
@@ -322,12 +361,12 @@ extension MainPageViewController:CLLocationManagerDelegate {
             print("DEBUG: 위도 \(coordinate.latitude)")
             print("DEBUG: 경도 \(coordinate.longitude)")
             
-            let latitude = coordinate.latitude
-            let longitude = coordinate.longitude
-            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: latitude, lng_Y: longitude)
-            print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
-            self.convertedGridX = convertedGrid.x
-            self.convertedGridY = convertedGrid.y
+            currentLatitude = Double(coordinate.latitude.formatted())
+            currentLongitude = Double(coordinate.longitude.formatted())
+//            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: latitude, lng_Y: longitude)
+//            print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
+//            self.convertedGridX = convertedGrid.x
+//            self.convertedGridY = convertedGrid.y
         }
         
         // startUpdatingLocation()을 사용하여 사용자 위치를 가져왔다면

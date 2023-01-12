@@ -60,9 +60,32 @@ class MainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    override func layoutIfNeeded() {
+//        setupBackgroundLayer()
+//    }
+//    override func setNeedsLayout() {
+//        setupBackgroundLayer()
+//    }
+
     
     // MARK: - Helpers
     
+//    func setupBackgroundLayer() {
+//        DispatchQueue.main.async {
+//            if let backgroundGradientLayer = self.todayWeatherView.backgroundGradientLayer {
+//                if self.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
+//                    print("DEBUG: frame:\(self.todayWeatherView.frame)")
+//                    print("DEBUG: bounds:\(self.todayWeatherView.bounds)")
+////                    backgroundGradientLayer.frame = CGRect(x: 10, y: 10, width: 300, height: 300)
+//                    backgroundGradientLayer.frame = self.todayWeatherView.bounds
+//                    print("DEBUG: backgroundGrdientFrame:\(backgroundGradientLayer.frame)")
+//                    self.layer.addSublayer(backgroundGradientLayer)
+//                    self.layer.borderWidth = 0
+//                    self.setupUI()
+//                }
+//            }
+//        }
+//    }
     
     func setupUI() {
         self.addSubview(todayWeatherView)
