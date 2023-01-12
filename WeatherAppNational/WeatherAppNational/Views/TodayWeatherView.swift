@@ -20,12 +20,22 @@ class TodayWeatherView: UIView {
     // MARK: - Today's properties
 
     
-    var weatherModel: WeatherModel? {
+//    var weatherModel: WeatherModel? {
+//        didSet {
+//            if let weatherModel = weatherModel {
+//                DispatchQueue.main.async {
+//                    self.configureUIByData(weatherModel)
+//                }
+//            }
+//        }
+//    }
+    
+    var weatherKitModel: WeatherKitModel? {
         didSet {
-            if let weatherModel = weatherModel {
-                DispatchQueue.main.async {
-                    self.configureUIByData(weatherModel)
-                }
+            if let weatherKitModel {
+//                DispatchQueue.main.async {
+//                    self.configureUIByData(weatherKitModel)
+//                }
             }
         }
     }
@@ -39,7 +49,16 @@ class TodayWeatherView: UIView {
         }
     }
 
-    var yesterdayDegree: String?
+    var yesterdayDegree: String? {
+        didSet {
+            if let yesterdayDegree,
+            let weatherKitModel {
+                DispatchQueue.main.async {
+                    self.configureUIByData(weatherKitModel)
+                }
+            }
+        }
+    }
     
     // 이미지와 온도 스택
     private lazy var todayWeatherImageView: UIImageView = {
@@ -77,11 +96,13 @@ class TodayWeatherView: UIView {
     
     private lazy var maxLabelForSlider: UILabel = {
         let label = UILabel()
+        label.textAlignment = .center
         return label
     }()
     
     private lazy var minLabelForSlider: UILabel = {
         let label = UILabel()
+        label.textAlignment = .center
         label.sizeToFit()
         return label
     }()
@@ -100,7 +121,7 @@ class TodayWeatherView: UIView {
     lazy var todayExplanationLabel: UILabel = {
         let label = UILabel()
         label.text = " "
-        label.textAlignment = .left
+        label.textAlignment = .center
         return label
     }()
     
@@ -108,7 +129,7 @@ class TodayWeatherView: UIView {
     //현재습도와 체감기온 스택
     private lazy var nowHumidityTitle: UILabel = {
         let label = UILabel()
-        label.text = " 현재습도: "
+        label.text = " 습도: "
         return label
     }()
     
@@ -131,7 +152,7 @@ class TodayWeatherView: UIView {
     
     private lazy var windSpeedTitle: UILabel = {
         let label = UILabel()
-        label.text = " 바람속도: "
+        label.text = " 풍속: "
         
         return label
     }()
@@ -142,7 +163,7 @@ class TodayWeatherView: UIView {
         
     }()
     
-    private lazy var feelingStackView: UIStackView = {
+    private lazy var WindSpeedStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [windSpeedTitle, windSpeedLabel])
         sv.axis = .horizontal
         sv.distribution = .fillProportionally
@@ -153,8 +174,8 @@ class TodayWeatherView: UIView {
         return sv
     }()
     
-    private lazy var humadityAndTemperatureStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [humadityStackView, feelingStackView])
+    private lazy var humadityAndWindSpeedStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [humadityStackView, WindSpeedStackView])
         sv.axis = .horizontal
         sv.distribution = .fillEqually
         sv.alignment = .fill
@@ -167,7 +188,7 @@ class TodayWeatherView: UIView {
     // 메인스택
     private lazy var todayStackView: UIStackView = {
         
-        let sv = UIStackView(arrangedSubviews: [imageAndDegreeStackView, sliderStackView, todayExplanationLabel, humadityAndTemperatureStackView ])
+        let sv = UIStackView(arrangedSubviews: [imageAndDegreeStackView, sliderStackView, todayExplanationLabel, humadityAndWindSpeedStackView ])
         sv.axis = .vertical
         sv.distribution = .fillProportionally
         sv.alignment = .center
@@ -209,6 +230,7 @@ class TodayWeatherView: UIView {
     override func layoutIfNeeded() {
         super.setNeedsLayout()
         self.setupBackgroundLayer()
+        self.setupTodayExplanationSize()
     }
     
 //    override func setNeedsDisplay() {
@@ -235,6 +257,16 @@ class TodayWeatherView: UIView {
         }
     }
     
+    func setupTodayExplanationSize() {
+        DispatchQueue.main.async {
+            if self.frame.width < 330 {
+                self.todayExplanationLabel.font = .systemFont(ofSize: 15)
+                self.todayExplanationLabel.textAlignment = .center
+            }
+
+        }
+    }
+    
     func setupUI() {
         self.addSubview(todayStackView)
         self.addSubview(updateLocationButton)
@@ -254,7 +286,7 @@ class TodayWeatherView: UIView {
         nowHumidityLabel.translatesAutoresizingMaskIntoConstraints = false
         windSpeedTitle.translatesAutoresizingMaskIntoConstraints = false
         windSpeedLabel.translatesAutoresizingMaskIntoConstraints = false
-        humadityAndTemperatureStackView.translatesAutoresizingMaskIntoConstraints = false
+        humadityAndWindSpeedStackView.translatesAutoresizingMaskIntoConstraints = false
         
         todayStackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -277,6 +309,7 @@ class TodayWeatherView: UIView {
             sliderStackView.heightAnchor.constraint(equalToConstant: 20),
             
             todayDegreeSlider.heightAnchor.constraint(equalToConstant: 5),
+
             
             minLabelForSlider.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             minLabelForSlider.widthAnchor.constraint(equalToConstant: 60),
@@ -286,18 +319,18 @@ class TodayWeatherView: UIView {
             maxLabelForSlider.widthAnchor.constraint(equalToConstant: 60),
             maxLabelForSlider.heightAnchor.constraint(equalToConstant: 40),
             
-            todayExplanationLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            todayExplanationLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
+            todayExplanationLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            todayExplanationLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             
-            humadityAndTemperatureStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            humadityAndTemperatureStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
-            humadityAndTemperatureStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
+            humadityAndWindSpeedStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            humadityAndWindSpeedStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            humadityAndWindSpeedStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30),
             
             updateLocationButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             updateLocationButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
     }
-    
+    /*
     func configureUIByData(_ data: WeatherModel) {
 //        self.todayWeatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
         self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
@@ -310,6 +343,22 @@ class TodayWeatherView: UIView {
         self.windSpeedLabel.text = data.windSpeed ?? ""
         self.nowHumidityLabel.text = data.humidityStatus ?? ""
         self.todayExplanationLabel.text = calculateDegreeExplanation(data)
+        self.addActionToButton()
+    }
+     */
+     
+    func configureUIByData(_ data: WeatherKitModel) {
+        self.todayWeatherImageView.image = UIImage(systemName: data.symbolName ?? "")
+        self.todayDegreeLabel.text = "\(data.temperature ?? "")°"
+        self.maxLabelForSlider.text = "\(data.highTemperature ?? "")°"
+        self.minLabelForSlider.text = "\(data.lowTemperature ?? "")°"
+        self.todayDegreeSlider.maximumValue = (data.highTemperature as? NSString ?? "0" ).floatValue
+        self.todayDegreeSlider.minimumValue = (data.lowTemperature as? NSString ?? "0" ).floatValue
+        self.todayDegreeSlider.value = (data.temperature as? NSString ?? "0" ).floatValue
+        self.windSpeedLabel.text = data.windSpeed ?? ""
+        self.nowHumidityLabel.text = String(Int((Float(data.humidity ?? "0") ?? 0) * 100)) + " %"
+        self.todayExplanationLabel.text = self.calculateDegreeExplanation(data)
+        self.setWeatherImageColor(data.symbolName)
         self.addActionToButton()
     }
     
@@ -339,6 +388,55 @@ class TodayWeatherView: UIView {
         return ""
     }
     
+    func calculateDegreeExplanation(_ data: WeatherKitModel) -> String {
+
+        guard let yesterdayDegreeString = yesterdayDegree,
+              let todayDegreeString = data.temperature else { return "" }
+        let todayDegree = (todayDegreeString as NSString).intValue
+        let yesterdayDegree = (yesterdayDegreeString as NSString).intValue
+        
+        switch todayDegree {
+        case ..<20:
+            if todayDegree > yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 따뜻합니다."
+            } else if todayDegree < yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 춥습니다."
+            }
+        case 20...:
+            if todayDegree > yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 덥습니다."
+            } else if todayDegree < yesterdayDegree {
+                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 시원합니다."
+            }
+        default:
+            break
+        }
+        return ""
+    }
+    
+    func setWeatherImageColor(_ symbolName: String?) {
+        
+        guard let symbolName else { return }
+        if symbolName.contains("sun") && symbolName.contains("cloud") {
+            todayWeatherImageView.tintColor = .systemOrange
+        } else if symbolName.contains("cloud") && symbolName.contains("rain") {
+            todayWeatherImageView.tintColor = .systemMint
+        } else if symbolName.contains("cloud") && symbolName.contains("snow") {
+            todayWeatherImageView.tintColor = .systemCyan
+        } else if symbolName.contains("rain") {
+            todayWeatherImageView.tintColor = .systemBlue
+        } else if symbolName.contains("snow") {
+            todayWeatherImageView.tintColor = .white
+        } else if symbolName.contains("cloud") {
+            todayWeatherImageView.tintColor = .systemGray2
+        } else if symbolName.contains("sun") {
+            todayWeatherImageView.tintColor = .systemRed
+        } else {
+            todayWeatherImageView.tintColor = .systemGray2
+        }
+        
+    }
+    /*
     func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String) -> UIImage {
         if rainStatusCategory == "0" {
             if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
@@ -414,7 +512,7 @@ class TodayWeatherView: UIView {
             }
         }
     }
-    
+    */
                 
     func addActionToButton() {
         self.updateLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)

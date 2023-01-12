@@ -21,6 +21,9 @@ extension LocationGridData {
     @NSManaged public var district: String?
     @NSManaged public var city: String?
     @NSManaged public var bookmark: Bool
+    @NSManaged public var longitude: Double
+    @NSManaged public var latitude: Double
+
 
 }
 

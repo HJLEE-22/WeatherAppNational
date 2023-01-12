@@ -31,12 +31,16 @@ class ColorsViewModel {
 
     // MARK: - Life cycle
     
-    init(weatherModel: [Day:WeatherModel?]) {
-        bind(weatherModel: weatherModel)
+//    init(weatherModel: [Day:WeatherModel?]) {
+//        bind(weatherModel: weatherModel)
+//    }
+    
+    init(weatherKitModel: [Day:WeatherKitModel?]) {
+        bind(weatherModel: weatherKitModel)
     }
 
     // MARK: - Helpers
-    
+    /*
     func bind(weatherModel: [Day:WeatherModel?]) {
         // 대박!! 여기 비동기처리함으로서 드디어 notify와 연결됐다ㅜㅜ
         // 그런데 왜 여기를 비동기처리해줘야되지...? 안해줘도 값 오는데...
@@ -64,6 +68,38 @@ class ColorsViewModel {
                   let model = weatherModel.first?.value,
                   let maxTemperature = model.temperatureMax,
                   let minTemperature = model.temperatureMin else { return }
+            self.tomorrowBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
+        }
+    }
+    */
+    
+    func bind(weatherModel: [Day:WeatherKitModel?]) {
+        // 대박!! 여기 비동기처리함으로서 드디어 notify와 연결됐다ㅜㅜ
+        // 그런데 왜 여기를 비동기처리해줘야되지...? 안해줘도 값 오는데...
+        DispatchQueue.global().async { [weak self] in
+            guard weatherModel.first?.key == .today,
+                  let self,
+                  let model = weatherModel.first?.value,
+                  let maxTemperature = model.highTemperature,
+                  let minTemperature = model.lowTemperature else { return }
+            self.todayBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
+        }
+        
+        DispatchQueue.global().async { [weak self] in
+            guard weatherModel.first?.key == .yesterday,
+                  let self,
+                  let model = weatherModel.first?.value,
+                  let maxTemperature = model.highTemperature,
+                  let minTemperature = model.lowTemperature else { return }
+            self.yesterdayBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
+        }
+        
+        DispatchQueue.global().async { [weak self] in
+            guard weatherModel.first?.key == .tomorrow,
+                  let self,
+                  let model = weatherModel.first?.value,
+                  let maxTemperature = model.highTemperature,
+                  let minTemperature = model.lowTemperature else { return }
             self.tomorrowBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
         }
     }
@@ -136,7 +172,7 @@ extension ColorsViewModel: ColorsSubscriber {
         self.colorsObserver = observer
     }
     
-    func colorsUnSubscribe(observer: (ColorsObserver)?) {
+    func colorsUnsubscribe(observer: (ColorsObserver)?) {
         self.colorsObserver = nil
     }
     

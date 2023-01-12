@@ -128,13 +128,17 @@ extension CitiesViewController: UITableViewDelegate {
         guard let city = selectedLocation.city,
               let district = selectedLocation.district else { return }
         let selectedLocationName = "\(city) \(district)"
-        let selectedLocationGridX = Int(selectedLocation.gridX)
-        let selectedLocationGridY = Int(selectedLocation.gridY)
-        weatherVC.weatherViewModel = .init(name: selectedLocationName, nx: selectedLocationGridX, ny: selectedLocationGridY)
+//        let selectedLocationGridX = Int(selectedLocation.gridX)
+//        let selectedLocationGridY = Int(selectedLocation.gridY)
+        let selectedLocationLatitude = selectedLocation.latitude
+        let selectedLocationLongitude = selectedLocation.longitude
+//        weatherVC.weatherViewModel = .init(name: selectedLocationName, nx: selectedLocationGridX, ny: selectedLocationGridY)
+        weatherVC.weatherKitViewModel = .init(name: selectedLocationName, latitude: selectedLocationLatitude, longitude: selectedLocationLongitude)
 
         show(weatherVC, sender: nil)
-        weatherVC.navigationItem.title = weatherVC.weatherViewModel.name
-        
+//        weatherVC.navigationItem.title = weatherVC.weatherViewModel.name
+        weatherVC.navigationItem.title = weatherVC.weatherKitViewModel.name
+        weatherVC.view.backgroundColor = .white
         
     }
     

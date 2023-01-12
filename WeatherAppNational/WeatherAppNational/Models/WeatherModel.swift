@@ -39,6 +39,9 @@ struct WeatherModel {
     var windSpeed: String?
     var rainingStatus: String?
     var skyStatus: String?
+    var symbolName: String?
 }
+
+
 
 

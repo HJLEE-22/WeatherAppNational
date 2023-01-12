@@ -11,17 +11,27 @@ class TomorrowWeatherView: UIView {
     
     // MARK: - Properties
     
-    var weatherModel: WeatherModel? {
+//    var weatherModel: WeatherModel? {
+//        didSet {
+//            if let weatherModel = weatherModel {
+//                self.configureUI(weatherModel)
+//            }
+//        }
+//    }
+    
+    var weatherKitModel: WeatherKitModel? {
         didSet {
-            if let weatherModel = weatherModel {
-                self.configureUI(weatherModel)
+            if let weatherKitModel {
+                DispatchQueue.main.async {
+                    self.configureUI(weatherKitModel)
+                }
             }
         }
     }
     
     var backgroundGradientLayer: CAGradientLayer? {
         didSet {
-//            self.layoutSubviews()
+            self.layoutIfNeeded()
         }
     }
 
@@ -114,6 +124,12 @@ class TomorrowWeatherView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        self.setupBackgroundLayer()
+        self.setSymbolImageSize()
+    }
+    
 //    override func layoutSubviews() {
 //        super.layoutSubviews()
 //        self.setupBackgroundLayer()
@@ -162,8 +178,19 @@ class TomorrowWeatherView: UIView {
         ])
     }
     
-    // MARK: - Helpers
+
     
+    func setSymbolImageSize(){
+        DispatchQueue.main.async {
+            if self.frame.height <= 250 {
+                self.weatherImageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
+                self.weatherImageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+            }
+        }
+    }
+    
+    // MARK: - Helpers
+    /*
     func configureUI(_ data: WeatherModel) {
 //        self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
         self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
@@ -175,7 +202,16 @@ class TomorrowWeatherView: UIView {
 //        print("DEBUG: view model in view exists \(viewModel)")
         self.tomorrowDateLabel.text = DateCalculate.tomorrowDateShortString + "일"
     }
-
+    */
+    func configureUI(_ data: WeatherKitModel) {
+        self.weatherImageView.image = UIImage(systemName: data.symbolName ?? "")
+        self.mainTemperatureLabel.text = "\(data.temperature ?? "")°"
+        self.maxTemperatureLabel.text = data.highTemperature ?? "" + "°"
+        self.minTemperatureLabel.text = data.lowTemperature ?? "" + "°"
+        self.tomorrowDateLabel.text = DateCalculate.tomorrowDateShortString + "일"
+        self.weatherImageView.tintColor = .systemGray3
+    }
+/*
     func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
         if rainStatusCategory == "0" {
             if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
@@ -219,5 +255,5 @@ class TomorrowWeatherView: UIView {
             }
         }
     }
-    
+ */
 }

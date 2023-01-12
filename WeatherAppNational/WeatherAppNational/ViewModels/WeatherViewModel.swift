@@ -6,16 +6,12 @@
 //
 
 import UIKit
-import CoreLocation
-
-
 
 class WeatherViewModel {
     
     // MARK: - Properties
     var observer: (any Observer)?
     
-    private var locationManager = CLLocationManager()
     private var todayDate = DateCalculate.todayDateString
     private var yesterdayDate = DateCalculate.yesterdayDateString
     private var tomorrowDate = DateCalculate.tomorrowDateString
@@ -59,7 +55,7 @@ class WeatherViewModel {
         // 오늘 날씨
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: .today,
+            CustomWeatherService.shared.fetchWeatherData(dayType: .today,
                                                    date: DateCalculate.yesterdayDateString,
                                                    time: "2300",
                                                    nx: selfRef.nx, ny: selfRef.ny) { result in
@@ -76,7 +72,7 @@ class WeatherViewModel {
         // 어제 날씨
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: .yesterday,
+            CustomWeatherService.shared.fetchWeatherData(dayType: .yesterday,
                                                    date: DateCalculate.yesterdayDateString,
                                                    time: "0200",
                                                    nx: selfRef.nx, ny: selfRef.ny) { result in
@@ -91,7 +87,7 @@ class WeatherViewModel {
         // 내일 날씨
         DispatchQueue.global().async { [weak self] in
             guard let selfRef = self else { return }
-            WeatherService.shared.fetchWeatherData(dayType: .tomorrow,
+            CustomWeatherService.shared.fetchWeatherData(dayType: .tomorrow,
                                                    date: DateCalculate.yesterdayDateString,
                                                    time: "2300",
                                                    nx: selfRef.nx, ny: selfRef.ny) { result in

@@ -7,9 +7,9 @@
 
 import Foundation
 
-class WeatherService {
+class CustomWeatherService {
     
-    static let shared = WeatherService()
+    static let shared = CustomWeatherService()
     
 
     func fetchWeatherData(dayType:Day, date: String, time: String, nx: Int, ny: Int, completion: @escaping (Result<WeatherModel, Error>) -> Void) {

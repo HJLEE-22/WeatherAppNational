@@ -40,7 +40,7 @@ public struct SystemIconNames {
 public struct CoreDataNames {
     static let entityName = "LocationGridData"
     static let sortDescriptorName = "city"
-    static let fileName = "LocationData"
+    static let fileName = "LocationDataWithGPS"
     static let fileType = "json"
     private init () {}
 }

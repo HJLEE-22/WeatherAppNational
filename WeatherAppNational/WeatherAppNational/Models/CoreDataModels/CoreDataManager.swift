@@ -42,7 +42,8 @@ final class CoreDataManager {
                     locationGridData.gridX = locationGrid.gridX
                     locationGridData.gridY = locationGrid.gridY
                     locationGridData.bookmark = locationGrid.bookmark
-                    
+                    locationGridData.longitude = locationGrid.longitude
+                    locationGridData.latitude = locationGrid.latitude
                     appDelegate?.saveContext()
                 }
             }
@@ -70,7 +71,7 @@ final class CoreDataManager {
                     LocationGridList = fetchedLocationList
                 }
             } catch {
-                print("DEBUG: 전체대이터 로드 실패")
+                print("DEBUG: 전체데이터 로드 실패")
             }
         }
         return LocationGridList
