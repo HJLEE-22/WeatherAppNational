@@ -98,7 +98,7 @@ class WeatherKitViewModel {
             var yesterdayHighTemperature: String?
             var yesterdayLowTemperature: String?
             var yesterdaySymbolName: String?
-            
+/*
             let hourWeather = try await weatherService.weather(for: location, including: .hourly(startDate: yesterday, endDate: yesterday))
             let hourWeatherCurrent = try await weatherService.weather(for: location, including: .hourly(startDate: Date(), endDate: Date()))
             print("DEBUG: hourWeather:\(hourWeather)")
@@ -114,13 +114,15 @@ class WeatherKitViewModel {
             yesterdaySymbolName = hourWeatherFiltered?.symbolName
             let yesterdayTemperatrueFormatted = String(Int(Double(hourWeatherFiltered?.temperature.formatted().dropLast(2) ?? "0")?.rounded(.awayFromZero) ?? 0))
             yesterdayTemperature = yesterdayTemperatrueFormatted
-//            let hourWeather = try await weatherService.weather(for: location, including: .hourly(startDate: yesterday, endDate: yesterday))
-//            hourWeather.forEach { hour in
-//                print("DEBUG: hourWeather:\(hour)")
-//                print("DEBUG: date:\(Date())")
-//                yesterdayTemperature = String(Int(Double(hour.temperature.formatted(.measurement(width: .narrow)).dropLast(2))?.rounded(.awayFromZero) ?? 100))
-//                yesterdaySymbolName = hour.symbolName
-//            }
+            */
+            let hourWeather = try await weatherService.weather(for: location, including: .hourly(startDate: yesterday, endDate: yesterday))
+
+            hourWeather.forEach { hour in
+                print("DEBUG: hourWeather:\(hour)")
+                print("DEBUG: date:\(Date())")
+                yesterdayTemperature = String(Int(Double(hour.temperature.formatted(.measurement(width: .narrow)).dropLast(2))?.rounded(.awayFromZero) ?? 100))
+                yesterdaySymbolName = hour.symbolName
+            }
             let dailyWeather = try await weatherService.weather(for: location, including: .daily(startDate: yesterday, endDate: yesterday))
             print("DEBUG: dailyWeather:\(dailyWeather)")
 
