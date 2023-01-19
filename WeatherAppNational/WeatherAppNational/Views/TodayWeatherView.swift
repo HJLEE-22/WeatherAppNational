@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+  
 protocol UpdatingLocationButtonDelegate {
     func updatingLocationButtonTapped()
 }
