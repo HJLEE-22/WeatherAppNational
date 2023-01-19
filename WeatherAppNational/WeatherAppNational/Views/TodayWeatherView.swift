@@ -30,7 +30,7 @@ class TodayWeatherView: UIView {
 //            }
 //        }
 //    }
-    
+     
     var weatherKitModel: WeatherKitModel? {
         didSet {
             if let weatherKitModel {
