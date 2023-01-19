@@ -14,7 +14,11 @@ class MainPageViewController: UIViewController {
 
 // MARK: - properties
     
-    private var subViewControllers: [UIViewController] = []
+    private var subViewControllers: [UIViewController] = [] {
+        didSet {
+            self.setPageControlForCurrentLocation()
+        }
+    }
     
     var currentPage: Int?{
         didSet {
@@ -71,19 +75,16 @@ class MainPageViewController: UIViewController {
         pageViewController.didMove(toParent: self)
         locationManager.delegate = self
         checkLocationServiceAuthorizationByVersion(self.locationManager)
-
-        
+        openBulletinBoardView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupViewControllersForBookmarked()
-        setPageControlForCurrentLocation()
     }
     
     
     // MARK: - Helpers
-
 
     
     func setupLayout(){
@@ -188,9 +189,9 @@ class MainPageViewController: UIViewController {
     
     func setPageControlForCurrentLocation() {
         DispatchQueue.main.async {
-            if self.currentLatitude != nil {
+            if self.currentLatitude != nil && self.subViewControllers != [] {
                 self.pageControl.setIndicatorImage(UIImage(systemName: SystemIconNames.gpsOn), forPage: 0)
-            } else {
+            } else if self.subViewControllers != [] {
                 self.pageControl.setIndicatorImage(UIImage(systemName: "circlebadge.fill"), forPage: 0)
             }
         }
@@ -198,9 +199,17 @@ class MainPageViewController: UIViewController {
 
     // MARK: - Actions
     
+    
+    func openBulletinBoardView() {
+        let bulletionBoardViewController = BulletinBoardViewController()
+        let weatherViewController = WeatherViewController()
+        weatherViewController.mainView.todayWeatherView.imageViewforTouch.setOpaqueTapGestureRecognizer {
+            self.show(bulletionBoardViewController, sender: self)
+        }
+    }
+    
     @objc func listButtonTapped() {
         show(CitiesViewController(), sender: self)
-        
     }
     
     @objc func settingButtonTapped() {
@@ -212,7 +221,6 @@ class MainPageViewController: UIViewController {
         navigationController?.view.layer.add(transition, forKey: kCATransition)
         show(SettingViewController(), sender: self)
     }
-    
 }
 
 // MARK: - Set VCs in PageVC
@@ -375,6 +383,8 @@ extension MainPageViewController:CLLocationManagerDelegate {
         // 가져온 Location으로 현재위치 날씨를 VC에 추가
         self.setupLayout()
         self.setupViewControllersForBookmarked()
+        self.setPageControlForCurrentLocation()
+
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

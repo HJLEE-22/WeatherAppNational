@@ -19,6 +19,7 @@ class TodayWeatherView: UIView {
 
     // MARK: - Today's properties
 
+        // MARK: - Models
     
 //    var weatherModel: WeatherModel? {
 //        didSet {
@@ -59,6 +60,14 @@ class TodayWeatherView: UIView {
             }
         }
     }
+        // MARK: - Properties for UI
+    
+    var imageViewforTouch: TouchableOpacityView = {
+        let view = TouchableOpacityView(frame: .zero)
+        view.backgroundColor = .systemPink
+        
+        return view
+    }()
     
     // 이미지와 온도 스택
     private lazy var todayWeatherImageView: UIImageView = {
@@ -270,6 +279,9 @@ class TodayWeatherView: UIView {
     func setupUI() {
         self.addSubview(todayStackView)
         self.addSubview(updateLocationButton)
+        self.addSubview(imageViewforTouch)
+        
+        imageViewforTouch.translatesAutoresizingMaskIntoConstraints = false
         
         todayWeatherImageView.translatesAutoresizingMaskIntoConstraints = false
         todayDegreeLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -293,6 +305,12 @@ class TodayWeatherView: UIView {
         updateLocationButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            
+            imageViewforTouch.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            imageViewforTouch.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            imageViewforTouch.topAnchor.constraint(equalTo: self.updateLocationButton.bottomAnchor, constant: 10),
+            imageViewforTouch.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
             todayStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             todayStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             todayStackView.topAnchor.constraint(equalTo: self.topAnchor),
