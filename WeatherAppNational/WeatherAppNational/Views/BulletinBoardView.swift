@@ -14,19 +14,38 @@ class BulletinBoardView: UIView {
     
     private lazy var typingTextField: UITextField = {
         let tf = UITextField()
+        tf.layer.borderWidth = 1
+        tf.layer.cornerRadius = 5
+        tf.layer.borderColor = UIColor.clear.cgColor
+        tf.backgroundColor = .white
         return tf
     }()
     
-    private lazy var typingStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [typingTextField])
-        return sv
+    private lazy var returnButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("입력", for: .normal)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.clear.cgColor
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 5
+        return button
+    }()
+    
+    private lazy var typingView: UIView = {
+        let view = UIView()
+        view.addSubview(typingTextField)
+        view.addSubview(returnButton)
+        view.backgroundColor = .systemGray5
+        return view
     }()
     
     var chattingsTableView: UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = .systemPink
+        tv.isUserInteractionEnabled = false
         return tv
     }()
+    
+
     
     // MARK: - Lifecycles
     
@@ -42,25 +61,34 @@ class BulletinBoardView: UIView {
     // MARK: - Helpers
     
     func setupView() {
-        [typingStackView, chattingsTableView].forEach({ self.addSubview($0)})
+        [typingView, chattingsTableView].forEach({ self.addSubview($0)})
         
         self.chattingsTableView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.leading.equalTo(self.safeAreaLayoutGuide)
             make.trailing.equalTo(self.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.typingStackView)
+            make.bottom.equalTo(self.typingView.snp.top)
         }
         
-        self.typingStackView.snp.makeConstraints { make in
-            make.bottom.equalTo(self.safeAreaLayoutGuide)
-            make.top.equalTo(self.chattingsTableView)
-            make.width.equalTo(self.safeAreaLayoutGuide)
-            make.height.equalTo(50)
+        self.typingView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.bottom.equalTo(self)
+            make.top.equalTo(self.chattingsTableView.snp.bottom)
+            make.height.equalTo(90)
+        }
+        
+        self.typingTextField.snp.makeConstraints { make in
+            make.top.equalTo(self.typingView).inset(5)
+            make.left.equalTo(self.typingView).inset(10)
+            make.right.equalTo(self.returnButton.snp_leftMargin).offset(-15)
+            make.height.equalTo(40)
+        }
+        self.returnButton.snp.makeConstraints { make in
+            make.top.equalTo(self.typingView).inset(5)
+            make.right.equalTo(self.typingView).inset(10)
+            make.width.equalTo(50)
+            make.height.equalTo(40)
         }
     }
-    
-    // MARK: - Actions
-    
-    
-    
 }
+

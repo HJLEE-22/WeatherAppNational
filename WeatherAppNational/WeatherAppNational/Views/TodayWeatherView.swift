@@ -65,7 +65,6 @@ class TodayWeatherView: UIView {
     var imageViewforTouch: TouchableOpacityView = {
         let view = TouchableOpacityView(frame: .zero)
         view.backgroundColor = .systemPink
-        
         return view
     }()
     

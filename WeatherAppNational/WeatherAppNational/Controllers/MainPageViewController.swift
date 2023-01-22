@@ -67,6 +67,9 @@ class MainPageViewController: UIViewController {
         return pageControl
     }()
     
+    let bulletionBoardViewController = BulletinBoardViewController()
+
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -75,7 +78,6 @@ class MainPageViewController: UIViewController {
         pageViewController.didMove(toParent: self)
         locationManager.delegate = self
         checkLocationServiceAuthorizationByVersion(self.locationManager)
-        openBulletinBoardView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -200,11 +202,10 @@ class MainPageViewController: UIViewController {
     // MARK: - Actions
     
     
-    func openBulletinBoardView() {
-        let bulletionBoardViewController = BulletinBoardViewController()
-        let weatherViewController = WeatherViewController()
-        weatherViewController.mainView.todayWeatherView.imageViewforTouch.setOpaqueTapGestureRecognizer {
-            self.show(bulletionBoardViewController, sender: self)
+    func addActionBulletinBoardViewOpen(_ weatherVC: WeatherViewController) {
+        weatherVC.mainView.todayWeatherView.imageViewforTouch.setOpaqueTapGestureRecognizer {
+            self.show(self.bulletionBoardViewController, sender: self)
+            self.bulletionBoardViewController.navigationItem.title = weatherVC.weatherKitViewModel.name
         }
     }
     
@@ -251,6 +252,7 @@ extension MainPageViewController {
         if let currentLatitude,
            let currentLongitude {
             let vc = WeatherViewController()
+            addActionBulletinBoardViewOpen(vc)
             vc.weatherKitViewModel = .init(name: "현재 위치", latitude: currentLatitude, longitude: currentLongitude)
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherKitViewModel.name
@@ -267,6 +269,7 @@ extension MainPageViewController {
         if let currentLatitude,
            let currentLongitude {
             let vc = WeatherViewController()
+            self.addActionBulletinBoardViewOpen(vc)
             vc.weatherKitViewModel = .init(name: "현재 위치", latitude: currentLatitude, longitude: currentLongitude)
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherKitViewModel.name
@@ -281,6 +284,7 @@ extension MainPageViewController {
             guard let city = location.city,
                   let district = location.district else { return }
             let locationName = "\(city) \(district)"
+            self.addActionBulletinBoardViewOpen(vc)
 //            let locationGridX = Int(location.gridX)
 //            let locationGridY = Int(location.gridY)
 //            vc.weatherViewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)

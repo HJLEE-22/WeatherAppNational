@@ -44,7 +44,6 @@ class WeatherViewModel {
         self.name = name
         self.nx = nx
         self.ny = ny
-        
         self.bind()
     }
     
