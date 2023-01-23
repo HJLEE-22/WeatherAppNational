@@ -109,6 +109,8 @@ extension WeatherViewController: ColorsObserver {
             switch value.first?.key {
             case .today :
                 self.mainView.todayWeatherView.backgroundGradientLayer = value[.today]
+                // 여기서 불레틴뷰컨한테 값을 넘겨줘야하는데.... 뷰컨객체를 생성해야 한다고...? 그건아닌거같은데...
+                
             case .yesterday:
                 self.mainView.yesterdayWeatherView.backgroundGradientLayer = value[.yesterday]
             case .tomorrow:

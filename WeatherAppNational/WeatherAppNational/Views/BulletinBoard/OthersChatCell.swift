@@ -61,7 +61,7 @@ class OthersChatCell: UITableViewCell {
 //        stackView.snp.contentHuggingVerticalPriority = 250
         stackView.layer.cornerRadius = 16
         stackView.clipsToBounds = true
-        stackView.backgroundColor = .systemBlue
+        stackView.backgroundColor = .systemGray5
         stackView.layer.borderWidth = 1
         stackView.layer.borderColor = UIColor.clear.cgColor
         return stackView

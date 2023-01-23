@@ -12,6 +12,7 @@ class BulletinBoardView: UIView {
     
     // MARK: - Properties
     
+        // MARK:  UIs
     private lazy var typingTextField: UITextField = {
         let tf = UITextField()
         tf.layer.borderWidth = 1
@@ -26,7 +27,7 @@ class BulletinBoardView: UIView {
         button.setTitle("입력", for: .normal)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.clear.cgColor
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemGray2
         button.layer.cornerRadius = 5
         return button
     }()
@@ -57,6 +58,8 @@ class BulletinBoardView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+
     
     // MARK: - Helpers
     

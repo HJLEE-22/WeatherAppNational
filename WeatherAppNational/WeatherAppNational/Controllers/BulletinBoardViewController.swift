@@ -12,7 +12,15 @@ import SnapKit
 class BulletinBoardViewController: UIViewController {
     
     // MARK: - Properties
-
+    
+        // MARK:  Models
+    
+    var weatherKitModel: WeatherKitModel?
+    
+    var backgroundGradientLayer: CAGradientLayer?
+    
+        // MARK:  Other Properties
+    
     let bulletinBoardView = BulletinBoardView()
 
     
@@ -23,7 +31,26 @@ class BulletinBoardViewController: UIViewController {
         setCells()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setupBackgroundLayer()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.backgroundGradientLayer?.removeFromSuperlayer()
+    }
+
+
     // MARK: - Helpers
+    
+    func setupBackgroundLayer() {
+        DispatchQueue.main.async {
+            if let backgroundGradientLayer = self.backgroundGradientLayer {
+                backgroundGradientLayer.frame = CGRect(x: 0, y: -59, width: 500, height: 103)
+                self.navigationController?.navigationBar.layer.addSublayer(backgroundGradientLayer)
+            }
+        }
+    }
+
     
     func setBulletinBoardView() {
         self.view.addSubview(bulletinBoardView)
@@ -31,6 +58,7 @@ class BulletinBoardViewController: UIViewController {
             make.right.left.top.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalTo(self.view)
         }
+        
     }
     
     func setCells() {

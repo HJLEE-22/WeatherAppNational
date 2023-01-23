@@ -36,6 +36,7 @@ class UserChatCell: UITableViewCell {
         label.textAlignment = .left
         label.text = "Here is the chattings part, Yes, Here is the chattings part!!"
         label.numberOfLines = 0
+        label.textColor = .white
         return label
     }()
     
@@ -60,7 +61,8 @@ class UserChatCell: UITableViewCell {
 //        stackView.snp.contentHuggingVerticalPriority = 250
         stackView.layer.cornerRadius = 16
         stackView.clipsToBounds = true
-        stackView.backgroundColor = .systemGray5
+        stackView.backgroundColor = .systemGray2
+        
         stackView.layer.borderWidth = 1
         stackView.layer.borderColor = UIColor.clear.cgColor
         return stackView
