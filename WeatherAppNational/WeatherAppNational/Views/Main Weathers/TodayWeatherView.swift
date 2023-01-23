@@ -19,7 +19,7 @@ class TodayWeatherView: UIView {
 
     // MARK: - Today's properties
 
-        // MARK: - Models
+        // MARK:  Models
     
 //    var weatherModel: WeatherModel? {
 //        didSet {
@@ -31,15 +31,7 @@ class TodayWeatherView: UIView {
 //        }
 //    }
      
-    var weatherKitModel: WeatherKitModel? {
-        didSet {
-            if let weatherKitModel {
-//                DispatchQueue.main.async {
-//                    self.configureUIByData(weatherKitModel)
-//                }
-            }
-        }
-    }
+    var weatherKitModel: WeatherKitModel? 
     
     var backgroundGradientLayer: CAGradientLayer? {
         didSet {
@@ -60,12 +52,11 @@ class TodayWeatherView: UIView {
             }
         }
     }
-        // MARK: - Properties for UI
+        // MARK:  Properties for UI
     
     var imageViewforTouch: TouchableOpacityView = {
         let view = TouchableOpacityView(frame: .zero)
-        view.backgroundColor = .systemPink
-        
+        view.backgroundColor = .clear
         return view
     }()
     

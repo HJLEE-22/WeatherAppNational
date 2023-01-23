@@ -14,6 +14,12 @@ class MainPageViewController: UIViewController {
 
 // MARK: - properties
     
+    
+    let geocoder = CLGeocoder()
+    let locale = Locale(identifier: "ko-kr")
+    var currentAdministrativeName: String?
+    var currentCityName: String?
+    
     private var subViewControllers: [UIViewController] = [] {
         didSet {
             self.setPageControlForCurrentLocation()
@@ -67,6 +73,9 @@ class MainPageViewController: UIViewController {
         return pageControl
     }()
     
+    let bulletionBoardViewController = BulletinBoardViewController()
+
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -75,12 +84,11 @@ class MainPageViewController: UIViewController {
         pageViewController.didMove(toParent: self)
         locationManager.delegate = self
         checkLocationServiceAuthorizationByVersion(self.locationManager)
-        openBulletinBoardView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupViewControllersForBookmarked()
+        self.setupViewControllersForBookmarked(city: nil, area: nil)
     }
     
     
@@ -161,7 +169,7 @@ class MainPageViewController: UIViewController {
             // 시스템 설정으로 유도하는 커스텀 얼럿
             showRequestLocationServiceAlert()
             self.setupLayout()
-            self.setupViewControllers()
+            self.setupViewControllersForBookmarked(city: nil, area: nil)
         case .authorizedWhenInUse:
             // 앱을 사용중일 때, 위치 서비스를 이용할 수 있는 상태
             // manager 인스턴스를 사용하여 사용자의 위치를 가져온다.
@@ -200,11 +208,11 @@ class MainPageViewController: UIViewController {
     // MARK: - Actions
     
     
-    func openBulletinBoardView() {
-        let bulletionBoardViewController = BulletinBoardViewController()
-        let weatherViewController = WeatherViewController()
-        weatherViewController.mainView.todayWeatherView.imageViewforTouch.setOpaqueTapGestureRecognizer {
-            self.show(bulletionBoardViewController, sender: self)
+    func addActionBulletinBoardViewOpen(_ weatherVC: WeatherViewController) {
+        weatherVC.mainView.todayWeatherView.imageViewforTouch.setOpaqueTapGestureRecognizer {
+            self.show(self.bulletionBoardViewController, sender: self)
+            self.bulletionBoardViewController.navigationItem.title = weatherVC.weatherKitViewModel.name
+            self.bulletionBoardViewController.backgroundGradientLayer = weatherVC.mainView.todayWeatherView.backgroundGradientLayer
         }
     }
     
@@ -243,15 +251,19 @@ extension MainPageViewController {
             currentPage = 0
     }
      */
+    /*
     private func setupViewControllers(){
         
 //        if 현재위치 받았으면 {
 //            현재위치VC 전체VC에 넣어주기
 //        }
         if let currentLatitude,
-           let currentLongitude {
+           let currentLongitude,
+           let currentAdministrativeName,
+           let currentCityName {
             let vc = WeatherViewController()
-            vc.weatherKitViewModel = .init(name: "현재 위치", latitude: currentLatitude, longitude: currentLongitude)
+            addActionBulletinBoardViewOpen(vc)
+            vc.weatherKitViewModel = .init(name: "\(currentAdministrativeName) \(currentCityName)", latitude: currentLatitude, longitude: currentLongitude)
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
@@ -259,15 +271,34 @@ extension MainPageViewController {
         }
             currentPage = 0
     }
+     */
     
-    private func setupViewControllersForBookmarked(){
+    private func setupViewControllersForBookmarked(city: String?, area: String?){
 
         subViewControllers.removeAll()
         
         if let currentLatitude,
-           let currentLongitude {
+           let currentLongitude,
+           let city, let area {
             let vc = WeatherViewController()
-            vc.weatherKitViewModel = .init(name: "현재 위치", latitude: currentLatitude, longitude: currentLongitude)
+            self.addActionBulletinBoardViewOpen(vc)
+            vc.weatherKitViewModel = .init(name: "\(area) \(city)",
+                                           latitude: currentLatitude,
+                                           longitude: currentLongitude)
+            vc.mainView.todayWeatherView.buttonDelegate = self
+            self.navigationItem.title = vc.weatherKitViewModel.name
+            subViewControllers.append(vc)
+            self.pageControl.numberOfPages = subViewControllers.count
+            setupFisrtViewController()
+        } else if let currentLatitude,
+                  let currentLongitude,
+                  let currentAdministrativeName,
+                  let currentCityName {
+            let vc = WeatherViewController()
+            self.addActionBulletinBoardViewOpen(vc)
+            vc.weatherKitViewModel = .init(name: "\(currentAdministrativeName) \(currentCityName)",
+                                           latitude: currentLatitude,
+                                           longitude: currentLongitude)
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
@@ -275,12 +306,14 @@ extension MainPageViewController {
             setupFisrtViewController()
         }
         
+        
         let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
         cities.forEach(){ location in
             let vc = WeatherViewController()
             guard let city = location.city,
                   let district = location.district else { return }
             let locationName = "\(city) \(district)"
+            self.addActionBulletinBoardViewOpen(vc)
 //            let locationGridX = Int(location.gridX)
 //            let locationGridY = Int(location.gridY)
 //            vc.weatherViewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
@@ -364,27 +397,40 @@ extension MainPageViewController:CLLocationManagerDelegate {
         print("DEBUG: DidUpdateLocation")
         
         // 위치 정보를 배열로 입력받는데, 마지막 index값이 가장 정확하다고 한다.
-        if let coordinate = locations.last?.coordinate {
+        if let location = locations.last,
+           let coordinate = locations.last?.coordinate {
             // ⭐️ 사용자 위치 정보 사용
             print("DEBUG: 위도 \(coordinate.latitude)")
             print("DEBUG: 경도 \(coordinate.longitude)")
             
-            currentLatitude = Double(coordinate.latitude.formatted())
-            currentLongitude = Double(coordinate.longitude.formatted())
+            self.currentLatitude = Double(coordinate.latitude.formatted())
+            self.currentLongitude = Double(coordinate.longitude.formatted())
 //            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: latitude, lng_Y: longitude)
 //            print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
 //            self.convertedGridX = convertedGrid.x
 //            self.convertedGridY = convertedGrid.y
+            
+            self.geocoder.reverseGeocodeLocation(location, preferredLocale: self.locale) { [weak self] placemarks, _ in
+                guard let placemarks,
+                      let address = placemarks.last else { return }
+
+                    self?.currentAdministrativeName = address.administrativeArea
+                    self?.currentCityName = address.locality
+                    self?.setupLayout()
+                self?.setupViewControllersForBookmarked(city: address.locality, area: address.administrativeArea)
+                    self?.setPageControlForCurrentLocation()
+            }
+            
+        } else {
+            self.setupLayout()
+            self.setupViewControllersForBookmarked(city: nil, area: nil)
+            self.setPageControlForCurrentLocation()
         }
         
         // startUpdatingLocation()을 사용하여 사용자 위치를 가져왔다면
         // 불필요한 업데이트를 방지하기 위해 stopUpdatingLocation을 호출
         manager.stopUpdatingLocation()
         // 가져온 Location으로 현재위치 날씨를 VC에 추가
-        self.setupLayout()
-        self.setupViewControllersForBookmarked()
-        self.setPageControlForCurrentLocation()
-
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -396,7 +442,8 @@ extension MainPageViewController:CLLocationManagerDelegate {
         // 사용자 디바이스의 위치 서비스가 활성화 상태인지 확인하는 메서드 호출
         checkLocationServiceAuthorizationByVersion(manager)
         self.setupLayout()
-        self.setupViewControllers()
+        self.setupViewControllersForBookmarked(city: nil, area: nil)
+        
     }
     
     // 앱에 대한 권한 설정이 변경되면 호출 (iOS 14 미만)
@@ -404,7 +451,7 @@ extension MainPageViewController:CLLocationManagerDelegate {
         // 사용자 디바이스의 위치 서비스가 활성화 상태인지 확인하는 메서드 호출
 //        checkLocationServiceAuthorizationByVersion(manager)
         self.setupLayout()
-        self.setupViewControllers()
+        self.setupViewControllersForBookmarked(city: nil, area: nil)
     }
 }
 
@@ -412,6 +459,6 @@ extension MainPageViewController:CLLocationManagerDelegate {
 extension MainPageViewController: UpdatingLocationButtonDelegate {
     func updatingLocationButtonTapped() {
         print("DEBUG: check for location button!")
-        self.setupViewControllersForBookmarked()
+        self.setupViewControllersForBookmarked(city: nil, area: nil)
     }
 }
