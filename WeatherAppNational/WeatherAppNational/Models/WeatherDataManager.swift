@@ -18,6 +18,8 @@ final class WeatherDataManager {
     static let shared = WeatherDataManager()
     private init() {}
     
+    let serviceKey = Bundle.main.nationalWeatherApiKey
+    
     typealias NetworkCompletion = (Result<[WeatherItem], NetworkError>)-> Void
     
     func fetchWeather(date: String,
@@ -25,7 +27,6 @@ final class WeatherDataManager {
                       nx: Int,
                       ny: Int,
                       completion: @escaping NetworkCompletion){
-        let serviceKey = "i%2FlgvIb5OpxWS%2FSUbYqKVRUFOAhnyLPnReUncUwXfMAm1M8MflkW6pDo5RG5Gvx8rXyy6cJNJrWjy6q83jBmBw%3D%3D"
         let urlString = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=\(serviceKey)&pageNo=1&numOfRows=1000&dataType=JSON&base_date=\(date)&base_time=\(time)&nx=\(nx)&ny=\(ny)"
         performRequest(with: urlString) { result in
             completion(result)
