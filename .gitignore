@@ -11,3 +11,5 @@ WeatherAppNational/WeatherAppNational.xcodeproj/xcuserdata/ihyeongju.xcuserdatad
 WeatherAppNational/WeatherAppNational.xcodeproj/project.xcworkspace/xcuserdata/ihyeongju.xcuserdatad/UserInterfaceState.xcuserstate
 *.xcuserstate
 *.xcworkspacedata
+## API Key
+APIKeyList.plist
