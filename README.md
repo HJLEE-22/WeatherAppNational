@@ -15,9 +15,10 @@ WeatherKit을 이용한 날씨 비교앱<br>
     - 언어: Swift5
     - 구조: MVVM
     - API: Apple WeatherKit, (기상청 API), Alamofire
-    - UI: UIKit, SnapKit
-    - 데이터베이스: CoreData, Firebase
-    - 그 외: IQKeyboardManagerSwift
+    - UI: UIKit(코드로 구성), SnapKit
+    - 데이터베이스: Firebase
+    - 그 외 프레임워크: CoreData, CoreLocation, SafariServices, MessageUI
+    - 그 외 라이브러리: IQKeyboardManagerSwift
 - 구현 기능
     - 날씨 예보
         - WeatherKit을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
