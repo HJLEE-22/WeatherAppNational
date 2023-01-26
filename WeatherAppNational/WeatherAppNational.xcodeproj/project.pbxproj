@@ -51,6 +51,8 @@
 		ADE9CF18291550E5002EDB9E /* CustomWeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE9CF17291550E5002EDB9E /* CustomWeatherService.swift */; };
 		ADEB44F1297D150300DD6B55 /* UserChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEB44F0297D150300DD6B55 /* UserChatCell.swift */; };
 		ADEB44F3297D152500DD6B55 /* OthersChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEB44F2297D152500DD6B55 /* OthersChatCell.swift */; };
+		ADEB44FB297F9D8300DD6B55 /* APIKeyList.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADEB44FA297F9D8300DD6B55 /* APIKeyList.plist */; };
+		ADEB44FE297FAA2F00DD6B55 /* WeatherAppNational++Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEB44FD297FAA2F00DD6B55 /* WeatherAppNational++Bundle.swift */; };
 		ADFF81EE293C756B00FB883F /* LocationData.json in Resources */ = {isa = PBXBuildFile; fileRef = ADFF81ED293C756B00FB883F /* LocationData.json */; };
 		ADFF81F1293C775900FB883F /* LocationGrid+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF81EF293C775900FB883F /* LocationGrid+CoreDataClass.swift */; };
 		ADFF81F2293C775900FB883F /* LocationGrid+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFF81F0293C775900FB883F /* LocationGrid+CoreDataProperties.swift */; };
@@ -111,6 +113,8 @@
 		ADE9CF17291550E5002EDB9E /* CustomWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWeatherService.swift; sourceTree = "<group>"; };
 		ADEB44F0297D150300DD6B55 /* UserChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChatCell.swift; sourceTree = "<group>"; };
 		ADEB44F2297D152500DD6B55 /* OthersChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthersChatCell.swift; sourceTree = "<group>"; };
+		ADEB44FA297F9D8300DD6B55 /* APIKeyList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeyList.plist; sourceTree = "<group>"; };
+		ADEB44FD297FAA2F00DD6B55 /* WeatherAppNational++Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherAppNational++Bundle.swift"; sourceTree = "<group>"; };
 		ADFF81ED293C756B00FB883F /* LocationData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LocationData.json; sourceTree = "<group>"; };
 		ADFF81EF293C775900FB883F /* LocationGrid+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationGrid+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ADFF81F0293C775900FB883F /* LocationGrid+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationGrid+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -176,6 +180,8 @@
 			children = (
 				ADFF81ED293C756B00FB883F /* LocationData.json */,
 				ADAD622F29696F48000BFCF4 /* LocationDataWithGPS.json */,
+				ADEB44FA297F9D8300DD6B55 /* APIKeyList.plist */,
+				ADEB44FD297FAA2F00DD6B55 /* WeatherAppNational++Bundle.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -409,6 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB471A028F69616005F8AA5 /* LaunchScreen.storyboard in Resources */,
+				ADEB44FB297F9D8300DD6B55 /* APIKeyList.plist in Resources */,
 				ADB4719D28F69616005F8AA5 /* Assets.xcassets in Resources */,
 				AD30F68A2938699200C68732 /* Binggrae-Bold.otf in Resources */,
 				ADAD623029696F48000BFCF4 /* LocationDataWithGPS.json in Resources */,
@@ -476,6 +483,7 @@
 				AD6FA1EA2920ADBB00492FE9 /* CityModel.swift in Sources */,
 				ADE9CEFA2907C39D002EDB9E /* CitiesViewController.swift in Sources */,
 				ADEB44F1297D150300DD6B55 /* UserChatCell.swift in Sources */,
+				ADEB44FE297FAA2F00DD6B55 /* WeatherAppNational++Bundle.swift in Sources */,
 				ADE9CF002907C3F9002EDB9E /* TomorrowWeatherView.swift in Sources */,
 				ADD43DB1294C2B64000DE026 /* TouchableOpacityImageView.swift in Sources */,
 				ADE9CF042907C41D002EDB9E /* TodayWeatherView.swift in Sources */,
