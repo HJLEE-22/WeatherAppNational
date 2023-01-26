@@ -1,7 +1,10 @@
 # 어제보다
 
-WeatherKit을 이용한 날씨 비교앱 
+WeatherKit을 이용한 날씨 비교앱<br>
 [https://apps.apple.com/kr/app/어제보다/id1664691738](https://apps.apple.com/kr/app/%EC%96%B4%EC%A0%9C%EB%B3%B4%EB%8B%A4/id1664691738)
+
+![어제보다썸네일리사이즈](https://user-images.githubusercontent.com/98086074/214786381-dbb7dfd8-cb63-40d3-919a-e29f54a08cd6.png)
+
 
 - 프로젝트 소개
     - 어제의 날씨를 통해 오늘과 내일의 날씨를 유추할 수 있도록 만든 어플리케이션입니다.
