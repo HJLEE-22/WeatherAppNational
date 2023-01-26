@@ -20,14 +20,14 @@ WeatherKit을 이용한 날씨 비교앱
         - WeatherKit을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
         - CAGradientLayer를 통해 온도에 따라 view의 색상을 변경해 시각적으로 즐거움을 줍니다.
 
-![ezgif com-gif-maker-4](https://user-images.githubusercontent.com/98086074/214777317-3061e578-8b10-47d4-aebd-80a8e4debdf1.gif)
+![Cities](https://user-images.githubusercontent.com/98086074/214780493-1e31d8bc-aa90-45a5-8f21-9d28b872ee11.gif)
 
 
     - 도시 검색 및 관리
         - UIPageViewController와 UITableViewController를 연동해 여러 도시를 북마크하고 관리합니다.
         - CoreData를 이용해 도시 데이터를 저장하고 검색합니다.
         
-![ezgif com-gif-maker-3](https://user-images.githubusercontent.com/98086074/214777668-1b88393c-7fe1-4fcc-a2b0-ecc8e110ae48.gif)
+![AddingCityRecord](https://user-images.githubusercontent.com/98086074/214780526-9eb05788-f750-4739-a035-fba658dbcc24.gif)
 
 
         
@@ -38,7 +38,7 @@ WeatherKit을 이용한 날씨 비교앱
     - AppleLogin을 통해 정보를 받아 Firebase 서버에 계정 정보를 저장합니다.
     - 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
 
-![ezgif com-gif-maker-2](https://user-images.githubusercontent.com/98086074/214777419-339c9da6-76de-4e72-bd80-f3a05396b1cf.gif)
+![BulletinBoardRecord](https://user-images.githubusercontent.com/98086074/214780543-e7a1e43b-4592-442f-b460-de3efaf6a3d5.gif)
 
 
 - 참고
