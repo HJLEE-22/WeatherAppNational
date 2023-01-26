@@ -6,50 +6,52 @@ WeatherKit을 이용한 날씨 비교앱<br>
 ![어제보다썸네일리사이즈](https://user-images.githubusercontent.com/98086074/214786381-dbb7dfd8-cb63-40d3-919a-e29f54a08cd6.png)
 
 
-- 프로젝트 소개
-    - 어제의 날씨를 통해 오늘과 내일의 날씨를 유추할 수 있도록 만든 어플리케이션입니다.
-    - 날씨앱 해커톤에 참여하며, 
-    어제의 날씨와 비교하면 보다 직관적으로 오늘의 날씨를 확인하는데 도움이 될 수 있다는 아이디어로 어플리케이션을 기획하게 되었습니다.
-    - 각 도시마다 게시판을 만들어 사람들이 직접 날씨 정보를 나누고 의견을 나눌 수 있도록 제작하고 있습니다. (version 2.0 업데이트 예정)
-- 기술 스택
-    - 언어: Swift5
-    - 구조: MVVM
-    - API: Apple WeatherKit, (기상청 API), Alamofire
-    - UI: UIKit(코드로 구성), SnapKit
-    - 데이터베이스: Firebase
-    - 그 외 프레임워크: CoreData, CoreLocation, SafariServices, MessageUI
-    - 그 외 라이브러리: IQKeyboardManagerSwift
-- 구현 기능
-    - 날씨 예보
-        - WeatherKit을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
-        - CAGradientLayer를 통해 온도에 따라 view의 색상을 변경해 시각적으로 즐거움을 줍니다.
-        - CoreLocation을 사용해 현재 위치를 받아 날씨 정보를 받아옵니다. 
+### 프로젝트 소개
+- 어제의 날씨를 통해 오늘과 내일의 날씨를 유추할 수 있도록 만든 어플리케이션입니다.
+- 날씨앱 해커톤에 참여하며, <br>어제의 날씨와 비교하면 보다 직관적으로 오늘의 날씨를 확인하는데 도움이 될 수 있다는 아이디어로 어플리케이션을 기획하게 되었습니다.
+- 각 도시마다 게시판을 만들어 사람들이 직접 날씨 정보를 나누고 의견을 나눌 수 있도록 제작하고 있습니다. (version 2.0 업데이트 예정)
+
+### 기술 스택
+- 언어: Swift5
+- 구조: MVVM
+- API: Apple WeatherKit, (기상청 API), Alamofire
+- UI: UIKit(코드로 구성), SnapKit
+- 데이터베이스: Firebase
+- 그 외 프레임워크: CoreData, CoreLocation, SafariServices, MessageUI
+- 그 외 라이브러리: IQKeyboardManagerSwift
+
+### 구현 기능
+- 날씨 예보
+  - WeatherKit을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
+  - CAGradientLayer를 통해 온도에 따라 view의 색상을 변경해 시각적으로 즐거움을 줍니다.
+  - CoreLocation을 사용해 현재 위치를 받아 날씨 정보를 받아옵니다. 
 
 ![Cities](https://user-images.githubusercontent.com/98086074/214780493-1e31d8bc-aa90-45a5-8f21-9d28b872ee11.gif)
 
 
-    - 도시 검색 및 관리
-        - UIPageViewController와 UITableViewController를 연동해 여러 도시를 북마크하고 관리합니다.
-        - CoreData를 이용해 도시 데이터를 저장하고 검색합니다.
+- 도시 검색 및 관리
+  - UIPageViewController와 UITableViewController를 연동해 여러 도시를 북마크하고 관리합니다.
+  - CoreData를 이용해 도시 데이터를 저장하고 검색합니다.
         
 ![AddingCityRecord](https://user-images.githubusercontent.com/98086074/214780526-9eb05788-f750-4739-a035-fba658dbcc24.gif)
 
 
         
-    - 설계
-        - MVVM 패턴을 사용해 데이터간의 의존성을 낮추고 기능의 활용성을 증대하였습니다.
-        - Storyboard 없이 UIKit과 SnapKit으로 화면을 구성하였습니다.
-- 구현 예정 기능
-    - AppleLogin을 통해 정보를 받아 Firebase 서버에 계정 정보를 저장합니다.
-    - 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
+- 설계
+  - MVVM 패턴을 사용해 데이터간의 의존성을 낮추고 기능의 활용성을 증대하였습니다.
+  - Storyboard 없이 UIKit과 SnapKit으로 화면을 구성하였습니다.
+  
+### 구현 예정 기능
+- AppleLogin을 통해 정보를 받아 Firebase 서버에 계정 정보를 저장합니다.
+- 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
 
 ![BulletinBoardRecord](https://user-images.githubusercontent.com/98086074/214780543-e7a1e43b-4592-442f-b460-de3efaf6a3d5.gif)
 
 
-- 참고
-    - Luna의 날씨앱 해커톤 [https://cyber-patient-404.notion.site/1-iOS-with-at-the-791e36f87556461ebe570224d390d8e1](https://www.notion.so/791e36f87556461ebe570224d390d8e1)
+### 참고
+- Luna의 날씨앱 해커톤 [https://cyber-patient-404.notion.site/1-iOS-with-at-the-791e36f87556461ebe570224d390d8e1](https://www.notion.so/791e36f87556461ebe570224d390d8e1)
     
-- 주요 문제해결 과정
+### 주요 문제해결 과정
 
 <details>
 <summary>CLLocationManager 사용 경고 (연관이슈 [#2], [#7])</summary>
@@ -143,8 +145,8 @@ protocol Subscriber {
 }
 ```
                     
-    - View
-      - View에는 View를 구성하는 UI와, 외부(VC)에서 던져주는 Model 객체만 존재
+- View
+  - View에는 View를 구성하는 UI와, 외부(VC)에서 던져주는 Model 객체만 존재
                     
 
 ```swift
@@ -161,8 +163,8 @@ protocol Subscriber {
 }
 ```
                     
-    - ViewModel
-      - Subscriber 프로토콜 채택. 프로토콜의 메서드들에 기본값 제공.
+- ViewModel
+  - Subscriber 프로토콜 채택. 프로토콜의 메서드들에 기본값 제공.
                     
 ```swift
 // 서브스크라이버 프로토콜 초기화. 기본값 넣어주기.
@@ -182,15 +184,15 @@ extension WeatherViewModel: Subscriber {
 }
 ```
                     
-      - VC와 연결할 observer 객체 생성.
+- VC와 연결할 observer 객체 생성.
                     
 ```swift
 // VC를 받을 옵저버 객체 만들어놓기 (일종의 델리게이트 프로퍼티)
 internal var observer: (any Observer)?
 ```
                     
-      - ModelDataManager로부터 Model을 받아와 model객체를 초기화.
-      - 이렇게 초기화한 model 값을 subscriber 프로토콜의 notify를 통해 전달
+- ModelDataManager로부터 Model을 받아와 model객체를 초기화.
+- 이렇게 초기화한 model 값을 subscriber 프로토콜의 notify를 통해 전달
                     
 ```swift
 private var todayWeatherModel: WeatherModel = WeatherModel() {
@@ -220,11 +222,11 @@ private var todayWeatherModel: WeatherModel = WeatherModel() {
         }
 ```
                     
-    - ViewController
-      - VM에서 받아온 Model을 View에 던져주는 역할
-      - 옵저버 프로토콜을 채택하고, update 함수에 전달하기 원하는 데이터 타입 구성.
-      - (각) View에 데이터를 전달한다.
-      - 유념 : update 함수는 subscriber 프로토콜에 notify 메서드로 연결되어 있다.이후 직접 호출되지 않음. (update 메서드에 입력받는 파라미터도 notify 메서드의 파라미터와 연결되어있음)
+- ViewController
+  - VM에서 받아온 Model을 View에 던져주는 역할
+  - 옵저버 프로토콜을 채택하고, update 함수에 전달하기 원하는 데이터 타입 구성.
+  - (각) View에 데이터를 전달한다.
+  - 유념 : update 함수는 subscriber 프로토콜에 notify 메서드로 연결되어 있다.이후 직접 호출되지 않음. (update 메서드에 입력받는 파라미터도 notify 메서드의 파라미터와 연결되어있음)
                         
 ```swift
 extension WeatherViewController: Observer {
@@ -246,8 +248,8 @@ extension WeatherViewController: Observer {
 }
 ```
                         
-      - VM에게 자신이(해당 VC가) 옵저버임을 알려야 함
-      - VM 프로퍼티 감시자로 만들어 subscribe할 옵저버 대상을 자신으로 놓기.
+- VM에게 자신이(해당 VC가) 옵저버임을 알려야 함
+- VM 프로퍼티 감시자로 만들어 subscribe할 옵저버 대상을 자신으로 놓기.
                         
 ```swift
 var viewModel: WeatherViewModel! {
@@ -257,7 +259,7 @@ var viewModel: WeatherViewModel! {
     }
 ```
                         
-      - 이렇게 한 subscribe는 차후 해제해야 함
+- 이렇게 한 subscribe는 차후 해제해야 함
                         
 ```swift
 deinit {
