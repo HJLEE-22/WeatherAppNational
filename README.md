@@ -19,6 +19,7 @@ WeatherKit을 이용한 날씨 비교앱
     - 날씨 예보
         - WeatherKit을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
         - CAGradientLayer를 통해 온도에 따라 view의 색상을 변경해 시각적으로 즐거움을 줍니다.
+        - CoreLocation을 사용해 현재 위치를 받아 날씨 정보를 받아옵니다. 
 
 ![Cities](https://user-images.githubusercontent.com/98086074/214780493-1e31d8bc-aa90-45a5-8f21-9d28b872ee11.gif)
 
