@@ -12,6 +12,8 @@
 		AD30F6882938698A00C68732 /* Binggrae.otf in Resources */ = {isa = PBXBuildFile; fileRef = AD30F6872938698A00C68732 /* Binggrae.otf */; };
 		AD30F68A2938699200C68732 /* Binggrae-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AD30F6892938699200C68732 /* Binggrae-Bold.otf */; };
 		AD30F68C29386CE400C68732 /* DefaultFontChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30F68B29386CE400C68732 /* DefaultFontChange.swift */; };
+		AD3BF54B2984EB8C0090371C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF54A2984EB8C0090371C /* LoginView.swift */; };
+		AD3BF5512984FC430090371C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF5502984FC430090371C /* LoginViewController.swift */; };
 		AD6FA1DE291939B400492FE9 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DD291939B400492FE9 /* Observer.swift */; };
 		AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DF29193A0700492FE9 /* Subscriber.swift */; };
 		AD6FA1E2291FC46500492FE9 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */; };
@@ -71,6 +73,8 @@
 		AD30F6872938698A00C68732 /* Binggrae.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Binggrae.otf; sourceTree = "<group>"; };
 		AD30F6892938699200C68732 /* Binggrae-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Binggrae-Bold.otf"; sourceTree = "<group>"; };
 		AD30F68B29386CE400C68732 /* DefaultFontChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFontChange.swift; sourceTree = "<group>"; };
+		AD3BF54A2984EB8C0090371C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		AD3BF5502984FC430090371C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AD6FA1DD291939B400492FE9 /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		AD6FA1DF29193A0700492FE9 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
 		AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 				ADE9CEF22907C254002EDB9E /* SettingViewController.swift */,
 				ADE9CEF92907C39D002EDB9E /* CitiesViewController.swift */,
 				AD9CC8BA2976BD8D005EDC26 /* BulletinBoardViewController.swift */,
+				AD3BF5502984FC430090371C /* LoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -286,6 +291,7 @@
 				ADFF81F7293EFED300FB883F /* CitiesListViewCell.swift */,
 				ADEB44F6297E991700DD6B55 /* Main Weathers */,
 				ADEB44F7297E993F00DD6B55 /* BulletinBoard */,
+				AD3BF54A2984EB8C0090371C /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -478,6 +484,7 @@
 				ADB471AD28F8006B005F8AA5 /* WeatherDataManager.swift in Sources */,
 				ADB4719528F69615005F8AA5 /* MainPageViewController.swift in Sources */,
 				AD6FA1E82920AD2E00492FE9 /* UserDefaultsUtil.swift in Sources */,
+				AD3BF54B2984EB8C0090371C /* LoginView.swift in Sources */,
 				ADB471AB28F705BF005F8AA5 /* WeatherDataModel.swift in Sources */,
 				AD30F68C29386CE400C68732 /* DefaultFontChange.swift in Sources */,
 				AD6FA1EA2920ADBB00492FE9 /* CityModel.swift in Sources */,
@@ -513,6 +520,7 @@
 				ADE9CF0F290B9A71002EDB9E /* Dates.swift in Sources */,
 				ADAD6235296AD855000BFCF4 /* WeatherKitModel.swift in Sources */,
 				AD6FA1E2291FC46500492FE9 /* WeatherViewController.swift in Sources */,
+				AD3BF5512984FC430090371C /* LoginViewController.swift in Sources */,
 				AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */,
 				AD9CC8B929766BF6005EDC26 /* BulletinBoardView.swift in Sources */,
 				ADAD622C2959C045000BFCF4 /* ColorsViewModel.swift in Sources */,

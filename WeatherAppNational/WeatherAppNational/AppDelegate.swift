@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import IQKeyboardManagerSwift
+import AuthenticationServices
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.iQKeyboardManagerSetting()
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+         appleIDProvider.getCredentialState(forUserID: "userkey") { (credentialState, error) in
+           switch credentialState {
+           case .authorized:
+             // Authorization Logic
+               print("DEBUG: authorized")
+
+           case .revoked, .notFound:
+             // Not Authorization Logic
+             DispatchQueue.main.async {
+//               self.window?.rootViewController?.showLoginViewController()
+             }
+           default:
+             break
+           }
+         }
         return true
     }
 

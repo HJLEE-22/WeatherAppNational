@@ -17,7 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = UINavigationController(rootViewController: MainPageViewController())
+        let loginViewController = LoginViewController()
+        window?.rootViewController = loginViewController
+//        window?.rootViewController = UINavigationController(rootViewController: MainPageViewController())
         window?.makeKeyAndVisible()
         
         // MARK: - JSON decoder part
