@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 public struct CellID {
     static let forCitiesCell = "CitiesCellID"
     static let forCitiesListCell = "CitiesListCellID"
     static let forSettingsCell = "SettingsCellID"
+    static let forProfileCell = "ProfileCellID"
     private init() {}
 }
 
@@ -55,3 +57,7 @@ public enum Day {
 public struct UserDefaultsKeys {
     static let launchedBefore = "launchedBefore"
 }
+
+
+let COLLECTION_USERS = Firestore.firestore().collection("users")
+let COLLECTION_POSTS = Firestore.firestore().collection("posts")

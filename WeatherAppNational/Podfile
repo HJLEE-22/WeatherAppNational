@@ -8,4 +8,10 @@ target 'WeatherAppNational' do
   # Pods for WeatherAppNational
     pod 'SnapKit', '~> 5.6.0'
     pod 'IQKeyboardManagerSwift'
+    pod 'FirebaseCore'
+    pod 'FirebaseDatabase'
+    pod 'FirebaseFirestore'
+    pod 'FirebaseStorage'
+    pod 'FirebaseMessaging'
+    pod 'FirebaseAuth'
 end

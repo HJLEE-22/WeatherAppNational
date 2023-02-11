@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 import IQKeyboardManagerSwift
 import AuthenticationServices
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.iQKeyboardManagerSetting()
+        
+
+        /*
+        // firebase 초기화. AppDelegate에서 실행해야...
+        FirebaseApp.configure()
+        
         let appleIDProvider = ASAuthorizationAppleIDProvider()
          appleIDProvider.getCredentialState(forUserID: "userkey") { (credentialState, error) in
            switch credentialState {
@@ -36,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
              break
            }
          }
+         */
         return true
     }
 
@@ -105,4 +113,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 0
     }
 }
+
 
