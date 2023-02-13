@@ -8,24 +8,58 @@ import UIKit
 import CoreLocation
 import SafariServices
 import MessageUI
+import FirebaseAuth
 
 class SettingViewController: UITableViewController {
     
     // MARK: - Properties
     
+    let profileCell = ProfileCell()
+    
+    var nickname: String? {
+        didSet {
+            tableView.reloadSections(IndexSet(0...0), with: .automatic)
+        }
+    }
+    
+    var email: String? {
+        didSet {
+            tableView.reloadSections(IndexSet(0...0), with: .automatic)
+        }
+    }
+    
     var locationManager = CLLocationManager()
 
     private var settingViewModel = SettingViewModel()
+
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-        setupNav()
-//        setupNavPopVCAnimation()
+        self.setupTableView()
+        self.setupNav()
+        self.setupProfile()
+
     }
     
     // MARK: - Helpers
+    
+    func setupProfile() {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let uid = currentUser.uid
+        self.email = currentUser.email
+        COLLECTION_USERS.document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let documentData = document.data().map { data in
+                    self.email = data["email"] as? String
+                    self.nickname = data["name"] as? String
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
     func setupNav() {
         self.navigationItem.title = "Settings"
         let backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(setupNavPopVCAnimation))
@@ -33,7 +67,13 @@ class SettingViewController: UITableViewController {
     }
     
     func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.register(SettingViewCell.self, forCellReuseIdentifier: CellID.forSettingsCell)
+        tableView.register(ProfileCell.self, forCellReuseIdentifier: CellID.forProfileCell)
+        tableView.estimatedRowHeight = 30
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .singleLine
     }
     
     @objc func setupNavPopVCAnimation() {
@@ -62,7 +102,7 @@ class SettingViewController: UITableViewController {
     // MARK: - TableviewDatasource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 7
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,54 +112,99 @@ class SettingViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0 :
-            return "현재위치정보"
+            return "프로필"
         case 1 :
-            return "개인정보 처리방침"
+            return "현재위치정보"
         case 2 :
-            return "개발자 정보"
+            return "개인정보 처리방침"
         case 3 :
-            return "문의하기"
+            return "개발자 문의하기"
         case 4 :
             return " Weather"
+        case 5 :
+            return ""
         default :
             return ""
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forSettingsCell, for: indexPath) as! SettingViewCell
-        
-        if indexPath.section == 0 {
-            cell.mainLabel.text = "사용가능"
-            cell.switchBtn.isEnabled = true
-            cell.selectionStyle = .none
+        let settingViewCell = tableView.dequeueReusableCell(withIdentifier: CellID.forSettingsCell, for: indexPath) as! SettingViewCell
+        let profileCell = tableView.dequeueReusableCell(withIdentifier: CellID.forProfileCell, for: indexPath) as! ProfileCell
+        switch indexPath.section {
+        case 0 :
+            profileCell.nicknameLabel.text = self.nickname
+            profileCell.emailLabel.text = self.email
+            return profileCell
+        case 1 :
+            settingViewCell.mainLabel.text = "사용가능"
+            settingViewCell.switchBtn.isEnabled = true
+            settingViewCell.switchBtn.isHidden = false
+            settingViewCell.selectionStyle = .none
             
             // 스위치 버튼 상태 업데이트 하는 곳
             print("DEBUG: location status \(CLLocationManager.authorizationStatus() )")
-            cell.switchBtn.isOn = settingViewModel.isSwitchButtonOn
+            settingViewCell.switchBtn.isOn = settingViewModel.isSwitchButtonOn
             
-            cell.cellDelegate = self
-            
-        } else if indexPath.section == 1 {
-            cell.mainLabel.text = "링크"
-            cell.switchBtn.isHidden = true
-        } else if indexPath.section == 2 {
-            cell.mainLabel.text = "HJLEE"
-            cell.switchBtn.isHidden = true
-        } else if indexPath.section == 3 {
-            cell.mainLabel.text = "메일 보내기"
-            cell.switchBtn.isHidden = true
-        } else if indexPath.section == 4 {
-            cell.mainLabel.text = "WeatherKit - Data Sources"
-            cell.switchBtn.isHidden = true
+            settingViewCell.cellDelegate = self
+        case 2 :
+            settingViewCell.mainLabel.text = "링크"
+        case 3:
+            settingViewCell.mainLabel.text = "leehyungju20@gmail.com"
+        case 4 :
+            settingViewCell.mainLabel.text = "WeatherKit - Data Sources"
+        case 5 :
+            settingViewCell.mainLabel.text = ""
+            settingViewCell.logoutView.isHidden = false
+            settingViewCell.selectionStyle = .none
+            settingViewCell.logoutView.setOpaqueTapGestureRecognizer {
+                // logout code
+                self.setupLogoutAlert()
+            }
+        case 6 :
+            settingViewCell.mainLabel.text = ""
+            settingViewCell.deleteAccountView.isHidden = false
+            settingViewCell.deleteAccountView.setOpaqueTapGestureRecognizer {
+                self.setupDeleteAccountAlert()
+            }
+            settingViewCell.selectionStyle = .none
+            settingViewCell.logoutView.setOpaqueTapGestureRecognizer {
+                
+            }
+        default:
+            break
         }
-        return cell
+        
+        return settingViewCell
   
     }
+    
+    func setupLogoutAlert() {
+        let requestAlert = UIAlertController(title: "Log-Out", message: "로그아웃 하시겠습니까?" , preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default){ _ in
+            FirebaseAuthentication.shared.signOut()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        requestAlert.addAction(ok)
+        requestAlert.addAction(cancel)
+        present(requestAlert, animated: true)
+    }
+    
+    func setupDeleteAccountAlert() {
+        let requestAlert = UIAlertController(title: "회원탈퇴 하시겠습니까?", message: "본 앱에서 계정이 삭제됩니다.\n설정의 '애플 ID를 사용하는 앱'에서 본 앱을 제거해 주세요." , preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default){ _ in
+            FirebaseAuthentication.shared.deleteAccount()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        requestAlert.addAction(ok)
+        requestAlert.addAction(cancel)
+        present(requestAlert, animated: true)
+    }
+    
     // MARK: - TableviewDelegates
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
-        case 1:
+        case 2:
             self.openSFSafariForPersonalInformation(_sender: self)
         case 3:
             self.sendEmail()
@@ -207,3 +292,4 @@ extension SettingViewController: MFMailComposeViewControllerDelegate {
            controller.dismiss(animated: true, completion: nil)
        }
 }
+

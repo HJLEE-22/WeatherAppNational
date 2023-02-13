@@ -12,6 +12,17 @@
 		AD30F6882938698A00C68732 /* Binggrae.otf in Resources */ = {isa = PBXBuildFile; fileRef = AD30F6872938698A00C68732 /* Binggrae.otf */; };
 		AD30F68A2938699200C68732 /* Binggrae-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AD30F6892938699200C68732 /* Binggrae-Bold.otf */; };
 		AD30F68C29386CE400C68732 /* DefaultFontChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30F68B29386CE400C68732 /* DefaultFontChange.swift */; };
+		AD3BF54B2984EB8C0090371C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF54A2984EB8C0090371C /* LoginView.swift */; };
+		AD3BF5512984FC430090371C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF5502984FC430090371C /* LoginViewController.swift */; };
+		AD3BF5552986536D0090371C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD3BF5542986536D0090371C /* GoogleService-Info.plist */; };
+		AD3BF55C29877D970090371C /* FirebaseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF55B29877D970090371C /* FirebaseAuthentication.swift */; };
+		AD3BF55E29879F550090371C /* ViewByLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF55D29879F550090371C /* ViewByLoginManager.swift */; };
+		AD3BF5602988B55D0090371C /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF55F2988B55D0090371C /* ProfileCell.swift */; };
+		AD3BF5642989073E0090371C /* LoginInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF5632989073E0090371C /* LoginInfoViewController.swift */; };
+		AD3BF566298907FE0090371C /* LoginInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF565298907FE0090371C /* LoginInfoView.swift */; };
+		AD3BF569298933230090371C /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF568298933230090371C /* UserModel.swift */; };
+		AD3BF56D298AA0210090371C /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF56C298AA0210090371C /* UserViewModel.swift */; };
+		AD3EB6D12997C76900F4B9ED /* ScreenUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */; };
 		AD6FA1DE291939B400492FE9 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DD291939B400492FE9 /* Observer.swift */; };
 		AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DF29193A0700492FE9 /* Subscriber.swift */; };
 		AD6FA1E2291FC46500492FE9 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */; };
@@ -71,6 +82,17 @@
 		AD30F6872938698A00C68732 /* Binggrae.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Binggrae.otf; sourceTree = "<group>"; };
 		AD30F6892938699200C68732 /* Binggrae-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Binggrae-Bold.otf"; sourceTree = "<group>"; };
 		AD30F68B29386CE400C68732 /* DefaultFontChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFontChange.swift; sourceTree = "<group>"; };
+		AD3BF54A2984EB8C0090371C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		AD3BF5502984FC430090371C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AD3BF5542986536D0090371C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AD3BF55B29877D970090371C /* FirebaseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthentication.swift; sourceTree = "<group>"; };
+		AD3BF55D29879F550090371C /* ViewByLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewByLoginManager.swift; sourceTree = "<group>"; };
+		AD3BF55F2988B55D0090371C /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		AD3BF5632989073E0090371C /* LoginInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfoViewController.swift; sourceTree = "<group>"; };
+		AD3BF565298907FE0090371C /* LoginInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfoView.swift; sourceTree = "<group>"; };
+		AD3BF568298933230090371C /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		AD3BF56C298AA0210090371C /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtil.swift; sourceTree = "<group>"; };
 		AD6FA1DD291939B400492FE9 /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		AD6FA1DF29193A0700492FE9 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
 		AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +197,41 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		AD3BF5612988BE870090371C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				ADE9CEFD2907C3E2002EDB9E /* SettingViewCell.swift */,
+				AD3BF55F2988B55D0090371C /* ProfileCell.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		AD3BF562298901E40090371C /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AD3BF5502984FC430090371C /* LoginViewController.swift */,
+				AD3BF5632989073E0090371C /* LoginInfoViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		AD3BF567298908870090371C /* Logins */ = {
+			isa = PBXGroup;
+			children = (
+				AD3BF54A2984EB8C0090371C /* LoginView.swift */,
+				AD3BF565298907FE0090371C /* LoginInfoView.swift */,
+			);
+			path = Logins;
+			sourceTree = "<group>";
+		};
+		AD3EB6CF2997C75A00F4B9ED /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		AD6FA1D12916469200492FE9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +266,8 @@
 			children = (
 				ADE9CF17291550E5002EDB9E /* CustomWeatherService.swift */,
 				ADE9CF13290FCE66002EDB9E /* ConvertXY.swift */,
+				AD3BF55B29877D970090371C /* FirebaseAuthentication.swift */,
+				AD3BF55D29879F550090371C /* ViewByLoginManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -245,6 +304,8 @@
 		ADB4718F28F69615005F8AA5 /* WeatherAppNational */ = {
 			isa = PBXGroup;
 			children = (
+				AD3EB6CF2997C75A00F4B9ED /* Util */,
+				AD3BF5542986536D0090371C /* GoogleService-Info.plist */,
 				ADAD62332969A1DD000BFCF4 /* WeatherAppNational.entitlements */,
 				ADB4719028F69615005F8AA5 /* AppDelegate.swift */,
 				ADB4719228F69615005F8AA5 /* SceneDelegate.swift */,
@@ -270,6 +331,7 @@
 		ADB471A728F6962A005F8AA5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AD3BF562298901E40090371C /* Login */,
 				ADB4719428F69615005F8AA5 /* MainPageViewController.swift */,
 				AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */,
 				ADE9CEF22907C254002EDB9E /* SettingViewController.swift */,
@@ -282,10 +344,11 @@
 		ADB471A828F69635005F8AA5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				ADE9CEFD2907C3E2002EDB9E /* SettingViewCell.swift */,
 				ADFF81F7293EFED300FB883F /* CitiesListViewCell.swift */,
-				ADEB44F6297E991700DD6B55 /* Main Weathers */,
+				AD3BF567298908870090371C /* Logins */,
+				ADEB44F6297E991700DD6B55 /* MainWeathers */,
 				ADEB44F7297E993F00DD6B55 /* BulletinBoard */,
+				AD3BF5612988BE870090371C /* Settings */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,6 +361,7 @@
 				ADB471AC28F8006A005F8AA5 /* WeatherDataManager.swift */,
 				ADAD622A2959752C000BFCF4 /* CoreDataModels */,
 				ADAD6234296AD855000BFCF4 /* WeatherKitModel.swift */,
+				AD3BF568298933230090371C /* UserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -320,6 +384,7 @@
 				ADAD622B2959C045000BFCF4 /* ColorsViewModel.swift */,
 				ADE9CF1529112D32002EDB9E /* SettingViewModel.swift */,
 				ADFF81F9293F2CF500FB883F /* CitiesViewModel.swift */,
+				AD3BF56C298AA0210090371C /* UserViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -333,7 +398,7 @@
 			path = APIs;
 			sourceTree = "<group>";
 		};
-		ADEB44F6297E991700DD6B55 /* Main Weathers */ = {
+		ADEB44F6297E991700DD6B55 /* MainWeathers */ = {
 			isa = PBXGroup;
 			children = (
 				ADE9CF052907C6B0002EDB9E /* MainView.swift */,
@@ -341,7 +406,7 @@
 				ADE9CF012907C40A002EDB9E /* YesterdayWeatherView.swift */,
 				ADE9CEFF2907C3F9002EDB9E /* TomorrowWeatherView.swift */,
 			);
-			path = "Main Weathers";
+			path = MainWeathers;
 			sourceTree = "<group>";
 		};
 		ADEB44F7297E993F00DD6B55 /* BulletinBoard */ = {
@@ -416,6 +481,7 @@
 			files = (
 				ADB471A028F69616005F8AA5 /* LaunchScreen.storyboard in Resources */,
 				ADEB44FB297F9D8300DD6B55 /* APIKeyList.plist in Resources */,
+				AD3BF5552986536D0090371C /* GoogleService-Info.plist in Resources */,
 				ADB4719D28F69616005F8AA5 /* Assets.xcassets in Resources */,
 				AD30F68A2938699200C68732 /* Binggrae-Bold.otf in Resources */,
 				ADAD623029696F48000BFCF4 /* LocationDataWithGPS.json in Resources */,
@@ -478,7 +544,9 @@
 				ADB471AD28F8006B005F8AA5 /* WeatherDataManager.swift in Sources */,
 				ADB4719528F69615005F8AA5 /* MainPageViewController.swift in Sources */,
 				AD6FA1E82920AD2E00492FE9 /* UserDefaultsUtil.swift in Sources */,
+				AD3BF54B2984EB8C0090371C /* LoginView.swift in Sources */,
 				ADB471AB28F705BF005F8AA5 /* WeatherDataModel.swift in Sources */,
+				AD3BF5602988B55D0090371C /* ProfileCell.swift in Sources */,
 				AD30F68C29386CE400C68732 /* DefaultFontChange.swift in Sources */,
 				AD6FA1EA2920ADBB00492FE9 /* CityModel.swift in Sources */,
 				ADE9CEFA2907C39D002EDB9E /* CitiesViewController.swift in Sources */,
@@ -492,13 +560,19 @@
 				ADFF81F2293C775900FB883F /* LocationGrid+CoreDataProperties.swift in Sources */,
 				AD30F68229373AB400C68732 /* Colors.swift in Sources */,
 				ADFF81F4293C785B00FB883F /* CoreDataManager.swift in Sources */,
+				AD3BF5642989073E0090371C /* LoginInfoViewController.swift in Sources */,
 				ADB4719128F69615005F8AA5 /* AppDelegate.swift in Sources */,
 				AD6FA1E4291FC50E00492FE9 /* WeatherViewModel.swift in Sources */,
+				AD3BF55E29879F550090371C /* ViewByLoginManager.swift in Sources */,
 				AD9CC8BB2976BD8D005EDC26 /* BulletinBoardViewController.swift in Sources */,
+				AD3EB6D12997C76900F4B9ED /* ScreenUtil.swift in Sources */,
+				AD3BF56D298AA0210090371C /* UserViewModel.swift in Sources */,
 				ADE9CEFE2907C3E2002EDB9E /* SettingViewCell.swift in Sources */,
 				ADE9CF14290FCE66002EDB9E /* ConvertXY.swift in Sources */,
 				ADD43DB5294C2BEA000DE026 /* TouchableOpacityView.swift in Sources */,
 				ADE9CEF62907C322002EDB9E /* Constants.swift in Sources */,
+				AD3BF55C29877D970090371C /* FirebaseAuthentication.swift in Sources */,
+				AD3BF569298933230090371C /* UserModel.swift in Sources */,
 				ADEB44F3297D152500DD6B55 /* OthersChatCell.swift in Sources */,
 				ADAD623229697919000BFCF4 /* WeatherKitViewModel.swift in Sources */,
 				ADE9CF1629112D32002EDB9E /* SettingViewModel.swift in Sources */,
@@ -513,12 +587,14 @@
 				ADE9CF0F290B9A71002EDB9E /* Dates.swift in Sources */,
 				ADAD6235296AD855000BFCF4 /* WeatherKitModel.swift in Sources */,
 				AD6FA1E2291FC46500492FE9 /* WeatherViewController.swift in Sources */,
+				AD3BF5512984FC430090371C /* LoginViewController.swift in Sources */,
 				AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */,
 				AD9CC8B929766BF6005EDC26 /* BulletinBoardView.swift in Sources */,
 				ADAD622C2959C045000BFCF4 /* ColorsViewModel.swift in Sources */,
 				ADE9CF022907C40A002EDB9E /* YesterdayWeatherView.swift in Sources */,
 				ADE9CEF32907C254002EDB9E /* SettingViewController.swift in Sources */,
 				AD30F68529379E1800C68732 /* Extensions.swift in Sources */,
+				AD3BF566298907FE0090371C /* LoginInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

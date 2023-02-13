@@ -27,3 +27,10 @@ protocol WeatherKitSubcriber {
     mutating func unsubscribe(observer: (any WeatherKitObserver)?)
     func notify<T>(updateValue: T)
 }
+
+protocol UserSubcriber {
+    var observer: (any UserObserver)? { get set }
+    mutating func subscribe(observer: (any UserObserver)?)
+    mutating func unsubscribe(observer: (any UserObserver)?)
+    func notify<T>(updateValue: T)
+}
