@@ -22,6 +22,7 @@
 		AD3BF566298907FE0090371C /* LoginInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF565298907FE0090371C /* LoginInfoView.swift */; };
 		AD3BF569298933230090371C /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF568298933230090371C /* UserModel.swift */; };
 		AD3BF56D298AA0210090371C /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF56C298AA0210090371C /* UserViewModel.swift */; };
+		AD3EB6D12997C76900F4B9ED /* ScreenUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */; };
 		AD6FA1DE291939B400492FE9 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DD291939B400492FE9 /* Observer.swift */; };
 		AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DF29193A0700492FE9 /* Subscriber.swift */; };
 		AD6FA1E2291FC46500492FE9 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */; };
@@ -91,6 +92,7 @@
 		AD3BF565298907FE0090371C /* LoginInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfoView.swift; sourceTree = "<group>"; };
 		AD3BF568298933230090371C /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AD3BF56C298AA0210090371C /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtil.swift; sourceTree = "<group>"; };
 		AD6FA1DD291939B400492FE9 /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		AD6FA1DF29193A0700492FE9 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
 		AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
@@ -222,6 +224,14 @@
 			path = Logins;
 			sourceTree = "<group>";
 		};
+		AD3EB6CF2997C75A00F4B9ED /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		AD6FA1D12916469200492FE9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,6 +304,7 @@
 		ADB4718F28F69615005F8AA5 /* WeatherAppNational */ = {
 			isa = PBXGroup;
 			children = (
+				AD3EB6CF2997C75A00F4B9ED /* Util */,
 				AD3BF5542986536D0090371C /* GoogleService-Info.plist */,
 				ADAD62332969A1DD000BFCF4 /* WeatherAppNational.entitlements */,
 				ADB4719028F69615005F8AA5 /* AppDelegate.swift */,
@@ -554,6 +565,7 @@
 				AD6FA1E4291FC50E00492FE9 /* WeatherViewModel.swift in Sources */,
 				AD3BF55E29879F550090371C /* ViewByLoginManager.swift in Sources */,
 				AD9CC8BB2976BD8D005EDC26 /* BulletinBoardViewController.swift in Sources */,
+				AD3EB6D12997C76900F4B9ED /* ScreenUtil.swift in Sources */,
 				AD3BF56D298AA0210090371C /* UserViewModel.swift in Sources */,
 				ADE9CEFE2907C3E2002EDB9E /* SettingViewCell.swift in Sources */,
 				ADE9CF14290FCE66002EDB9E /* ConvertXY.swift in Sources */,

@@ -16,25 +16,50 @@ class SettingViewController: UITableViewController {
     
     let profileCell = ProfileCell()
     
+    var nickname: String? {
+        didSet {
+            tableView.reloadSections(IndexSet(0...0), with: .automatic)
+        }
+    }
+    
+    var email: String? {
+        didSet {
+            tableView.reloadSections(IndexSet(0...0), with: .automatic)
+        }
+    }
+    
     var locationManager = CLLocationManager()
 
     private var settingViewModel = SettingViewModel()
-    
-    var userViewModel: UserViewModel! {
-        didSet {
-            userViewModel.subscribe(observer: self)
-        }
-    }
+
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTableView()
-        setupNav()
-//        setupNavPopVCAnimation()
+        self.setupTableView()
+        self.setupNav()
+        self.setupProfile()
+
     }
     
     // MARK: - Helpers
+    
+    func setupProfile() {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let uid = currentUser.uid
+        self.email = currentUser.email
+        COLLECTION_USERS.document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let documentData = document.data().map { data in
+                    self.email = data["email"] as? String
+                    self.nickname = data["name"] as? String
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
     func setupNav() {
         self.navigationItem.title = "Settings"
         let backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(setupNavPopVCAnimation))
@@ -77,7 +102,7 @@ class SettingViewController: UITableViewController {
     // MARK: - TableviewDatasource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 7
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -108,6 +133,8 @@ class SettingViewController: UITableViewController {
         let profileCell = tableView.dequeueReusableCell(withIdentifier: CellID.forProfileCell, for: indexPath) as! ProfileCell
         switch indexPath.section {
         case 0 :
+            profileCell.nicknameLabel.text = self.nickname
+            profileCell.emailLabel.text = self.email
             return profileCell
         case 1 :
             settingViewCell.mainLabel.text = "사용가능"
@@ -132,7 +159,17 @@ class SettingViewController: UITableViewController {
             settingViewCell.selectionStyle = .none
             settingViewCell.logoutView.setOpaqueTapGestureRecognizer {
                 // logout code
-                self.setupAlert()
+                self.setupLogoutAlert()
+            }
+        case 6 :
+            settingViewCell.mainLabel.text = ""
+            settingViewCell.deleteAccountView.isHidden = false
+            settingViewCell.deleteAccountView.setOpaqueTapGestureRecognizer {
+                self.setupDeleteAccountAlert()
+            }
+            settingViewCell.selectionStyle = .none
+            settingViewCell.logoutView.setOpaqueTapGestureRecognizer {
+                
             }
         default:
             break
@@ -142,10 +179,21 @@ class SettingViewController: UITableViewController {
   
     }
     
-    func setupAlert() {
-        let requestAlert = UIAlertController(title: "로그아웃 하시겠습니까?", message: "Sign out을 원하실 경우 로그아웃 후 설정의 '애플 ID를 사용하는 앱'에서 본 앱을 제거해 주세요." , preferredStyle: .alert)
+    func setupLogoutAlert() {
+        let requestAlert = UIAlertController(title: "Log-Out", message: "로그아웃 하시겠습니까?" , preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default){ _ in
             FirebaseAuthentication.shared.signOut()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        requestAlert.addAction(ok)
+        requestAlert.addAction(cancel)
+        present(requestAlert, animated: true)
+    }
+    
+    func setupDeleteAccountAlert() {
+        let requestAlert = UIAlertController(title: "회원탈퇴 하시겠습니까?", message: "본 앱에서 계정이 삭제됩니다.\n설정의 '애플 ID를 사용하는 앱'에서 본 앱을 제거해 주세요." , preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default){ _ in
+            FirebaseAuthentication.shared.deleteAccount()
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         requestAlert.addAction(ok)
@@ -245,12 +293,3 @@ extension SettingViewController: MFMailComposeViewControllerDelegate {
        }
 }
 
-extension SettingViewController: UserObserver {
-    func userUpdate<T>(updateValue: T) {
-        guard let user = updateValue as? UserModel else { return }
-        DispatchQueue.main.async {
-            self.profileCell.user = user
-//            self.tableView.reloadData()
-        }
-    }
-}

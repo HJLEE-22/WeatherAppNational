@@ -46,6 +46,21 @@ class SettingViewCell: UITableViewCell {
         return view
     }()
     
+    lazy var deleteAccountView: TouchableOpacityView = {
+        let view = TouchableOpacityView(frame: .zero)
+        let label = UILabel()
+        label.text = "회원 탈퇴"
+        label.textColor = .systemBlue
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.snp.makeConstraints { make in
+            make.width.equalTo(100)
+            make.height.equalTo(20)
+        }
+        view.addSubview(label)
+        view.isHidden = true
+        return view
+    }()
     
     // MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -68,7 +83,7 @@ class SettingViewCell: UITableViewCell {
     
     func setupUIbySnapChat() {
         
-        [mainLabel, switchBtn, logoutView].forEach({ self.contentView.addSubview($0) })
+        [mainLabel, switchBtn, logoutView, deleteAccountView].forEach({ self.contentView.addSubview($0) })
 
         mainLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -81,6 +96,12 @@ class SettingViewCell: UITableViewCell {
         }
         
         logoutView.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.width.equalTo(100)
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        deleteAccountView.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.width.equalTo(100)
             make.centerY.equalToSuperview()

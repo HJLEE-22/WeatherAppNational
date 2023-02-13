@@ -11,16 +11,6 @@ import SnapKit
 class ProfileCell: UITableViewCell {
     
     // MARK: - Properties
-
-    var user: UserModel? {
-        didSet {
-            guard let user else { return }
-            DispatchQueue.main.async {
-                self.setupByUser(user: user)
-            }
-            print("DEBUG: user info success :\(user)")
-        }
-    }
     
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
@@ -61,8 +51,5 @@ class ProfileCell: UITableViewCell {
         }
     }
     
-    func setupByUser(user: UserModel){
-        self.nicknameLabel.text = user.name
-        self.emailLabel.text = user.email
-    }
+
 }

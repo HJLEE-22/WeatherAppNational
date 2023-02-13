@@ -61,3 +61,5 @@ public struct UserDefaultsKeys {
 
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 let COLLECTION_POSTS = Firestore.firestore().collection("posts")
+//let COLLECTION_UID = Firestore.firestore().collection("users").where("uid", "==", "gusDdKDcvudP9dhAjzbEU4GdQCp1")
+    

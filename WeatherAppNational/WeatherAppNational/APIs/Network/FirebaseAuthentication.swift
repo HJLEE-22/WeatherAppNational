@@ -10,6 +10,7 @@ import Foundation
 import AuthenticationServices
 import FirebaseAuth
 import CommonCrypto
+import FirebaseFirestore
 
 enum FirebaseAuthenticationNotification: String {
     case signOutSuccess
@@ -25,6 +26,7 @@ enum FirebaseAuthenticationNotification: String {
 class FirebaseAuthentication: NSObject {
     static let shared = FirebaseAuthentication()
 
+    var email: String?
     var uid: String?
     var window: UIWindow!
     private var rootViewController: UIViewController? {
@@ -42,7 +44,7 @@ class FirebaseAuthentication: NSObject {
         currentNonce = nonce
       let appleIDProvider = ASAuthorizationAppleIDProvider()
       let request = appleIDProvider.createRequest()
-      request.requestedScopes = [.fullName, .email]
+      request.requestedScopes = [.email]
         
       request.nonce = sha256(nonce)
 
@@ -66,6 +68,7 @@ class FirebaseAuthentication: NSObject {
 
     func signOut() {
         let firebaseAuth = Auth.auth()
+//        firebaseAuth.currentUser?.delete()
         do {
             try firebaseAuth.signOut()
             postNotificationSignOutSuccess()
@@ -73,6 +76,21 @@ class FirebaseAuthentication: NSObject {
             postNotificationSignOutError()
         }
     }
+    
+    func deleteAccount() {
+        let firebaseAuth = Auth.auth()
+        guard let uid = firebaseAuth.currentUser?.uid else { return }
+        do {
+            try firebaseAuth.currentUser?.delete() { error in
+                COLLECTION_USERS.document(uid).delete()
+                print("DEBUG: delete error:\(error)")
+                self.postNotificationSignOutSuccess()
+            }
+        } catch {
+            postNotificationSignInError()
+        }
+    }
+    
 }
 
 extension FirebaseAuthentication: ASAuthorizationControllerDelegate {
@@ -102,11 +120,13 @@ extension FirebaseAuthentication: ASAuthorizationControllerDelegate {
             guard let email = appleIDCredential.email,
                   let uid = authResult?.user.uid else { return }
             self?.uid = uid
-            let userData = ["email": email,
-                            "name" : nil,
-                            "uid" : uid]
-            COLLECTION_USERS.document(uid).setData(userData)
-            print("DEBUG: userData:\(userData)")
+            self?.email = email
+//            UserDefaults.standard.set(uid, forKey: "uid")
+//            let userData = ["email": email,
+//                            "name" : nil,
+//                            "uid" : uid]
+//            COLLECTION_USERS.document(uid).setData(userData)
+//            print("DEBUG: userData:\(userData)")
             self?.postNotificationSignInSuccess()
         }
       }

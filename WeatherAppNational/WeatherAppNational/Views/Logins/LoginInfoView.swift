@@ -36,6 +36,7 @@ class LoginInfoView: UIView {
     lazy var moveToMainButton: UIButton = {
         let button = UIButton()
         button.setTitle("등록", for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 10
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.black.cgColor
@@ -78,8 +79,8 @@ class LoginInfoView: UIView {
     }
     
     func setupEmailTextfield() {
-        guard let uid = FirebaseAuthentication.shared.uid,
-              let email = COLLECTION_USERS.document(uid).value(forKey: "email") as? String else { return }
+        guard let email = FirebaseAuthentication.shared.email else { return }
+             // let email = COLLECTION_USERS.document(uid).value(forKey: "email") as? String else { return }
         DispatchQueue.main.async {
             self.emailTextField.text = email
         }
