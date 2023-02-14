@@ -13,8 +13,6 @@ class LoginInfoViewController: UIViewController {
     // MARK: - Properties
     
     let loginInputView = LoginInfoView()
-    
-
     var user: UserModel?
     
     // MARK: - Lifecycle
@@ -40,10 +38,8 @@ class LoginInfoViewController: UIViewController {
     
     @objc func moveToMainVC() {
 
-        guard loginInputView.nicknameTextField.hasText == true,
-              loginInputView.emailTextField.hasText == true else {
+        guard loginInputView.nicknameTextField.hasText == true else {
             print("DEBUG: nicknameTextField:\(loginInputView.nicknameTextField.hasText)")
-            print("DEBUG: emailTextField:\(loginInputView.emailTextField.hasText)")
             self.setupAlert()
             return
         }
@@ -51,12 +47,11 @@ class LoginInfoViewController: UIViewController {
         setupUserInfo()
         let mainVC = MainPageViewController()
         show(mainVC, sender: self)
-
     }
     
     func setupUserInfo() {
         guard let nickname = loginInputView.nicknameTextField.text,
-              let email = loginInputView.emailTextField.text,
+              let email = FirebaseAuthentication.shared.email,
               let uid = FirebaseAuthentication.shared.uid else { return }
         let data: [String:Any] = ["name": nickname,
                                   "email": email,
@@ -70,9 +65,7 @@ class LoginInfoViewController: UIViewController {
                 print("Document does not exist")
             }
         }
-
         let settingViewContoller = SettingViewController()
-
         UserDefaults.standard.set(true, forKey: "isUserDataExist")
     }
     

@@ -14,13 +14,11 @@ class ProfileCell: UITableViewCell {
     
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-//        label.text = "닉네임"
         return label
     }()
     
     lazy var emailLabel: UILabel = {
         let label = UILabel()
-//        label.text = "email@icloud.com"
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
