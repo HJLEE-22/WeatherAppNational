@@ -19,16 +19,15 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        setupUI()
         setupProviderLoginButton()
         setupPrivacyPolicyButton()
-        setupSignInAnonymousButton()
     }
 
     // MARK: - Helpers
     
     
-    func setupView() {
+    func setupUI() {
         self.view.addSubview(loginView)
         loginView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -41,10 +40,6 @@ class LoginViewController: UIViewController {
     
     func setupPrivacyPolicyButton(){
         self.loginView.openPrivacyButton.addTarget(self, action: #selector(openPrivacyPolicy), for: .touchUpInside)
-    }
-    
-    func setupSignInAnonymousButton(){
-        self.loginView.signInAnonymousButton.addTarget(self, action: #selector(signInAnonymousTapped), for: .touchUpInside)
     }
     
     // MARK: - Helpers
@@ -62,10 +57,5 @@ class LoginViewController: UIViewController {
         guard let url = URL(string: "https://thread-pike-aca.notion.site/4a2cacda469448ba836d9d9d572b1b02") else { return }
         let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true, completion: nil)
-    }
-    
-    @objc func signInAnonymousTapped() {
-        FirebaseAuthentication.shared.signInWithAnonymous()
-        print("DEBUG: anonymous button tapped")
     }
 }

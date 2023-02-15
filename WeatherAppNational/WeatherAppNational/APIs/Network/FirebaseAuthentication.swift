@@ -117,10 +117,16 @@ extension FirebaseAuthentication: ASAuthorizationControllerDelegate {
                 self?.postNotificationSignInError()
             return
           }
-            guard let email = authResult?.user.email,
+            guard let email = appleIDCredential.email,
                   let uid = authResult?.user.uid else { return }
             self?.uid = uid
             self?.email = email
+//            UserDefaults.standard.set(uid, forKey: "uid")
+//            let userData = ["email": email,
+//                            "name" : nil,
+//                            "uid" : uid]
+//            COLLECTION_USERS.document(uid).setData(userData)
+//            print("DEBUG: userData:\(userData)")
             self?.postNotificationSignInSuccess()
         }
       }
