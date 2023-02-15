@@ -35,6 +35,10 @@ WeatherKit을 이용한 날씨 비교앱<br>
         
 ![AddingCityRecord](https://user-images.githubusercontent.com/98086074/214780526-9eb05788-f750-4739-a035-fba658dbcc24.gif)
 
+- 애플 로그인
+  - AppleSignIn을 통해 정보를 받아 Firebase Auth 및 Firestore과 연동해 계저 정보를 저장합니다.
+  
+![appleLoginVideo](https://user-images.githubusercontent.com/98086074/219002123-a0323b4b-3fe5-40ae-8d4b-b7f571276799.gif)
 
         
 - 설계
@@ -42,7 +46,6 @@ WeatherKit을 이용한 날씨 비교앱<br>
   - Storyboard 없이 UIKit과 SnapKit으로 화면을 구성하였습니다.
   
 ### 구현 예정 기능
-- AppleLogin을 통해 정보를 받아 Firebase 서버에 계정 정보를 저장합니다.
 - 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
 
 ![BulletinBoardRecord](https://user-images.githubusercontent.com/98086074/214780543-e7a1e43b-4592-442f-b460-de3efaf6a3d5.gif)
