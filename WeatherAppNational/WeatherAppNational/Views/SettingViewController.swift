@@ -27,7 +27,11 @@ class SettingViewController: UITableViewController {
             tableView.reloadSections(IndexSet(0...0), with: .automatic)
         }
     }
-    
+//    var anonymousText: String? {
+//        didSet {
+//            tableView.reloadSections(IndexSet(0...0), with: .automatic)
+//        }
+//    }
     var locationManager = CLLocationManager()
 
     private var settingViewModel = SettingViewModel()
@@ -49,12 +53,15 @@ class SettingViewController: UITableViewController {
         let uid = currentUser.uid
         self.email = currentUser.email
         COLLECTION_USERS.document(uid).getDocument { (document, error) in
+
             if let document = document, document.exists {
                 let documentData = document.data().map { data in
-                    self.email = data["email"] as? String
                     self.nickname = data["name"] as? String
+                    self.email = data["email"] as? String
                 }
             } else {
+                self.nickname = "  🦹"
+                self.email = "익명으로 로그인되었습니다."
                 print("Document does not exist")
             }
         }

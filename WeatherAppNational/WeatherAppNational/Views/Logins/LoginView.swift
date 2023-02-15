@@ -30,7 +30,17 @@ class LoginView: UIView {
     
     lazy var appleLoginButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton(type: .continue, style: .whiteOutline)
-        
+        return button
+    }()
+    
+    lazy var signInAnonymousButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("가입하지 않고 둘러보기", for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.systemGray3.cgColor
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -60,27 +70,31 @@ class LoginView: UIView {
         
         self.backgroundColor = .white
         
-        [logoImageView, welcomeMessageLabel, appleLoginButton, openPrivacyButton].forEach({ self.addSubview($0) })
+        [logoImageView, welcomeMessageLabel, appleLoginButton, signInAnonymousButton, openPrivacyButton].forEach({ self.addSubview($0) })
         
         logoImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(100)
             make.left.right.equalToSuperview().inset(100)
             make.width.height.equalTo(200)
         }
-        
         welcomeMessageLabel.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(100)
         }
-        
         appleLoginButton.snp.makeConstraints { make in
             make.top.equalTo(self.welcomeMessageLabel).offset(100)
             make.left.right.equalToSuperview().inset(50)
             make.height.equalTo(50)
 
         }
+        signInAnonymousButton.snp.makeConstraints { make in
+            make.top.equalTo(self.appleLoginButton.snp.bottom).offset(20)
+            make.left.right.equalToSuperview().inset(50)
+            make.height.equalTo(50)
+
+        }
         openPrivacyButton.snp.makeConstraints { make in
-            make.top.equalTo(appleLoginButton.snp.bottom).offset(20)
+            make.top.equalTo(signInAnonymousButton.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(100)
             make.width.equalTo(100)
             make.height.equalTo(20)
