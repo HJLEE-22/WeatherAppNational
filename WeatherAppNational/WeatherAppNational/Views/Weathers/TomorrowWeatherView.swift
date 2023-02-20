@@ -11,14 +11,6 @@ class TomorrowWeatherView: UIView {
     
     // MARK: - Properties
     
-//    var weatherModel: WeatherModel? {
-//        didSet {
-//            if let weatherModel = weatherModel {
-//                self.configureUI(weatherModel)
-//            }
-//        }
-//    }
-    
     var weatherKitModel: WeatherKitModel? {
         didSet {
             if let weatherKitModel {
@@ -130,16 +122,6 @@ class TomorrowWeatherView: UIView {
         self.setSymbolImageSize()
     }
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        self.setupBackgroundLayer()
-//    }
-    
-//    override func setNeedsLayout() {
-//        super.setNeedsLayout()
-//        self.setupBackgroundLayer()
-//    }
-    
     // MARK: - UI setup
     
     func setupBackgroundLayer() {
@@ -190,19 +172,7 @@ class TomorrowWeatherView: UIView {
     }
     
     // MARK: - Helpers
-    /*
-    func configureUI(_ data: WeatherModel) {
-//        self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
-        self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
-
-        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°"
-        self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
-        self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
-//        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
-//        print("DEBUG: view model in view exists \(viewModel)")
-        self.tomorrowDateLabel.text = DateCalculate.tomorrowDateShortString + "일"
-    }
-    */
+    
     func configureUI(_ data: WeatherKitModel) {
         self.weatherImageView.image = UIImage(systemName: data.symbolName ?? "")
         self.mainTemperatureLabel.text = "\(data.temperature ?? "")°"
@@ -211,49 +181,5 @@ class TomorrowWeatherView: UIView {
         self.tomorrowDateLabel.text = DateCalculate.tomorrowDateShortString + "일"
         self.weatherImageView.tintColor = .systemGray3
     }
-/*
-    func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
-        if rainStatusCategory == "0" {
-            if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
-                switch skyStatusCategory {
-                case .sunny :
-                    guard let image = UIImage(systemName: WeatherSystemName.sunMax) else { return }
-                    self.weatherImageView.image = image
-                    weatherImageView.tintColor = .systemGray3
-                case .cloudy :
-                    guard let image = UIImage(systemName: WeatherSystemName.cloudSun) else { return }
-                    self.weatherImageView.image = image
-                    weatherImageView.tintColor = .systemGray3
-                case .gray :
-                    guard let image = UIImage(systemName: WeatherSystemName.cloud) else { return }
-                    self.weatherImageView.image = image
-                    weatherImageView.tintColor = .systemGray3
-                }
-            }
-        } else {
-            if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
-                switch rainStatusCategory {
-                case .raining:
-                    guard let image = UIImage(systemName: WeatherSystemName.cloudRain) else { return }
-                    self.weatherImageView.image = image
-                    weatherImageView.tintColor = .systemGray3
-                case .rainingAndSnowing:
-                    guard let image = UIImage(systemName: WeatherSystemName.cloudSleet) else { return }
-                    self.weatherImageView.image = image
-                    weatherImageView.tintColor = .systemGray3
-                case .snowing:
-                    guard let image = UIImage(systemName: WeatherSystemName.cloudSnow) else { return }
-                    self.weatherImageView.image = image
-                    weatherImageView.tintColor = .systemGray3
-                case .showering:
-                    guard let image = UIImage(systemName: WeatherSystemName.cloudHeavyRain) else { return }
-                    self.weatherImageView.image = image
-                    weatherImageView.tintColor = .systemGray3
-                case .noRain:
-                    break
-                }
-            }
-        }
-    }
- */
+
 }

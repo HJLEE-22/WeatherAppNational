@@ -22,3 +22,7 @@ protocol WeatherKitObserver {
 protocol UserObserver {
     func userUpdate<T>(updateValue: T)
 }
+
+protocol ChatObserver {
+    func chatUpdate<T>(updateValue: T)
+}

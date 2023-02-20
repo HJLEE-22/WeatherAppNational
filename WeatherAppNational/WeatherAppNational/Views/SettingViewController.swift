@@ -14,6 +14,7 @@ class SettingViewController: UITableViewController {
     
     // MARK: - Properties
     
+    
     let profileCell = ProfileCell()
     
     var nickname: String? {
@@ -27,11 +28,7 @@ class SettingViewController: UITableViewController {
             tableView.reloadSections(IndexSet(0...0), with: .automatic)
         }
     }
-//    var anonymousText: String? {
-//        didSet {
-//            tableView.reloadSections(IndexSet(0...0), with: .automatic)
-//        }
-//    }
+
     var locationManager = CLLocationManager()
 
     private var settingViewModel = SettingViewModel()
@@ -299,4 +296,5 @@ extension SettingViewController: MFMailComposeViewControllerDelegate {
            controller.dismiss(animated: true, completion: nil)
        }
 }
+
 

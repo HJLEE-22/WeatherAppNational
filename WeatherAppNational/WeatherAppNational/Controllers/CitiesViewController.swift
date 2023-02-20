@@ -13,7 +13,6 @@ class CitiesViewController: UIViewController  {
     // MARK: -  Properties
     let cityListForSearchTableView = UITableView()
 
-        
     private var viewModel: CitiesViewModel = CitiesViewModel() {
         didSet {
             viewModel.subscribe(observer: self)
@@ -71,11 +70,6 @@ class CitiesViewController: UIViewController  {
             cityListForSearchTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-    
-    
-    // MARK: - Helpers for data
-    // MVVM에선 VC에 data와 관련된 코드가 있으면 안됨!
-
 }
 
 // MARK: - tableView dataSource extension
@@ -96,24 +90,6 @@ extension CitiesViewController: UITableViewDataSource {
             tableView.reloadData()
         }
         return cell
-        
-//        switch tableView {
-//        case bookmarkCitiesTableView :
-//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesCell) as! CitiesViewCell
-//            cell.cellDelegate = self
-//            return cell
-//        case cityListForSearchTableView :
-//            let cell = tableView.dequeueReusableCell(withIdentifier: CellID.forCitiesListCell) as! CitiesListViewCell
-//            cell.city = self.cities[indexPath.row]
-//            cell.cellDelegate = self
-//            return cell
-//        default :
-//            break
-//    }
-        
-//        let cell = tableView.dequeueReusableCell(withIdentifier: cellID.forCitiesCell) as! CitiesViewCell
-        // 임의의 전체반환 셀이 필요한데 이거를 방지혀려면 차라리 if문이 나을까?
-//        return UITableViewCell()
     }
 }
 
@@ -128,38 +104,18 @@ extension CitiesViewController: UITableViewDelegate {
         guard let city = selectedLocation.city,
               let district = selectedLocation.district else { return }
         let selectedLocationName = "\(city) \(district)"
-//        let selectedLocationGridX = Int(selectedLocation.gridX)
-//        let selectedLocationGridY = Int(selectedLocation.gridY)
+        let selectedLocationGridX = Int(selectedLocation.gridX)
+        let selectedLocationGridY = Int(selectedLocation.gridY)
         let selectedLocationLatitude = selectedLocation.latitude
         let selectedLocationLongitude = selectedLocation.longitude
-//        weatherVC.weatherViewModel = .init(name: selectedLocationName, nx: selectedLocationGridX, ny: selectedLocationGridY)
-        weatherVC.weatherKitViewModel = .init(name: selectedLocationName, latitude: selectedLocationLatitude, longitude: selectedLocationLongitude)
+
+        weatherVC.weatherKitViewModel = .init(name: selectedLocationName, latitude: selectedLocationLatitude, longitude: selectedLocationLongitude, gridX: selectedLocationGridX, gridY: selectedLocationGridY)
 
         show(weatherVC, sender: nil)
-//        weatherVC.navigationItem.title = weatherVC.weatherViewModel.name
         weatherVC.navigationItem.title = weatherVC.weatherKitViewModel.name
         weatherVC.view.backgroundColor = .white
         
     }
-    
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//
-//            let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { action, view, completionHandler in
-//
-//                let city = cities[indexPath.row]
-////                ramen.bookmark = false
-//
-//
-//                completionHandler(true)
-//
-//            }
-//            deleteAction.backgroundColor = .red
-//            let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction])
-//            swipeActions.performsFirstActionWithFullSwipe = false
-//            return swipeActions
-//
-//
-//    }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -175,59 +131,6 @@ extension CitiesViewController: UITableViewDelegate {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
-
-
-    
-// MARK: - tableview move / drag / drop delegate
-    /*
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-        
-        guard let ramens = ramens else { return }
-        
-        if sourceIndexPath.row > destinationIndexPath.row {
-            for i in destinationIndexPath.row..<sourceIndexPath.row {
-                ramens[i].setValue(i+1, forKey: "order")
-            }
-            
-            ramens[sourceIndexPath.row].setValue(destinationIndexPath.row, forKey: "order")
-        }
-        
-        if sourceIndexPath.row < destinationIndexPath.row {
-            for i in sourceIndexPath.row + 1...destinationIndexPath.row {
-                ramens[i].setValue(i-1, forKey: "order")
-            }
-            
-            ramens[sourceIndexPath.row].setValue(destinationIndexPath.row, forKey: "order")
-        }
-
-        print(ramens)
-
-    }
-
-    
-}
-
-extension CitiesViewController: UITableViewDragDelegate {
-    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        return [UIDragItem(itemProvider: NSItemProvider())]
-    }
-}
-
-extension CitiesViewController: UITableViewDropDelegate {
-    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        
-    }
-    
-    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-        if session.localDragSession != nil {
-            return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-        }
-        return UITableViewDropProposal(operation: .cancel, intent: .unspecified)
-    }
-    
-*/
 }
 
 

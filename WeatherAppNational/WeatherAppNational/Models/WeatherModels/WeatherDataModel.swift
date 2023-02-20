@@ -49,6 +49,7 @@ struct WeatherItem: Codable {
 
 
 /*
+ // 기상청 api를 통해 받아오는 데이터 예시
  "baseDate": "20221012",
  "baseTime": "0500",
  "category": "TMP",
@@ -57,6 +58,4 @@ struct WeatherItem: Codable {
  "fcstValue": "6",
  "nx": 55,
  "ny": 127
- 
- 
  */

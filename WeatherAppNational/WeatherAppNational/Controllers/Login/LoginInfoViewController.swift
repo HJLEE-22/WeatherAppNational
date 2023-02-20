@@ -13,7 +13,7 @@ class LoginInfoViewController: UIViewController {
     // MARK: - Properties
     
     let loginInputView = LoginInfoView()
-    var user: UserModel?
+    var userViewModel: UserViewModel?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -57,14 +57,7 @@ class LoginInfoViewController: UIViewController {
                                   "email": email,
                                   "uid" : uid]
         COLLECTION_USERS.document(uid).setData(data)
-        COLLECTION_USERS.document(uid).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-            } else {
-                print("Document does not exist")
-            }
-        }
+        self.userViewModel = .init(name: nickname, email: email, uid: uid)
         let settingViewContoller = SettingViewController()
         UserDefaults.standard.set(true, forKey: "isUserDataExist")
     }

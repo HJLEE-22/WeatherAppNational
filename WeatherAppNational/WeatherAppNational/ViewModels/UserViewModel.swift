@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import FirebaseFirestore
 
 class UserViewModel {
@@ -17,7 +18,7 @@ class UserViewModel {
         didSet {
             notify(updateValue: user)
             print("DEBUG: userData by UserModel:\(user)")
-
+            
         }
     }
     
@@ -32,20 +33,26 @@ class UserViewModel {
         self.name = name
         self.email = email
         self.uid = uid
-        
-        bind()
+        self.bind()
     }
     
     
     // MARK: - Helpers
     
     func bind() {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
-            self.user = UserModel(name: self.name,
-                                  email: self.email,
-                                  uid: self.uid
-            )
+        COLLECTION_USERS.document(uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+//                self.name = document.value(forKey: "name")
+//                self.email = document.value(forKey: "email")
+//                self.uid = document.value(forKey: "uid")
+            }
+            DispatchQueue.global().async { [weak self] in
+                guard let self else { return }
+                self.user = UserModel(name: self.name,
+                                      email: self.email,
+                                      uid: self.uid
+                )
+            }
         }
     }
 }

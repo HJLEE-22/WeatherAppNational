@@ -8,16 +8,23 @@
 import UIKit
 import SnapKit
 
-
 class BulletinBoardViewController: UIViewController {
     
     // MARK: - Properties
     
         // MARK:  Models
     
+    // models for navigation background gradient
     var weatherKitModel: WeatherKitModel?
-    
     var backgroundGradientLayer: CAGradientLayer?
+    
+    // model for chat
+    var chats: [ChatModel] = []
+    var chatViewModel: ChatViewModel! {
+        didSet {
+            chatViewModel.subscribe(observer: self)
+        }
+    }
     
         // MARK:  Other Properties
     
@@ -75,7 +82,7 @@ class BulletinBoardViewController: UIViewController {
 
 extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.chats.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -99,4 +106,13 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
 
 extension BulletinBoardViewController: UITextFieldDelegate {
     
+}
+
+extension BulletinBoardViewController: ChatObserver {
+    func chatUpdate<T>(updateValue: T) {
+//        guard let value = updateValue else { return }
+        // usermodel이 생기는 곳에서 초기화를 해야 하나?
+        // 게시판 이름은? navigationtitle?
+        
+    }
 }

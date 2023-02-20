@@ -8,13 +8,14 @@
 import Foundation
 
 struct WeatherKitModel {
-    
     var temperature: String?
     var highTemperature: String?
     var lowTemperature: String?
     var humidity: String?
     var windSpeed: String?
     var symbolName: String?
+    var rainingStatus: String?
+    var skyStatus: String?
 }
 
 

@@ -11,17 +11,16 @@ class CustomWeatherService {
     
     static let shared = CustomWeatherService()
     
-
-    func fetchWeatherData(dayType:Day, date: String, time: String, nx: Int, ny: Int, completion: @escaping (Result<WeatherModel, Error>) -> Void) {
+    func fetchWeatherData(dayType:Day, date: String, time: String, nx: Int, ny: Int, completion: @escaping (Result<WeatherKitModel, Error>) -> Void) {
         WeatherDataManager.shared.fetchWeather(date: date, time: time, nx: nx, ny: ny) {[weak self] result in
             switch result {
             case .success(let weathers):
 
-                if let weatherModel = self?.sortWeatherCategory(dayType: dayType,
+                if let weatherKitModel = self?.sortWeatherCategory(dayType: dayType,
                                                                 date: date,
                                                                 time: time,
                                                                 weatherItems: weathers) {
-                    completion(.success(weatherModel))
+                    completion(.success(weatherKitModel))
                 } else {
                     completion(.failure(NetworkError.dataError))
                 }
@@ -33,7 +32,7 @@ class CustomWeatherService {
         }
     }
     
-    func sortWeatherCategory(dayType: Day, date: String, time: String ,weatherItems: [WeatherItem]) -> WeatherModel {
+    func sortWeatherCategory(dayType: Day, date: String, time: String ,weatherItems: [WeatherItem]) -> WeatherKitModel {
         
         let currentTime = TimeCalculate.nowTimeString
         
@@ -58,6 +57,8 @@ class CustomWeatherService {
         let windSpeed = weatherItemsTemp.filter { $0.fcstTime == currentTime && $0.category == WeatherItemCategory.windSpeed.rawValue }.first?.fcstValue
         
         
-        return .init(humidityStatus: humidityStatus, temperatureMax: maxTemperature, temperatureMin: minTemperature, temperaturePerHour: currentTemperature, windSpeed: windSpeed, rainingStatus: rainingStatus, skyStatus: skystatus)
+
+        return .init(temperature: currentTemperature, highTemperature: maxTemperature, lowTemperature: minTemperature, humidity: humidityStatus, windSpeed: windSpeed, rainingStatus: rainingStatus, skyStatus: skystatus)
     }
+    
 }

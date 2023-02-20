@@ -19,6 +19,8 @@ class WeatherKitViewModel {
     var latitude: Double?
     var longitude: Double?
     var location: CLLocation?
+    var gridX: Int?
+    var gridY: Int?
     
     var todayWeatherKitModel: WeatherKitModel = WeatherKitModel() {
         didSet{
@@ -39,12 +41,13 @@ class WeatherKitViewModel {
     }
     
     // MARK: - Life cycle
-    init(name: String, latitude: Double, longitude: Double) {
+    init(name: String, latitude: Double, longitude: Double, gridX: Int, gridY: Int) {
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
         self.location = CLLocation(latitude: latitude, longitude: longitude)
-        
+        self.gridX = gridX
+        self.gridY = gridY
         self.bind(locaton: self.location)
     }
     
@@ -98,24 +101,10 @@ class WeatherKitViewModel {
             var yesterdayHighTemperature: String?
             var yesterdayLowTemperature: String?
             var yesterdaySymbolName: String?
-/*
-            let hourWeather = try await weatherService.weather(for: location, including: .hourly(startDate: yesterday, endDate: yesterday))
-            let hourWeatherCurrent = try await weatherService.weather(for: location, including: .hourly(startDate: Date(), endDate: Date()))
-            print("DEBUG: hourWeather:\(hourWeather)")
-            print("DEBUG: hourWeather current:\(hourWeatherCurrent)")
 
-
-            let hourWeatherFiltered = hourWeather.filter({ $0.date.formatted(.dateTime.year(.twoDigits)
-                                                            .month(.narrow)
-                                                            .day(.defaultDigits)
-                                                            .hour(.twoDigits(amPM: .narrow))) == yesterdayFormatted}).first
-            print("DEBUG: hourWeatherFiltered:\(hourWeatherFiltered)")
-
-            yesterdaySymbolName = hourWeatherFiltered?.symbolName
-            let yesterdayTemperatrueFormatted = String(Int(Double(hourWeatherFiltered?.temperature.formatted().dropLast(2) ?? "0")?.rounded(.awayFromZero) ?? 0))
-            yesterdayTemperature = yesterdayTemperatrueFormatted
-            */
-            let hourWeather = try await weatherService.weather(for: location, including: .hourly(startDate: yesterday, endDate: yesterday))
+            let hourWeather = try await weatherService.weather(for: location,
+                                                               including: .hourly(startDate: yesterday,
+                                                                                  endDate: yesterday))
 
             hourWeather.forEach { hour in
                 print("DEBUG: hourWeather:\(hour)")
@@ -131,7 +120,21 @@ class WeatherKitViewModel {
             
             yesterdayWeatherKitModel = WeatherKitModel(temperature: yesterdayTemperature, highTemperature: yesterdayHighTemperature, lowTemperature: yesterdayLowTemperature, symbolName: yesterdaySymbolName)
         } catch {
+            // WeatherKit에서 어제 날씨 데이터 오류날 시 기상청 API 접속
             print(error.localizedDescription)
+            guard let gridX, let gridY else { return }
+            CustomWeatherService.shared.fetchWeatherData(dayType: .yesterday,
+                                                         date: DateCalculate.yesterdayDateString,
+                                                         time: "0200",
+                                                         nx: gridX,
+                                                         ny: gridY) { result in
+                switch result {
+                case .success(let weatherKitModel):
+                    self.yesterdayWeatherKitModel = weatherKitModel
+                case .failure(let error):
+                    print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
+                }
+            }
         }
     }
     

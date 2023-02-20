@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseDatabase
 import FirebaseFirestore
+
 
 public struct CellID {
     static let forCitiesCell = "CitiesCellID"
@@ -47,19 +50,46 @@ public struct CoreDataNames {
     private init () {}
 }
 
-
+// 기상청 api 통신을 위한 Constants
 public enum Day {
     case today
     case yesterday
     case tomorrow
 }
 
+enum WeatherItemCategory: String {
+    case rainingStatus = "PTY"
+    case skyStatus = "SKY"
+    case humidityStatus = "REH"
+    case temperaturePerHour = "TMP"
+    case temperatureMax = "TMX"
+    case temperatureMin = "TMN"
+    case windSpeed = "WSD"
+}
+
+enum SkyCategory: String, CaseIterable {
+    case sunny = "1"
+    case cloudy = "3"
+    case gray = "4"
+}
+
+enum RainStatusCategory: String, CaseIterable {
+    case noRain = "0"
+    case raining = "1"
+    case rainingAndSnowing = "2"
+    case snowing = "3"
+    case showering = "4"
+}
+
 public struct UserDefaultsKeys {
     static let launchedBefore = "launchedBefore"
 }
 
-
+// firestore collection address
 let COLLECTION_USERS = Firestore.firestore().collection("users")
-let COLLECTION_POSTS = Firestore.firestore().collection("posts")
-//let COLLECTION_UID = Firestore.firestore().collection("users").where("uid", "==", "gusDdKDcvudP9dhAjzbEU4GdQCp1")
-    
+let collectionChats = Firestore.firestore().collection("chats")
+
+
+// firebase realtime database address
+let reference = Database.database().reference().child("chats")
+

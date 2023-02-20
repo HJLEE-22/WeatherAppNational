@@ -34,3 +34,10 @@ protocol UserSubcriber {
     mutating func unsubscribe(observer: (any UserObserver)?)
     func notify<T>(updateValue: T)
 }
+
+protocol ChatSubscriber {
+    var observer: (any ChatObserver)? { get set }
+    mutating func subscribe(observer: (any ChatObserver)?)
+    mutating func unsubscribe(observer: (any ChatObserver)?)
+    func notify<T>(updateValue: T)
+}

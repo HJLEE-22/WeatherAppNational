@@ -23,16 +23,6 @@ class LoginInfoView: UIView {
         return tf
     }()
     
-//    lazy var emailTextField: UITextField = {
-//        let tf = UITextField()
-//        tf.placeholder = "이메일을 입력하세요"
-////        if let uid = FirebaseAuthentication.shared.uid,
-////           let email = COLLECTION_USERS.document(uid).value(forKey: "email") as? String {
-////            tf.text = email
-////        }
-//        return tf
-//    }()
-    
     lazy var moveToMainButton: UIButton = {
         let button = UIButton()
         button.setTitle("등록", for: .normal)
@@ -48,7 +38,6 @@ class LoginInfoView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-//        setupEmailTextfield()
     }
     
     required init?(coder: NSCoder) {
@@ -68,7 +57,6 @@ class LoginInfoView: UIView {
             make.centerY.equalToSuperview()
             make.left.right.equalToSuperview().inset(20)
         }
-
         moveToMainButton.snp.makeConstraints { make in
             make.top.equalTo(nicknameTextField.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)

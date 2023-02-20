@@ -12,12 +12,6 @@ class WeatherViewController: UIViewController {
     // MARK: - Properties
     lazy var mainView = MainView()
     
-//    var weatherViewModel: WeatherViewModel! {
-//        didSet {
-//            weatherViewModel.subscribe(observer: self)
-//        }
-//    }
-    
     var colorsViewModel: ColorsViewModel! {
         didSet {
             colorsViewModel.colorsSubscribe(observer: self)
@@ -55,29 +49,6 @@ class WeatherViewController: UIViewController {
         ])
     }
 }
-/*
-extension WeatherViewController: Observer {
-    func update<T>(updateValue: T) {
-        guard let value = updateValue as? [Day: WeatherModel] else { return }
-        DispatchQueue.main.async { [weak self] in
-            switch value.first?.key {
-            case .today:
-                self?.mainView.todayWeatherView.weatherModel = value[.today]
-                self?.colorsViewModel = .init(weatherModel: [.today: value[.today]])
-            case .yesterday:
-                self?.mainView.yesterdayWeatherView.weatherModel = value[.yesterday]
-                self?.mainView.todayWeatherView.yesterdayDegree = value[.yesterday]?.temperaturePerHour
-                self?.colorsViewModel = .init(weatherModel:[.yesterday: value[.yesterday]] )
-            case .tomorrow:
-                self?.mainView.tomorrowdayWeatherView.weatherModel = value[.tomorrow]
-                self?.colorsViewModel = .init(weatherModel: [.tomorrow: value[.tomorrow]])
-            case .none:
-                break
-            }
-        }
-    }
-}
-*/
 
 extension WeatherViewController: WeatherKitObserver {
     func weatherKitUpdate<T>(updateValue: T) {
@@ -109,8 +80,6 @@ extension WeatherViewController: ColorsObserver {
             switch value.first?.key {
             case .today :
                 self.mainView.todayWeatherView.backgroundGradientLayer = value[.today]
-                // 여기서 불레틴뷰컨한테 값을 넘겨줘야하는데.... 뷰컨객체를 생성해야 한다고...? 그건아닌거같은데...
-                
             case .yesterday:
                 self.mainView.yesterdayWeatherView.backgroundGradientLayer = value[.yesterday]
             case .tomorrow:

@@ -58,8 +58,8 @@ class MainPageViewController: UIViewController {
         return pageVC
     }()
 
-//    var convertedGridX: Int?
-//    var convertedGridY: Int?
+    var convertedGridX: Int?
+    var convertedGridY: Int?
     var currentLatitude: Double?
     var currentLongitude: Double?
     
@@ -143,8 +143,8 @@ class MainPageViewController: UIViewController {
 //                if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == false {
                     switchUserCurrentLocationAuthorization(locationManager.authorizationStatus)
 //                }
-//                self.convertedGridX = nil
-//                self.convertedGridY = nil
+                self.convertedGridX = nil
+                self.convertedGridY = nil
                 self.currentLatitude = nil
                 self.currentLongitude = nil
             }
@@ -233,58 +233,26 @@ class MainPageViewController: UIViewController {
 
 // MARK: - Set VCs in PageVC
 extension MainPageViewController {
-    /*
-    private func setupViewControllers(){
-        
-//        if 현재위치 받았으면 {
-//            현재위치VC 전체VC에 넣어주기
-//        }
-        if let currentGridX = convertedGridX,
-           let currentGridY = convertedGridY{
-            let vc = WeatherViewController()
-            
-            vc.weatherViewModel = .init(name: "현재 위치", nx: currentGridX, ny: currentGridY)
-            self.navigationItem.title = vc.weatherViewModel.name
-            subViewControllers.append(vc)
-            setupFisrtViewController()
-        }
-            currentPage = 0
-    }
-     */
-    /*
-    private func setupViewControllers(){
-        
-//        if 현재위치 받았으면 {
-//            현재위치VC 전체VC에 넣어주기
-//        }
-        if let currentLatitude,
-           let currentLongitude,
-           let currentAdministrativeName,
-           let currentCityName {
-            let vc = WeatherViewController()
-            addActionBulletinBoardViewOpen(vc)
-            vc.weatherKitViewModel = .init(name: "\(currentAdministrativeName) \(currentCityName)", latitude: currentLatitude, longitude: currentLongitude)
-            vc.mainView.todayWeatherView.buttonDelegate = self
-            self.navigationItem.title = vc.weatherKitViewModel.name
-            subViewControllers.append(vc)
-            setupFisrtViewController()
-        }
-            currentPage = 0
-    }
-     */
-    
+   
     private func setupViewControllersForBookmarked(city: String?, area: String?){
 
         subViewControllers.removeAll()
-        
+        // 현재 위치에 따른 첫 번째 날씨 페이지 로드
+        // 조건문 분기는, geocoder를 사용해 나눌땐 위치정보(도시이름)을 인자로 바로 받아 사용
+        // 두 번째 분기는, 그렇게 받아진 걸 변수로 저장해 변수를 불러와 사용... 그 외에 내용이 모두 중복됨.
+        // 즉, 첫번째 분기는 정리할 필요 있음.
         if let currentLatitude,
            let currentLongitude,
-           let city, let area {
+           let city, let area,
+           let gridX = convertedGridX,
+           let gridY = convertedGridY {
             let vc = WeatherViewController()
             self.addActionBulletinBoardViewOpen(vc)
             vc.weatherKitViewModel = .init(name: "\(area) \(city)",
                                            latitude: currentLatitude,
-                                           longitude: currentLongitude)
+                                           longitude: currentLongitude,
+                                           gridX: gridX,
+                                           gridY: gridY)
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
@@ -293,12 +261,16 @@ extension MainPageViewController {
         } else if let currentLatitude,
                   let currentLongitude,
                   let currentAdministrativeName,
-                  let currentCityName {
+                  let currentCityName,
+                  let gridX = convertedGridX,
+                  let gridY = convertedGridY {
             let vc = WeatherViewController()
             self.addActionBulletinBoardViewOpen(vc)
             vc.weatherKitViewModel = .init(name: "\(currentAdministrativeName) \(currentCityName)",
                                            latitude: currentLatitude,
-                                           longitude: currentLongitude)
+                                           longitude: currentLongitude,
+                                           gridX: gridX,
+                                           gridY: gridY)
             vc.mainView.todayWeatherView.buttonDelegate = self
             self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
@@ -306,7 +278,7 @@ extension MainPageViewController {
             setupFisrtViewController()
         }
         
-        
+        // 북마크 추가된 날씨 페이지 로드
         let cities = CoreDataManager.shared.getBookmarkedLocationGridList()
         cities.forEach(){ location in
             let vc = WeatherViewController()
@@ -314,12 +286,10 @@ extension MainPageViewController {
                   let district = location.district else { return }
             let locationName = "\(city) \(district)"
             self.addActionBulletinBoardViewOpen(vc)
-//            let locationGridX = Int(location.gridX)
-//            let locationGridY = Int(location.gridY)
-//            vc.weatherViewModel = .init(name: locationName, nx: locationGridX, ny: locationGridY)
-            vc.weatherKitViewModel = .init(name: locationName, latitude: location.latitude, longitude: location.longitude)
+            let locationGridX = Int(location.gridX)
+            let locationGridY = Int(location.gridY)
+            vc.weatherKitViewModel = .init(name: locationName, latitude: location.latitude, longitude: location.longitude, gridX: locationGridX, gridY: locationGridY)
             vc.mainView.todayWeatherView.buttonDelegate = self
-//            self.navigationItem.title = vc.weatherViewModel.name
             self.navigationItem.title = vc.weatherKitViewModel.name
             subViewControllers.append(vc)
             self.pageControl.numberOfPages = subViewControllers.count
@@ -333,7 +303,6 @@ extension MainPageViewController {
         if let firstVC = subViewControllers.first {
             pageViewController.setViewControllers([firstVC], direction: .forward, animated: false)
             let vc = firstVC as? WeatherViewController
-//            self.navigationItem.title = vc?.weatherViewModel.name
             self.navigationItem.title = vc?.weatherKitViewModel.name
         }
     }
@@ -379,7 +348,6 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
         if completed {
             DispatchQueue.main.async {
                 let weatherVC = currentVC as! WeatherViewController
-//                self.navigationItem.title = weatherVC.weatherViewModel.name
                 self.navigationItem.title = weatherVC.weatherKitViewModel.name
                 weatherVC.mainView.todayWeatherView.layoutIfNeeded()
                 weatherVC.mainView.yesterdayWeatherView.layoutIfNeeded()
@@ -403,12 +371,15 @@ extension MainPageViewController:CLLocationManagerDelegate {
             print("DEBUG: 위도 \(coordinate.latitude)")
             print("DEBUG: 경도 \(coordinate.longitude)")
             
-            self.currentLatitude = Double(coordinate.latitude.formatted())
-            self.currentLongitude = Double(coordinate.longitude.formatted())
-//            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: latitude, lng_Y: longitude)
-//            print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
-//            self.convertedGridX = convertedGrid.x
-//            self.convertedGridY = convertedGrid.y
+            let latitudeDouble = Double(coordinate.latitude.formatted())
+            let longitudeDouble = Double(coordinate.longitude.formatted())
+            self.currentLatitude = latitudeDouble
+            self.currentLongitude = longitudeDouble
+            guard let latitudeDouble, let longitudeDouble else { return }
+            let convertedGrid = ConvertGPS.convertGRIDtoGPS(mode: TO_GRID, lat_X: latitudeDouble, lng_Y: longitudeDouble)
+            print("DEBUG: convertedGrid \(convertedGrid.x), \(convertedGrid.y)")
+            self.convertedGridX = convertedGrid.x
+            self.convertedGridY = convertedGrid.y
             
             self.geocoder.reverseGeocodeLocation(location, preferredLocale: self.locale) { [weak self] placemarks, _ in
                 guard let placemarks,
@@ -449,7 +420,6 @@ extension MainPageViewController:CLLocationManagerDelegate {
     // 앱에 대한 권한 설정이 변경되면 호출 (iOS 14 미만)
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         // 사용자 디바이스의 위치 서비스가 활성화 상태인지 확인하는 메서드 호출
-//        checkLocationServiceAuthorizationByVersion(manager)
         self.setupLayout()
         self.setupViewControllersForBookmarked(city: nil, area: nil)
     }

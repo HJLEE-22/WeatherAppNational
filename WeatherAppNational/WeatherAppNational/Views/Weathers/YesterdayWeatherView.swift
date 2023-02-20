@@ -13,14 +13,6 @@ class YesterdayWeatherView: UIView {
     
     private lazy var yesterdayTemp: String = "로딩중"
     
-//    var weatherModel: WeatherModel? {
-//        didSet {
-//            if let weatherModel = weatherModel {
-//                self.configureUI(weatherModel)
-//            }
-//        }
-//    }
-    
     var weatherKitModel: WeatherKitModel? {
         didSet {
             if let weatherKitModel {
@@ -181,24 +173,13 @@ class YesterdayWeatherView: UIView {
     }
     
     // MARK: - Helpers
-    /*
-    func configureUI(_ data: WeatherModel) {
-//        self.weatherImageView.image = setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
-        self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
-        self.mainTemperatureLabel.text = "\(data.temperaturePerHour ?? "")°"
-        self.maxTemperatureLabel.text = data.temperatureMax ?? "" + "°"
-        self.minTemperatureLabel.text = data.temperatureMin ?? "" + "°"
-        self.yesterdayTemp = data.temperaturePerHour ?? ""
-//        self.currentLocationButton.setImage(viewModel.gpsOnButton, for: .normal)
-//        print("DEBUG: view model in view exists \(viewModel)")
-        self.yesterdayDateLabel.text = DateCalculate.yesterdayDateShortString + "일"
-    }
-    */
-    
-    
     
     func configureUI(_ data: WeatherKitModel) {
-        self.weatherImageView.image = UIImage(systemName: data.symbolName ?? "")
+        if let symbolName = data.symbolName {
+            self.weatherImageView.image = UIImage(systemName: symbolName)
+        } else {
+            self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
+        }
         self.mainTemperatureLabel.text = "\(data.temperature ?? "")°"
         self.maxTemperatureLabel.text = data.highTemperature ?? "" + "°"
         self.minTemperatureLabel.text = data.lowTemperature ?? "" + "°"
@@ -206,7 +187,7 @@ class YesterdayWeatherView: UIView {
         self.weatherImageView.tintColor = .systemGray3
     }
 
-/*
+
     func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
         if rainStatusCategory == "0" {
             if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
@@ -250,6 +231,6 @@ class YesterdayWeatherView: UIView {
             }
         }
     }
-    */
+    
 }
 
