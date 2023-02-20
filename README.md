@@ -35,6 +35,10 @@ WeatherKit을 이용한 날씨 비교앱<br>
         
 ![AddingCityRecord](https://user-images.githubusercontent.com/98086074/214780526-9eb05788-f750-4739-a035-fba658dbcc24.gif)
 
+- 애플 로그인
+  - AppleSignIn을 통해 정보를 받아 Firebase Auth 및 Firestore과 연동해 계저 정보를 저장합니다.
+  
+![appleLoginVideo](https://user-images.githubusercontent.com/98086074/219002123-a0323b4b-3fe5-40ae-8d4b-b7f571276799.gif)
 
         
 - 설계
@@ -42,7 +46,6 @@ WeatherKit을 이용한 날씨 비교앱<br>
   - Storyboard 없이 UIKit과 SnapKit으로 화면을 구성하였습니다.
   
 ### 구현 예정 기능
-- AppleLogin을 통해 정보를 받아 Firebase 서버에 계정 정보를 저장합니다.
 - 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
 
 ![BulletinBoardRecord](https://user-images.githubusercontent.com/98086074/214780543-e7a1e43b-4592-442f-b460-de3efaf6a3d5.gif)
@@ -375,4 +378,65 @@ func setupBackgroundLayer() {
 </details>
 
 
-          
+<details>
+<summary>WeatherKit 데이터 로드 오류</summary>
+<div markdown="1">
+
+- 문제 발생:
+  - Weatherkit으로 받는 어제 날짜의 날씨 데이터 로드의 간헐적 오류
+  - DateFormatter 값이 아닌 UTC 기준 Date()로 값을 전달받은 후 한국 설정이 적용되는 WeatherKit의 특성상 시차에 관한 오류로 추정
+- 해결:
+  - 어제 날씨 로드 중 error가 발생하면 이를 catch해 기상청 api로 로드하도록 수정
+  - 기존에 만들어놓았던 기상청 api 기반 날씨 모델과 웨더킷 기반 날씨 모델 통합
+  - 코드
+```swift
+func getYesterdayWeather(location: CLLocation) async {
+        do {
+            let yesterday = Date() - 86400
+            let yesterdayFormatted = yesterday.formatted(.dateTime.year(.twoDigits)
+                                                                .month(.narrow)
+                                                                .day(.defaultDigits)
+                                                                .hour(.twoDigits(amPM: .narrow)))
+            var yesterdayTemperature: String?
+            var yesterdayHighTemperature: String?
+            var yesterdayLowTemperature: String?
+            var yesterdaySymbolName: String?
+
+            let hourWeather = try await weatherService.weather(for: location, including: .hourly(startDate: yesterday, endDate: yesterday))
+
+            hourWeather.forEach { hour in
+                print("DEBUG: hourWeather:\(hour)")
+                print("DEBUG: date:\(Date())")
+                yesterdayTemperature = String(Int(Double(hour.temperature.formatted(.measurement(width: .narrow)).dropLast(2))?.rounded(.awayFromZero) ?? 100))
+                yesterdaySymbolName = hour.symbolName
+            }
+            let dailyWeather = try await weatherService.weather(for: location, including: .daily(startDate: yesterday, endDate: yesterday))
+            print("DEBUG: dailyWeather:\(dailyWeather)")
+
+            yesterdayHighTemperature = String(Int((dailyWeather.first?.highTemperature.value ?? 100).rounded(.awayFromZero)))
+            yesterdayLowTemperature = String(Int((dailyWeather.first?.lowTemperature.value ?? 100).rounded(.awayFromZero)))
+            
+            yesterdayWeatherKitModel = WeatherKitModel(temperature: yesterdayTemperature, highTemperature: yesterdayHighTemperature, lowTemperature: yesterdayLowTemperature, symbolName: yesterdaySymbolName)
+        } catch {
+            // WeatherKit에서 어제 날씨 데이터 오류날 시 기상청 API 접속
+            print(error.localizedDescription)
+            guard let gridX, let gridY else { return }
+            CustomWeatherService.shared.fetchWeatherData(dayType: .yesterday,
+                                                         date: DateCalculate.yesterdayDateString,
+                                                         time: "0200",
+                                                         nx: gridX,
+                                                         ny: gridY) { result in
+                switch result {
+                case .success(let weatherKitModel):
+                    self.yesterdayWeatherKitModel = weatherKitModel
+                case .failure(let error):
+                    print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
+                }
+            }
+        }
+    }
+
+```
+
+</div>
+</details>
