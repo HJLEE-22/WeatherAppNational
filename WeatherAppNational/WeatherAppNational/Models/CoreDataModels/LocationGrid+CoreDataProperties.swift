@@ -24,7 +24,6 @@ extension LocationGridData {
     @NSManaged public var longitude: Double
     @NSManaged public var latitude: Double
 
-
 }
 
 extension LocationGridData : Identifiable {
