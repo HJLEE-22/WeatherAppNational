@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 enum NetworkError:Error {
     case networkingError
@@ -35,28 +36,24 @@ final class WeatherDataManager {
     
     func performRequest(with urlString: String,
                         completion: @escaping NetworkCompletion) {
+        AF.request(urlString).validate()
+
         guard let url = URL(string: urlString) else { return }
-        let session = URLSession(configuration: .default)
-        let task = session.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print(error)
-                // completion에 에러타입 전달
-                return
-            }
-            guard let safeData = data else {
-                // completion에 에러타입 전달
-                return
-            }
-            print(safeData)
-            if let weather = self.parseJSON(safeData) {
-                print("parse 실행")
-                completion(.success(weather))
-            } else {
-                print("parse 실패")
+        AF.request(url).validate().response { response in
+            switch response.result {
+            case .success(let data):
+                guard let safeData = data else {
+                    completion(.failure(.parseError))
+                    return }
+                if let weather = self.parseJSON(safeData) {
+                    completion(.success(weather))
+                } else {
+                    completion(.failure(.parseError))
+                }
+            case .failure(let error):
                 completion(.failure(.parseError))
             }
         }
-        task.resume()
     }
     
     private func parseJSON(_ weatherData: Data) -> [WeatherItem]? {

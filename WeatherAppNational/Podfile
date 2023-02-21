@@ -14,4 +14,5 @@ target 'WeatherAppNational' do
     pod 'FirebaseStorage'
     pod 'FirebaseMessaging'
     pod 'FirebaseAuth'
+    pod 'Alamofire'
 end
