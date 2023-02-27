@@ -13,7 +13,7 @@ class LoginInfoViewController: UIViewController {
     // MARK: - Properties
     
     let loginInputView = LoginInfoView()
-    var userViewModel: UserViewModel?
+
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -34,10 +34,11 @@ class LoginInfoViewController: UIViewController {
     
     func addActionToButton() {
         loginInputView.moveToMainButton.addTarget(self, action: #selector(moveToMainVC), for: .touchUpInside)
+        print("DEBUG: touched:")
+
     }
     
     @objc func moveToMainVC() {
-
         guard loginInputView.nicknameTextField.hasText == true else {
             print("DEBUG: nicknameTextField:\(loginInputView.nicknameTextField.hasText)")
             self.setupAlert()
@@ -46,18 +47,21 @@ class LoginInfoViewController: UIViewController {
         
         setupUserInfo()
         let mainVC = MainPageViewController()
+//        mainVC.userViewModel = .init(name: nickname, email: email, uid: uid)
         show(mainVC, sender: self)
     }
     
     func setupUserInfo() {
         guard let nickname = loginInputView.nicknameTextField.text,
               let email = FirebaseAuthentication.shared.email,
-              let uid = FirebaseAuthentication.shared.uid else { return }
+              let uid = FirebaseAuthentication.shared.uid
+        else { return }
         let data: [String:Any] = ["name": nickname,
                                   "email": email,
                                   "uid" : uid]
         COLLECTION_USERS.document(uid).setData(data)
-        self.userViewModel = .init(name: nickname, email: email, uid: uid)
+        // userviewmodel을 여기서 안쓰는데 여기있는 변수를 초기화해봤자 뭐해?
+//        self.userViewModel = .init(name: nickname, email: email, uid: uid)
         let settingViewContoller = SettingViewController()
         UserDefaults.standard.set(true, forKey: "isUserDataExist")
     }
@@ -69,4 +73,5 @@ class LoginInfoViewController: UIViewController {
         present(requestAlert, animated: true)
     }
 }
+
 

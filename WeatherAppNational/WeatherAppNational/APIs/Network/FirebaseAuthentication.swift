@@ -118,7 +118,8 @@ extension FirebaseAuthentication: ASAuthorizationControllerDelegate {
             return
           }
             guard let email = authResult?.user.email,
-                  let uid = authResult?.user.uid else { return }
+                  let uid = authResult?.user.uid
+            else { return }
             self?.uid = uid
             self?.email = email
             self?.postNotificationSignInSuccess()

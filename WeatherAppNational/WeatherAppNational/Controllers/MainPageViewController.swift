@@ -19,6 +19,11 @@ class MainPageViewController: UIViewController {
     let locale = Locale(identifier: "ko-kr")
     var currentAdministrativeName: String?
     var currentCityName: String?
+//    var userViewModel: UserViewModel! {
+//        didSet {
+//            userViewModel.subscribe(observer: self)
+//        }
+//    }
     
     private var subViewControllers: [UIViewController] = [] {
         didSet {
@@ -432,3 +437,13 @@ extension MainPageViewController: UpdatingLocationButtonDelegate {
         self.setupViewControllersForBookmarked(city: nil, area: nil)
     }
 }
+
+//// MARK: - UserViewModel
+//extension MainPageViewController: UserObserver {
+//    func userUpdate<T>(updateValue: T) {
+//        guard let value = updateValue as? UserModel else { return }
+//        Dispatchqueue.main.async { [weak self] in
+//            self.bulletionBoardViewController.userModel = value
+//        }
+//    }
+//}

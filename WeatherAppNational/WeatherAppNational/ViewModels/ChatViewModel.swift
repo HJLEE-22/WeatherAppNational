@@ -24,10 +24,10 @@ class ChatViewModel {
     var message: String?
     var location: String?
     var documentID: String?
-    private var nowTime = TimeCalculate.nowTimeString
+    private var nowTime = TimeCalculate.nowTimeWithMinString
 
     // MARK: - Lifecycle
-    init(user: UserModel, message: String, location: String) {
+    init(user: UserModel, location: String, message: String) {
         self.user = user
         self.message = message
         self.location = location

@@ -14,7 +14,8 @@ class UserChatCell: UITableViewCell {
     
     lazy var idLabel: UILabel = {
         let label = UILabel()
-        label.text = "me"
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .right
         label.snp.contentHuggingVerticalPriority = 1000
         return label
@@ -34,7 +35,7 @@ class UserChatCell: UITableViewCell {
     lazy var chatLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.text = "Here is the chattings part, Yes, Here is the chattings part!!"
+        label.text = ""
         label.numberOfLines = 0
         label.textColor = .white
         return label
@@ -69,7 +70,7 @@ class UserChatCell: UITableViewCell {
     }()
     
     lazy var stackViewForMessageSize: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [chatLabelStackView, emptyViewForSize])
+        let stackView = UIStackView(arrangedSubviews: [emptyViewForSize, chatLabelStackView])
         stackView.snp.contentHuggingVerticalPriority = 250
         return stackView
     }()
@@ -144,8 +145,5 @@ class UserChatCell: UITableViewCell {
         self.chatLabel.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(5)
         }
-
     }
-    
-    
 }

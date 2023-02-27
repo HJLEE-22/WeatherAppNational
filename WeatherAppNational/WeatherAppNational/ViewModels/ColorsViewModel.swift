@@ -177,7 +177,7 @@ extension ColorsViewModel: ColorsSubscriber {
     }
     
     func colorsNotify<T>(updateValue: T) {
-        colorsObserver?.colorsUpdate(updateValue: updateValue)
+        self.colorsObserver?.colorsUpdate(updateValue: updateValue)
     }
 }
 

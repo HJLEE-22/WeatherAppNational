@@ -3,4 +3,246 @@
    uuid = "0D558553-8F0F-4A90-9846-21CF81017074"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BE509D52-08F3-4EFE-A453-5850C6086A73"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "authorizationController(controller:didCompleteWithAuthorization:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9172E40E-7FD6-457A-AF7C-FE1D3E629163"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "authorizationController(controller:didCompleteWithAuthorization:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9172E40E-7FD6-457A-AF7C-FE1D3E629163 - eacac3bff3761915"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in WeatherAppNational.FirebaseAuthentication.authorizationController(controller: __C.ASAuthorizationController, didCompleteWithAuthorization: __C.ASAuthorization) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "604">
+               </Location>
+               <Location
+                  uuid = "9172E40E-7FD6-457A-AF7C-FE1D3E629163 - eacac3bff3761915"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in WeatherAppNational.FirebaseAuthentication.authorizationController(controller: __C.ASAuthorizationController, didCompleteWithAuthorization: __C.ASAuthorization) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "824">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E89AC68E-0CB5-4C55-B102-8CB9B424C7B7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "authorizationController(controller:didCompleteWithAuthorization:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "39DB5B77-142F-47C3-B1C9-AF5F04505585"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "authorizationController(controller:didCompleteWithAuthorization:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "39DB5B77-142F-47C3-B1C9-AF5F04505585 - eacac3bff3761974"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in WeatherAppNational.FirebaseAuthentication.authorizationController(controller: __C.ASAuthorizationController, didCompleteWithAuthorization: __C.ASAuthorization) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "272">
+               </Location>
+               <Location
+                  uuid = "39DB5B77-142F-47C3-B1C9-AF5F04505585 - eacac3bff3761974"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in WeatherAppNational.FirebaseAuthentication.authorizationController(controller: __C.ASAuthorizationController, didCompleteWithAuthorization: __C.ASAuthorization) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/APIs/Network/FirebaseAuthentication.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "572">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B6AFB6FE-6138-4D7C-9596-1DD186EB61E5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/Login/LoginInfoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "setupUserInfo()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B6AFB6FE-6138-4D7C-9596-1DD186EB61E5 - 9821643ff500bd6e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.LoginInfoViewController.setupUserInfo() -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/Login/LoginInfoViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "376">
+               </Location>
+               <Location
+                  uuid = "B6AFB6FE-6138-4D7C-9596-1DD186EB61E5 - 9821643ff500bd6e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.LoginInfoViewController.setupUserInfo() -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/Login/LoginInfoViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "464">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D84A7DE-512F-4F07-8463-0234234B39DF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/Login/LoginInfoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "setupUserInfo()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5D84A7DE-512F-4F07-8463-0234234B39DF - 9821643ff500bd01"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.LoginInfoViewController.setupUserInfo() -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/Login/LoginInfoViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "512">
+               </Location>
+               <Location
+                  uuid = "5D84A7DE-512F-4F07-8463-0234234B39DF - 9821643ff500bd01"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.LoginInfoViewController.setupUserInfo() -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/Login/LoginInfoViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "596">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3BCC6A09-C75B-4E84-8B77-F4E2D7A4EF2F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/Login/LoginInfoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "setupUserInfo()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

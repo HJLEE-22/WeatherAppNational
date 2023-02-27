@@ -7,6 +7,9 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
+import FirebaseFirestore
+
 
 class BulletinBoardViewController: UIViewController {
     
@@ -22,7 +25,13 @@ class BulletinBoardViewController: UIViewController {
     var chats: [ChatModel] = []
     var chatViewModel: ChatViewModel! {
         didSet {
-            chatViewModel.subscribe(observer: self)
+            self.chatViewModel.subscribe(observer: self)
+        }
+    }
+    
+    var userViewModel: UserViewModel! {
+        didSet {
+            self.userViewModel.subscribe(observer: self)
         }
     }
     
@@ -34,12 +43,15 @@ class BulletinBoardViewController: UIViewController {
     // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        setBulletinBoardView()
-        setCells()
+        self.setBulletinBoardView()
+        self.setCells()
+        self.userViewModel = .init()
+        self.addTargetToButton()
+        self.getChatsFromFirestore()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupBackgroundLayer()
+        self.setupBackgroundLayer()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -65,7 +77,6 @@ class BulletinBoardViewController: UIViewController {
             make.right.left.top.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalTo(self.view)
         }
-        
     }
     
     func setCells() {
@@ -77,6 +88,48 @@ class BulletinBoardViewController: UIViewController {
         bulletinBoardView.chattingsTableView.rowHeight = UITableView.automaticDimension
         bulletinBoardView.chattingsTableView.separatorStyle = .none
     }
+    
+    func addTargetToButton() {
+        self.bulletinBoardView.returnButton.addTarget(self, action: #selector(addChatToFirebase), for: .touchUpInside)
+        self.bulletinBoardView.typingTextField.text = ""
+    }
+    
+    @objc func addChatToFirebase() {
+        guard let cityName = navigationItem.title,
+              let message = bulletinBoardView.typingTextField.text else { return }
+        // userModel을 이런식으로 가져와도 되는지...
+        self.chatViewModel = .init(user: userViewModel.user, location: cityName, message: message)
+        self.bulletinBoardView.typingTextField.text = ""
+    }
+    
+    func getChatsFromFirestore() {
+        collectionChats.order(by: "timestamp").addSnapshotListener { snapshot, error in
+            self.chats = []
+            if error != nil {
+                print(error?.localizedDescription)
+            }
+            if let snapshotDocument = snapshot?.documents {
+                snapshotDocument.forEach { doc in
+                    let data = doc.data()
+                    if let userName = data["userName"] as? String,
+                       let userUid = data["userUid"] as? String,
+                       let message = data["chat"] as? String,
+                       let timestamp = data["timestamp"] as? String {
+                        let startIndex = timestamp.index(timestamp.startIndex, offsetBy: 0)
+                        let endIndex = timestamp.index(timestamp.startIndex, offsetBy: 4)
+                        let range = startIndex...endIndex
+                        let time = String(timestamp[range])
+                        self.chats.append(ChatModel(userName: userName, userUid: userUid, message: message, timestamp: time))
+                        
+                        DispatchQueue.main.async {
+                            self.bulletinBoardView.chattingsTableView.reloadData()
+                            self.bulletinBoardView.chattingsTableView.scrollToRow(at: IndexPath(row: self.chats.count-1, section: 0), at: .top, animated: false)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -86,33 +139,48 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OthersChatCell", for: indexPath) as! OthersChatCell
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OthersChatCell", for: indexPath) as! OthersChatCell
-            return cell
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "UserChatCell", for: indexPath) as! UserChatCell
-            return cell
-        default:
-            break
-        }
-        return UITableViewCell()
         
+        let chat = chats[indexPath.row]
+        let userChatCell = tableView.dequeueReusableCell(withIdentifier: "UserChatCell", for: indexPath) as! UserChatCell
+        let othersChatCell = tableView.dequeueReusableCell(withIdentifier: "OthersChatCell", for: indexPath) as! OthersChatCell
+        
+        if chat.userUid == Auth.auth().currentUser?.uid {
+            userChatCell.chatLabel.text = chat.message
+            userChatCell.idLabel.text = "user"
+            userChatCell.timeLabel.text = chat.timestamp
+            return userChatCell
+        } else {
+            othersChatCell.chatLabel.text = chat.message
+            othersChatCell.idLabel.text = chat.userName
+            othersChatCell.timeLabel.text = chat.timestamp
+            return othersChatCell
+        }
     }
 }
 
 extension BulletinBoardViewController: UITextFieldDelegate {
     
+    
+    
+    
 }
 
 extension BulletinBoardViewController: ChatObserver {
     func chatUpdate<T>(updateValue: T) {
-//        guard let value = updateValue else { return }
+        guard let value = updateValue as? ChatModel else { return }
         // usermodel이 생기는 곳에서 초기화를 해야 하나?
         // 게시판 이름은? navigationtitle?
         
     }
+}
+
+extension BulletinBoardViewController: UserObserver {
+    func userUpdate<T>(updateValue: T) {
+        guard let value = updateValue as? UserModel else { return }
+        // message 내용을 받아야 해서 우선 애드타겟 함수에 챗뷰모델 초기화문 넣어놓음.
+        // 그래서 유저모델 받는 타이밍이 에매해짐...
+//        self.chatViewModel = .init(user: value, location: self.navigationItem.title, message: self.bulletinBoardView.typingTextField.text)
+    }
+    
+    
 }

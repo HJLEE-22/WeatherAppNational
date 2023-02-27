@@ -17,6 +17,7 @@ class OthersChatCell: UITableViewCell {
         let label = UILabel()
         label.text = "id"
         label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 13)
         label.snp.contentHuggingVerticalPriority = 1000
         return label
     }()

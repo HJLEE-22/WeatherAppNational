@@ -13,7 +13,7 @@ class MainView: UIView {
  
     lazy var todayWeatherView: TodayWeatherView =  {
         let view = TodayWeatherView()
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = 0
         view.layer.borderColor = UIColor(named: "blue")?.cgColor
         view.layer.cornerRadius = 10
         
@@ -23,7 +23,7 @@ class MainView: UIView {
     
     lazy var yesterdayWeatherView: YesterdayWeatherView =  {
         let view = YesterdayWeatherView()
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = 0
         view.layer.borderColor = UIColor(named: "black")?.cgColor
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
@@ -32,7 +32,7 @@ class MainView: UIView {
     
     lazy var tomorrowdayWeatherView: TomorrowWeatherView =  {
         let view = TomorrowWeatherView()
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = 0
         view.layer.borderColor = UIColor(named: "black")?.cgColor
         view.layer.cornerRadius = 10
         view.clipsToBounds = true

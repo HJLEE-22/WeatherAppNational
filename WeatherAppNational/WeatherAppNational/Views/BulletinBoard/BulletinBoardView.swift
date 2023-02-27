@@ -13,7 +13,7 @@ class BulletinBoardView: UIView {
     // MARK: - Properties
     
         // MARK:  UIs
-    private lazy var typingTextField: UITextField = {
+    lazy var typingTextField: UITextField = {
         let tf = UITextField()
         tf.layer.borderWidth = 1
         tf.layer.cornerRadius = 5
@@ -22,7 +22,7 @@ class BulletinBoardView: UIView {
         return tf
     }()
     
-    private lazy var returnButton: UIButton = {
+    lazy var returnButton: UIButton = {
         let button = UIButton()
         button.setTitle("입력", for: .normal)
         button.layer.borderWidth = 1

@@ -71,4 +71,14 @@ public struct TimeCalculate{
         let savedTimeString = myFormatter.string(from: now)
         return savedTimeString
     }
+    
+    static var nowTimeWithMinString: String {
+        let now = Date()
+        let myFormatter = DateFormatter()
+        myFormatter.locale = Locale(identifier: "ko_KR")
+        myFormatter.timeZone = TimeZone(abbreviation: "KST")
+        myFormatter.dateFormat = "HH:mm:ss"
+        let savedTimeString = myFormatter.string(from: now)
+        return savedTimeString
+    }
 }
