@@ -38,7 +38,6 @@
 		ADB4719128F69615005F8AA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB4719028F69615005F8AA5 /* AppDelegate.swift */; };
 		ADB4719328F69615005F8AA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB4719228F69615005F8AA5 /* SceneDelegate.swift */; };
 		ADB4719528F69615005F8AA5 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB4719428F69615005F8AA5 /* MainPageViewController.swift */; };
-		ADB4719828F69615005F8AA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADB4719628F69615005F8AA5 /* Main.storyboard */; };
 		ADB4719B28F69615005F8AA5 /* WeatherAppNational.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ADB4719928F69615005F8AA5 /* WeatherAppNational.xcdatamodeld */; };
 		ADB4719D28F69616005F8AA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADB4719C28F69616005F8AA5 /* Assets.xcassets */; };
 		ADB471A028F69616005F8AA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADB4719E28F69616005F8AA5 /* LaunchScreen.storyboard */; };
@@ -109,7 +108,6 @@
 		ADB4719028F69615005F8AA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADB4719228F69615005F8AA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		ADB4719428F69615005F8AA5 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
-		ADB4719728F69615005F8AA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADB4719A28F69615005F8AA5 /* WeatherAppNational.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherAppNational.xcdatamodel; sourceTree = "<group>"; };
 		ADB4719C28F69616005F8AA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADB4719F28F69616005F8AA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -336,7 +334,6 @@
 				ADE9CF12290FCE45002EDB9E /* APIs */,
 				AD3EB6CF2997C75A00F4B9ED /* Utils */,
 				AD6FA1D12916469200492FE9 /* Resources */,
-				ADB4719628F69615005F8AA5 /* Main.storyboard */,
 				ADB4719E28F69616005F8AA5 /* LaunchScreen.storyboard */,
 				ADB4719C28F69616005F8AA5 /* Assets.xcassets */,
 				ADB4719928F69615005F8AA5 /* WeatherAppNational.xcdatamodeld */,
@@ -501,7 +498,6 @@
 				ADAD623029696F48000BFCF4 /* LocationDataWithGPS.json in Resources */,
 				AD30F6882938698A00C68732 /* Binggrae.otf in Resources */,
 				ADFF81EE293C756B00FB883F /* LocationData.json in Resources */,
-				ADB4719828F69615005F8AA5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,14 +628,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		ADB4719628F69615005F8AA5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ADB4719728F69615005F8AA5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		ADB4719E28F69616005F8AA5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -780,7 +768,6 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"현재위치 정보를 이용하여 날씨 데이터를 수신합니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -815,7 +802,6 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"현재위치 정보를 이용하여 날씨 데이터를 수신합니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
