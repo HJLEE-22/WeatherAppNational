@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class OthersChatCell: UITableViewCell {
+final class OthersChatCell: UITableViewCell {
     
     
     // MARK: - Properties
@@ -22,13 +22,13 @@ class OthersChatCell: UITableViewCell {
         return label
     }()
     
-    lazy var emptyViewForIdLabelSize: UIView = {
+    private lazy var emptyViewForIdLabelSize: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var idLabelStackView: UIStackView = {
+    private lazy var idLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [emptyViewForIdLabelSize, idLabel])
         return stackView
     }()
@@ -41,23 +41,23 @@ class OthersChatCell: UITableViewCell {
         return label
     }()
     
-    lazy var emptyViewForSizeLeft: UIView = {
+    private lazy var emptyViewForSizeLeft: UIView = {
         let view = UIView()
         return view
     }()
     
-    lazy var emptyViewForSizeRight: UIView = {
+    private lazy var emptyViewForSizeRight: UIView = {
         let view = UIView()
         return view
     }()
 
-    lazy var emptyViewForSize: UIView = {
+    private lazy var emptyViewForSize: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var chatLabelStackView: UIStackView = {
+    private lazy var chatLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [emptyViewForSizeLeft, chatLabel, emptyViewForSizeRight])
 //        stackView.snp.contentHuggingVerticalPriority = 250
         stackView.layer.cornerRadius = 16
@@ -68,19 +68,19 @@ class OthersChatCell: UITableViewCell {
         return stackView
     }()
     
-    lazy var stackViewForMessageSize: UIStackView = {
+    private lazy var stackViewForMessageSize: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [chatLabelStackView, emptyViewForSize])
         stackView.snp.contentHuggingVerticalPriority = 250
         return stackView
     }()
     
-    lazy var emptyViewForMainStackView: UIView = {
+    private lazy var emptyViewForMainStackView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var idAndChatStackView: UIStackView = {
+    private lazy var idAndChatStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [emptyViewForMainStackView ,idLabelStackView, stackViewForMessageSize])
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -109,7 +109,7 @@ class OthersChatCell: UITableViewCell {
     
     // MARK: - Helpers
     
-    func setCellLayouts() {
+    private func setCellLayouts() {
         [idAndChatStackView, timeLabel].forEach({ self.contentView.addSubview($0) })
         
         self.idAndChatStackView.snp.makeConstraints { make in

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class BulletinBoardView: UIView {
+final class BulletinBoardView: UIView {
     
     // MARK: - Properties
     
@@ -63,7 +63,7 @@ class BulletinBoardView: UIView {
     
     // MARK: - Helpers
     
-    func setupView() {
+    private func setupView() {
         [typingView, chattingsTableView].forEach({ self.addSubview($0)})
         
         self.chattingsTableView.snp.makeConstraints { make in

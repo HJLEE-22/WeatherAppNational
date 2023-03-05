@@ -8,10 +8,10 @@
 
 import UIKit
 
-class CitiesViewController: UIViewController  {
+final class CitiesViewController: UIViewController  {
     
     // MARK: -  Properties
-    let cityListForSearchTableView = UITableView()
+    private let cityListForSearchTableView = UITableView()
 
     private var viewModel: CitiesViewModel = CitiesViewModel() {
         didSet {
@@ -37,7 +37,7 @@ class CitiesViewController: UIViewController  {
     
     // MARK: - Helpers
 
-    func setupSearchbar() {
+    private func setupSearchbar() {
         let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
         navigationItem.titleView = searchBar
         searchBar.placeholder = "도시를 검색하세요."
@@ -45,11 +45,11 @@ class CitiesViewController: UIViewController  {
         searchBar.delegate = self
     }
     
-    func setupNavigationItem() {
+    private func setupNavigationItem() {
         navigationItem.largeTitleDisplayMode = .never
     }
     
-    func setupCityListForSearchTableView() {
+    private func setupCityListForSearchTableView() {
         cityListForSearchTableView.delegate = self
         cityListForSearchTableView.dataSource = self
         cityListForSearchTableView.register(CitiesListViewCell.self, forCellReuseIdentifier: CellID.forCitiesListCell)
@@ -60,7 +60,7 @@ class CitiesViewController: UIViewController  {
         cityListForSearchTableView.dragInteractionEnabled = true
     }
     
-    func setupCityListForSearchTableViewConstraints() {
+    private func setupCityListForSearchTableViewConstraints() {
         view.addSubview(cityListForSearchTableView)
         cityListForSearchTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TomorrowWeatherView: UIView {
+final class TomorrowWeatherView: UIView {
     
     // MARK: - Properties
     
@@ -124,7 +124,7 @@ class TomorrowWeatherView: UIView {
     
     // MARK: - UI setup
     
-    func setupBackgroundLayer() {
+    private func setupBackgroundLayer() {
         DispatchQueue.main.async {
             if let backgroundGradientLayer = self.backgroundGradientLayer {
                 if self.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
@@ -140,7 +140,7 @@ class TomorrowWeatherView: UIView {
         }
     }
     
-    func setupUI() {
+    private func setupUI() {
         
         self.addSubview(mainStackView)
         
@@ -162,7 +162,7 @@ class TomorrowWeatherView: UIView {
     
 
     
-    func setSymbolImageSize(){
+    private func setSymbolImageSize(){
         DispatchQueue.main.async {
             if self.frame.height <= 250 {
                 self.weatherImageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
@@ -173,7 +173,7 @@ class TomorrowWeatherView: UIView {
     
     // MARK: - Helpers
     
-    func configureUI(_ data: WeatherKitModel) {
+    private func configureUI(_ data: WeatherKitModel) {
         self.weatherImageView.image = UIImage(systemName: data.symbolName ?? "")
         self.mainTemperatureLabel.text = "\(data.temperature ?? "")°"
         self.maxTemperatureLabel.text = data.highTemperature ?? "" + "°"

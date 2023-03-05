@@ -11,5 +11,4 @@ struct CityModel: Codable {
     var name: String
     var nx: Int
     var ny: Int
-    
 }

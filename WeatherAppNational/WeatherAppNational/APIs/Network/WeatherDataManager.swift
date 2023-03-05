@@ -19,7 +19,7 @@ final class WeatherDataManager {
     static let shared = WeatherDataManager()
     private init() {}
     
-    let serviceKey = Bundle.main.nationalWeatherApiKey
+    private let serviceKey = Bundle.main.nationalWeatherApiKey
     
     typealias NetworkCompletion = (Result<[WeatherItem], NetworkError>)-> Void
     
@@ -34,7 +34,7 @@ final class WeatherDataManager {
         }
     }
     
-    func performRequest(with urlString: String,
+    private func performRequest(with urlString: String,
                         completion: @escaping NetworkCompletion) {
         AF.request(urlString).validate()
 

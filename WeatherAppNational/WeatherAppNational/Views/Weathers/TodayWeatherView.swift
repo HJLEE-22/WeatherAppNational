@@ -11,7 +11,7 @@ protocol UpdatingLocationButtonDelegate {
     func updatingLocationButtonTapped()
 }
 
-class TodayWeatherView: UIView {
+final class TodayWeatherView: UIView {
     
     // MARK: - Delegate Property
     
@@ -47,7 +47,6 @@ class TodayWeatherView: UIView {
         return view
     }()
     
-    // 이미지와 온도 스택
     private lazy var todayWeatherImageView: UIImageView = {
         let image = UIImage()
         let imageView = UIImageView(image: image)
@@ -70,11 +69,8 @@ class TodayWeatherView: UIView {
         return sv
     }()
     
-    // 온도 슬라이더 스택
     private lazy var todayDegreeSlider: UISlider = {
         let slider = UISlider()
-        
-        // 맥스와 미니멈 밸류는 오늘 최고/최저 기온으로 변경할 것
         slider.thumbTintColor = .clear
         slider.isUserInteractionEnabled = false
         slider.tintColor = .systemGray2
@@ -102,9 +98,6 @@ class TodayWeatherView: UIView {
         return sv
     }()
     
-    
-    // 날씨 설명 스택
-    
     lazy var todayExplanationLabel: UILabel = {
         let label = UILabel()
         label.text = " "
@@ -112,8 +105,6 @@ class TodayWeatherView: UIView {
         return label
     }()
     
-    
-    //현재습도와 체감기온 스택
     private lazy var nowHumidityTitle: UILabel = {
         let label = UILabel()
         label.text = " 습도: "
@@ -135,7 +126,6 @@ class TodayWeatherView: UIView {
         sv.backgroundColor = UIColor(white: 1, alpha: 0.3)
         return sv
     }()
-    
     
     private lazy var windSpeedTitle: UILabel = {
         let label = UILabel()
@@ -169,20 +159,14 @@ class TodayWeatherView: UIView {
         sv.spacing = 10
         return sv
     }()
-    
-    
-    
-    // 메인스택
+
     private lazy var todayStackView: UIStackView = {
-        
         let sv = UIStackView(arrangedSubviews: [imageAndDegreeStackView, sliderStackView, todayExplanationLabel, humadityAndWindSpeedStackView ])
         sv.axis = .vertical
         sv.distribution = .fillProportionally
         sv.alignment = .center
         sv.spacing = 10
-        
         return sv
-        
     }()
     
     private lazy var updateLocationButton: UIButton = {
@@ -191,7 +175,6 @@ class TodayWeatherView: UIView {
         btn.tintColor = .systemGray2
         return btn
     }()
-        
 
     // MARK: - Lifecycle
     
@@ -212,7 +195,7 @@ class TodayWeatherView: UIView {
     
     // MARK: - UI setup
     
-    func setupBackgroundLayer() {
+    private func setupBackgroundLayer() {
         DispatchQueue.main.async {
             if let backgroundGradientLayer = self.backgroundGradientLayer {
                 if self.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
@@ -228,7 +211,7 @@ class TodayWeatherView: UIView {
         }
     }
     
-    func setupTodayExplanationSize() {
+    private func setupTodayExplanationSize() {
         DispatchQueue.main.async {
             if self.frame.width < 330 {
                 self.todayExplanationLabel.font = .systemFont(ofSize: 15)
@@ -238,7 +221,7 @@ class TodayWeatherView: UIView {
         }
     }
     
-    func setupUI() {
+    private func setupUI() {
         self.addSubview(todayStackView)
         self.addSubview(updateLocationButton)
         self.addSubview(imageViewforTouch)
@@ -310,7 +293,7 @@ class TodayWeatherView: UIView {
         ])
     }
      
-    func configureUIByData(_ data: WeatherKitModel) {
+    private func configureUIByData(_ data: WeatherKitModel) {
         self.todayWeatherImageView.image = UIImage(systemName: data.symbolName ?? "")
         self.todayDegreeLabel.text = "\(data.temperature ?? "")°"
         self.maxLabelForSlider.text = "\(data.highTemperature ?? "")°"
@@ -325,7 +308,7 @@ class TodayWeatherView: UIView {
         self.addActionToButton()
     }
     
-    func calculateDegreeExplanation(_ data: WeatherKitModel) -> String {
+    private func calculateDegreeExplanation(_ data: WeatherKitModel) -> String {
 
         guard let yesterdayDegreeString = yesterdayDegree,
               let todayDegreeString = data.temperature else { return "" }
@@ -351,7 +334,7 @@ class TodayWeatherView: UIView {
         return ""
     }
     
-    func setWeatherImageColor(_ symbolName: String?) {
+    private func setWeatherImageColor(_ symbolName: String?) {
         
         guard let symbolName else { return }
         if symbolName.contains("sun") && symbolName.contains("cloud") {
@@ -374,13 +357,13 @@ class TodayWeatherView: UIView {
         
     }
                 
-    func addActionToButton() {
+    private func addActionToButton() {
         self.updateLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Actions
     
-    @objc func locationButtonTapped() {
+    @objc private func locationButtonTapped() {
         buttonDelegate?.updatingLocationButtonTapped()
 
     }

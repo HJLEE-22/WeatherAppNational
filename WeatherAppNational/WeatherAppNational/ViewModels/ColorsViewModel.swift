@@ -7,75 +7,37 @@
 
 import UIKit
 
-class ColorsViewModel {
+final class ColorsViewModel {
     
     // MARK: - Properties
     
     var colorsObserver: (any ColorsObserver)?
     
-    var todayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
+    private var todayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
         didSet {
             colorsNotify(updateValue: [Day.today: todayBackgroundColorLayer])
         }
     }
-    var yesterdayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
+    private var yesterdayBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
         didSet {
             colorsNotify(updateValue: [Day.yesterday: yesterdayBackgroundColorLayer])
         }
     }
-    var tomorrowBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
+    private var tomorrowBackgroundColorLayer: CAGradientLayer = CAGradientLayer() {
         didSet {
             colorsNotify(updateValue: [Day.tomorrow: tomorrowBackgroundColorLayer])
         }
     }
 
     // MARK: - Life cycle
-    
-//    init(weatherModel: [Day:WeatherModel?]) {
-//        bind(weatherModel: weatherModel)
-//    }
-    
+
     init(weatherKitModel: [Day:WeatherKitModel?]) {
         bind(weatherModel: weatherKitModel)
     }
 
     // MARK: - Helpers
-    /*
-    func bind(weatherModel: [Day:WeatherModel?]) {
-        // 대박!! 여기 비동기처리함으로서 드디어 notify와 연결됐다ㅜㅜ
-        // 그런데 왜 여기를 비동기처리해줘야되지...? 안해줘도 값 오는데...
-        DispatchQueue.global().async { [weak self] in
-            guard weatherModel.first?.key == .today,
-                  let self,
-                  let model = weatherModel.first?.value,
-                  let maxTemperature = model.temperatureMax,
-                  let minTemperature = model.temperatureMin else { return }
-            self.todayBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
-        }
-        
-        DispatchQueue.global().async { [weak self] in
-            guard weatherModel.first?.key == .yesterday,
-                  let self,
-                  let model = weatherModel.first?.value,
-                  let maxTemperature = model.temperatureMax,
-                  let minTemperature = model.temperatureMin else { return }
-            self.yesterdayBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
-        }
-        
-        DispatchQueue.global().async { [weak self] in
-            guard weatherModel.first?.key == .tomorrow,
-                  let self,
-                  let model = weatherModel.first?.value,
-                  let maxTemperature = model.temperatureMax,
-                  let minTemperature = model.temperatureMin else { return }
-            self.tomorrowBackgroundColorLayer = self.setBackgroundColor(maxTemperature: maxTemperature, minTemperature: minTemperature)
-        }
-    }
-    */
     
-    func bind(weatherModel: [Day:WeatherKitModel?]) {
-        // 대박!! 여기 비동기처리함으로서 드디어 notify와 연결됐다ㅜㅜ
-        // 그런데 왜 여기를 비동기처리해줘야되지...? 안해줘도 값 오는데...
+    private func bind(weatherModel: [Day:WeatherKitModel?]) {
         DispatchQueue.global().async { [weak self] in
             guard weatherModel.first?.key == .today,
                   let self,
@@ -104,7 +66,7 @@ class ColorsViewModel {
         }
     }
     
-    func setBackgroundColor(maxTemperature: String, minTemperature: String) -> CAGradientLayer {
+    private func setBackgroundColor(maxTemperature: String, minTemperature: String) -> CAGradientLayer {
         let maxColor = switchColorsForBackground(temperature: Int((maxTemperature as NSString).intValue))?.cgColor
         let minColor = switchColorsForBackground(temperature: Int((minTemperature as NSString).intValue))?.cgColor
         let gradient = CAGradientLayer()
@@ -113,7 +75,7 @@ class ColorsViewModel {
         return gradient
     }
 
-    func switchColorsForBackground(temperature: Int) -> UIColor? {
+    private func switchColorsForBackground(temperature: Int) -> UIColor? {
         var choosenColor: UIColor?
         switch temperature {
         case 39...:

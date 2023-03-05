@@ -8,11 +8,11 @@
 import UIKit
 
 
-class CitiesListViewCell: UITableViewCell {
+final class CitiesListViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var name: String?
+    private var name: String?
     
     lazy var bookmarkButton: TouchableOpacityImageView = {
         let button = TouchableOpacityImageView(frame: .zero)
@@ -20,20 +20,20 @@ class CitiesListViewCell: UITableViewCell {
         return button
     }()
     
-    lazy var cityLabel: UILabel = {
+    private lazy var cityLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20)
         label.textAlignment = .left
         return label
     }()
     
-    lazy var districtLabel: UILabel = {
+    private lazy var districtLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [bookmarkButton, cityLabel, districtLabel])
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -56,7 +56,7 @@ class CitiesListViewCell: UITableViewCell {
     
     // MARK: - ConfigureUI
     
-    func configureUI() {
+    private func configureUI() {
         
         contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +78,6 @@ class CitiesListViewCell: UITableViewCell {
     }
     
     func configureUIByData(_ data: LocationGridData) {
-        // UI updates 할 것
         self.cityLabel.text = data.city
         self.districtLabel.text = data.district
         if data.bookmark {

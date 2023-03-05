@@ -7,7 +7,7 @@
 
 import UIKit
 
-class YesterdayWeatherView: UIView {
+final class YesterdayWeatherView: UIView {
     
     // MARK: - Properties
     
@@ -128,7 +128,7 @@ class YesterdayWeatherView: UIView {
     
     // MARK: - UI setup
     
-    func setupBackgroundLayer() {
+    private func setupBackgroundLayer() {
         DispatchQueue.main.async {
             if let backgroundGradientLayer = self.backgroundGradientLayer {
                 if self.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
@@ -144,7 +144,7 @@ class YesterdayWeatherView: UIView {
         }
     }
     
-    func setSymbolImageSize(){
+    private func setSymbolImageSize(){
         DispatchQueue.main.async {
             if self.frame.height <= 250 {
                 self.weatherImageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
@@ -153,7 +153,7 @@ class YesterdayWeatherView: UIView {
         }
     }
     
-    func setupUI() {
+    private func setupUI() {
         
         self.addSubview(mainStackView)
         
@@ -174,7 +174,7 @@ class YesterdayWeatherView: UIView {
     
     // MARK: - Helpers
     
-    func configureUI(_ data: WeatherKitModel) {
+    private func configureUI(_ data: WeatherKitModel) {
         if let symbolName = data.symbolName {
             self.weatherImageView.image = UIImage(systemName: symbolName)
         } else {
@@ -188,7 +188,7 @@ class YesterdayWeatherView: UIView {
     }
 
 
-    func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
+    private func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
         if rainStatusCategory == "0" {
             if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
                 switch skyStatusCategory {

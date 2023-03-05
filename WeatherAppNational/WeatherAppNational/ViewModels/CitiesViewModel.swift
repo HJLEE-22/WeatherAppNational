@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CitiesViewModel {
+final class CitiesViewModel {
     
     // MARK: - Properties
     
@@ -48,12 +48,11 @@ class CitiesViewModel {
         return locationGridDatas
     }
 
-    // viewModel 내부용
     func getLocationGridForViewMdodel() {
         self.locationGridDatas = CoreDataManager.shared.getLocationGridList()
     }
 
-    func getBookmarkedLocationGridForViewModel() -> [LocationGridData] {
+    private func getBookmarkedLocationGridForViewModel() -> [LocationGridData] {
         CoreDataManager.shared.getBookmarkedLocationGridList()
     }
     

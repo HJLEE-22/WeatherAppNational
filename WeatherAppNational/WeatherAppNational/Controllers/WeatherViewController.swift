@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
     
     // MARK: - Properties
     lazy var mainView = MainView()
@@ -30,15 +30,13 @@ class WeatherViewController: UIViewController {
         setupUI()
     }
     
-    // 초기화 해제가 안됨 ( nil을 반환한다며 런타임 오류 뜸)
-//    deinit {
-////        weatherViewModel.unSubscribe(observer: self)
-//        weatherKitViewModel.unsubscribe(observer: self)
-//        colorsViewModel.colorsUnsubscribe(observer: self)
-//    }
+    deinit {
+        weatherKitViewModel.unsubscribe(observer: self)
+        colorsViewModel.colorsUnsubscribe(observer: self)
+    }
 
     // MARK: - Helpers
-    func setupUI() {
+    private func setupUI() {
         self.view.addSubview(mainView)
         mainView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -53,18 +51,18 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: WeatherKitObserver {
     func weatherKitUpdate<T>(updateValue: T) {
         guard let value = updateValue as? [Day:WeatherKitModel] else { return }
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             switch value.first?.key {
             case .today:
-                self.mainView.todayWeatherView.weatherKitModel = value[.today]
-                self.colorsViewModel = .init(weatherKitModel: [.today: value[.today]] )
+                self?.mainView.todayWeatherView.weatherKitModel = value[.today]
+                self?.colorsViewModel = .init(weatherKitModel: [.today: value[.today]] )
             case .yesterday:
-                self.mainView.todayWeatherView.yesterdayDegree = value[.yesterday]?.temperature
-                self.mainView.yesterdayWeatherView.weatherKitModel = value[.yesterday]
-                self.colorsViewModel = .init(weatherKitModel: [.yesterday: value[.yesterday]])
+                self?.mainView.todayWeatherView.yesterdayDegree = value[.yesterday]?.temperature
+                self?.mainView.yesterdayWeatherView.weatherKitModel = value[.yesterday]
+                self?.colorsViewModel = .init(weatherKitModel: [.yesterday: value[.yesterday]])
             case .tomorrow:
-                self.mainView.tomorrowdayWeatherView.weatherKitModel = value[.tomorrow]
-                self.colorsViewModel = .init(weatherKitModel: [.tomorrow: value[.tomorrow]])
+                self?.mainView.tomorrowdayWeatherView.weatherKitModel = value[.tomorrow]
+                self?.colorsViewModel = .init(weatherKitModel: [.tomorrow: value[.tomorrow]])
             case .none:
                 break
             }
@@ -76,14 +74,14 @@ extension WeatherViewController: ColorsObserver {
     func colorsUpdate<T>(updateValue: T) {
         guard let value = updateValue as? [Day: CAGradientLayer] else { return }
         DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+            //guard let self else { return }
             switch value.first?.key {
             case .today :
-                self.mainView.todayWeatherView.backgroundGradientLayer = value[.today]
+                self?.mainView.todayWeatherView.backgroundGradientLayer = value[.today]
             case .yesterday:
-                self.mainView.yesterdayWeatherView.backgroundGradientLayer = value[.yesterday]
+                self?.mainView.yesterdayWeatherView.backgroundGradientLayer = value[.yesterday]
             case .tomorrow:
-                self.mainView.tomorrowdayWeatherView.backgroundGradientLayer = value[.tomorrow]
+                self?.mainView.tomorrowdayWeatherView.backgroundGradientLayer = value[.tomorrow]
             case .none:
                 break
             }

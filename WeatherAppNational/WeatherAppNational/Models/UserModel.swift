@@ -16,13 +16,6 @@ struct UserModel {
     var isCurrentUser: Bool {
         return Auth.auth().currentUser?.uid == uid
     }
-    
-//    init(dictionay: [String:Any]) {
-//        self.name = dictionay["name"] as? String ?? ""
-//        self.email = dictionay["email"] as? String ?? ""
-//        self.bookmark = dictionay["bookmark"] as? [String] ?? []
-//        self.uid = dictionay["uid"] as? String ?? ""
-//    }
 }
 
 

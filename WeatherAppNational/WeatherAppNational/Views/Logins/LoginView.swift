@@ -9,11 +9,11 @@ import UIKit
 import SnapKit
 import AuthenticationServices
 
-class LoginView: UIView {
+final class LoginView: UIView {
     
     // MARK: - Properties
     
-    lazy var welcomeMessageLabel: UILabel = {
+    private lazy var welcomeMessageLabel: UILabel = {
         let label = UILabel()
         label.text = "어제보다"
         label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
@@ -21,7 +21,7 @@ class LoginView: UIView {
         return label
     }()
     
-    lazy var logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named: "AppIcon")
         iv.layer.cornerRadius = 10
@@ -66,7 +66,7 @@ class LoginView: UIView {
     
     // MARK: - Helpers
     
-    func setupUI() {
+    private func setupUI() {
         
         self.backgroundColor = .white
         

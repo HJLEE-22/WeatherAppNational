@@ -22,7 +22,6 @@
 		AD3BF5642989073E0090371C /* LoginInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF5632989073E0090371C /* LoginInfoViewController.swift */; };
 		AD3BF566298907FE0090371C /* LoginInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF565298907FE0090371C /* LoginInfoView.swift */; };
 		AD3BF569298933230090371C /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF568298933230090371C /* UserModel.swift */; };
-		AD3BF56D298AA0210090371C /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF56C298AA0210090371C /* UserViewModel.swift */; };
 		AD3EB6D12997C76900F4B9ED /* ScreenUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */; };
 		AD6FA1DE291939B400492FE9 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DD291939B400492FE9 /* Observer.swift */; };
 		AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DF29193A0700492FE9 /* Subscriber.swift */; };
@@ -90,7 +89,6 @@
 		AD3BF5632989073E0090371C /* LoginInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfoViewController.swift; sourceTree = "<group>"; };
 		AD3BF565298907FE0090371C /* LoginInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfoView.swift; sourceTree = "<group>"; };
 		AD3BF568298933230090371C /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		AD3BF56C298AA0210090371C /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtil.swift; sourceTree = "<group>"; };
 		AD6FA1DD291939B400492FE9 /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		AD6FA1DF29193A0700492FE9 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
@@ -328,7 +326,6 @@
 				AD6FA1DC2919399E00492FE9 /* Protocols */,
 				ADB471A928F69640005F8AA5 /* Models */,
 				ADB471A828F69635005F8AA5 /* Views */,
-				ADFF81F7293EFED300FB883F /* CitiesListViewCell.swift */,
 				ADE9CF072907E4EB002EDB9E /* ViewModels */,
 				ADB471A728F6962A005F8AA5 /* Controllers */,
 				ADE9CF12290FCE45002EDB9E /* APIs */,
@@ -357,6 +354,7 @@
 		ADB471A828F69635005F8AA5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				ADFF81F7293EFED300FB883F /* CitiesListViewCell.swift */,
 				AD3BF567298908870090371C /* Logins */,
 				ADEB44F6297E991700DD6B55 /* Weathers */,
 				ADEB44F7297E993F00DD6B55 /* BulletinBoard */,
@@ -392,7 +390,6 @@
 				ADAD622B2959C045000BFCF4 /* ColorsViewModel.swift */,
 				ADE9CF1529112D32002EDB9E /* SettingViewModel.swift */,
 				ADFF81F9293F2CF500FB883F /* CitiesViewModel.swift */,
-				AD3BF56C298AA0210090371C /* UserViewModel.swift */,
 				AD386C5A299F6E3300E2E10D /* ChatViewModel.swift */,
 			);
 			path = ViewModels;
@@ -593,7 +590,6 @@
 				AD3BF55E29879F550090371C /* ViewByLoginManager.swift in Sources */,
 				AD9CC8BB2976BD8D005EDC26 /* BulletinBoardViewController.swift in Sources */,
 				AD3EB6D12997C76900F4B9ED /* ScreenUtil.swift in Sources */,
-				AD3BF56D298AA0210090371C /* UserViewModel.swift in Sources */,
 				ADE9CEFE2907C3E2002EDB9E /* SettingViewCell.swift in Sources */,
 				ADE9CF14290FCE66002EDB9E /* ConvertXY.swift in Sources */,
 				ADD43DB5294C2BEA000DE026 /* TouchableOpacityView.swift in Sources */,

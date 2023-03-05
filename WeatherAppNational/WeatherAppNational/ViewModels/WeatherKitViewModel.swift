@@ -9,32 +9,32 @@ import Foundation
 import WeatherKit
 import CoreLocation
 
-class WeatherKitViewModel {
+final class WeatherKitViewModel {
     
     var observer: WeatherKitObserver?
     
     // MARK: - Properties
-    let weatherService = WeatherService()
+    private let weatherService = WeatherService()
     var name: String?
-    var latitude: Double?
-    var longitude: Double?
-    var location: CLLocation?
-    var gridX: Int?
-    var gridY: Int?
+    private var latitude: Double?
+    private var longitude: Double?
+    private var location: CLLocation?
+    private var gridX: Int?
+    private var gridY: Int?
     
-    var todayWeatherKitModel: WeatherKitModel = WeatherKitModel() {
+    private var todayWeatherKitModel: WeatherKitModel = WeatherKitModel() {
         didSet{
             self.notify(updateValue: [Day.today:todayWeatherKitModel])
         }
     }
     
-    var yesterdayWeatherKitModel: WeatherKitModel = WeatherKitModel() {
+    private var yesterdayWeatherKitModel: WeatherKitModel = WeatherKitModel() {
         didSet{
             self.notify(updateValue: [Day.yesterday:yesterdayWeatherKitModel])
         }
     }
     
-    var tomorrowWeatherKitModel: WeatherKitModel = WeatherKitModel() {
+    private var tomorrowWeatherKitModel: WeatherKitModel = WeatherKitModel() {
         didSet{
             self.notify(updateValue: [Day.tomorrow:tomorrowWeatherKitModel])
         }
@@ -53,7 +53,7 @@ class WeatherKitViewModel {
     
     // MARK: - Actions
     
-    func bind(locaton: CLLocation?) {
+    private func bind(locaton: CLLocation?) {
         guard let location else { return }
         Task{
             await self.getCurrentWeather(location: location)
@@ -62,7 +62,7 @@ class WeatherKitViewModel {
         }
     }
     
-    func getCurrentWeather(location: CLLocation) async {
+    private func getCurrentWeather(location: CLLocation) async {
         do {
             let weather = try await weatherService.weather(for: location)
             let nowTemperature = String(Int(Double(weather.currentWeather.temperature.converted(to: .celsius).formatted().dropLast(2))?.rounded(.awayFromZero) ?? 100))
@@ -90,23 +90,8 @@ class WeatherKitViewModel {
         }
     }
     
-    func getYesterdayWeather(location: CLLocation) async {
+    private func getYesterdayWeather(location: CLLocation) async {
         do {
-            /*
-            guard let gridX, let gridY else { return }
-            try await CustomWeatherService.shared.fetchWeatherData(dayType: .yesterday,
-                                                         date: DateCalculate.yesterdayDateString,
-                                                         time: "0200",
-                                                         nx: gridX,
-                                                         ny: gridY) { result in
-                switch result {
-                case .success(let weatherKitModel):
-                    self.yesterdayWeatherKitModel = weatherKitModel
-                case .failure(let error):
-                    print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
-                }
-            }
-            */
             
             let yesterday = Date() - 86400
             let yesterdayFormatted = yesterday.formatted(.dateTime.year(.twoDigits)
@@ -156,57 +141,7 @@ class WeatherKitViewModel {
         }
     }
     
-    /*
-    func getYesterdayWeather(location: CLLocation) async {
-        do {
-            let yesterday = Date() - 86400
-            let yesterdayFormatted = yesterday.formatted(.dateTime.year(.twoDigits)
-                                                                .month(.narrow)
-                                                                .day(.defaultDigits)
-                                                                .hour(.twoDigits(amPM: .narrow)))
-            var yesterdayTemperature: String?
-            var yesterdayHighTemperature: String?
-            var yesterdayLowTemperature: String?
-            var yesterdaySymbolName: String?
-
-            let hourWeather = try await weatherService.weather(for: location,
-                                                               including: .hourly(startDate: yesterday,
-                                                                                  endDate: yesterday))
-
-            hourWeather.forEach { hour in
-                print("DEBUG: hourWeather:\(hour)")
-                print("DEBUG: date:\(Date())")
-                yesterdayTemperature = String(Int(Double(hour.temperature.formatted(.measurement(width: .narrow)).dropLast(2))?.rounded(.awayFromZero) ?? 100))
-                yesterdaySymbolName = hour.symbolName
-            }
-            let dailyWeather = try await weatherService.weather(for: location, including: .daily(startDate: yesterday, endDate: yesterday))
-            print("DEBUG: dailyWeather:\(dailyWeather)")
-
-            yesterdayHighTemperature = String(Int((dailyWeather.first?.highTemperature.value ?? 100).rounded(.awayFromZero)))
-            yesterdayLowTemperature = String(Int((dailyWeather.first?.lowTemperature.value ?? 100).rounded(.awayFromZero)))
-            
-            yesterdayWeatherKitModel = WeatherKitModel(temperature: yesterdayTemperature, highTemperature: yesterdayHighTemperature, lowTemperature: yesterdayLowTemperature, symbolName: yesterdaySymbolName)
-        } catch {
-            // WeatherKit에서 어제 날씨 데이터 오류날 시 기상청 API 접속
-            print(error.localizedDescription)
-            guard let gridX, let gridY else { return }
-            CustomWeatherService.shared.fetchWeatherData(dayType: .yesterday,
-                                                         date: DateCalculate.yesterdayDateString,
-                                                         time: "0200",
-                                                         nx: gridX,
-                                                         ny: gridY) { result in
-                switch result {
-                case .success(let weatherKitModel):
-                    self.yesterdayWeatherKitModel = weatherKitModel
-                case .failure(let error):
-                    print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
-                }
-            }
-        }
-    }
-    */
-    
-    func getTomorrowWeather(location: CLLocation) async {
+    private func getTomorrowWeather(location: CLLocation) async {
         do {
             let tomorrow = Date() + 86400
             let tomorrowFormatted = tomorrow.formatted(.dateTime.year(.twoDigits)

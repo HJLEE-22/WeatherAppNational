@@ -8,11 +8,11 @@
 import UIKit
 import FirebaseFirestore
 
-class LoginInfoViewController: UIViewController {
+final class LoginInfoViewController: UIViewController {
     
     // MARK: - Properties
     
-    let loginInputView = LoginInfoView()
+    private let loginInputView = LoginInfoView()
 
     
     // MARK: - Lifecycle
@@ -24,7 +24,7 @@ class LoginInfoViewController: UIViewController {
     
     // MARK: - Helpers
     
-    func setupView() {
+    private func setupView() {
         self.view.addSubview(loginInputView)
         
         loginInputView.snp.makeConstraints { make in
@@ -32,13 +32,13 @@ class LoginInfoViewController: UIViewController {
         }
     }
     
-    func addActionToButton() {
+    private func addActionToButton() {
         loginInputView.moveToMainButton.addTarget(self, action: #selector(moveToMainVC), for: .touchUpInside)
         print("DEBUG: touched:")
 
     }
     
-    @objc func moveToMainVC() {
+    @objc private func moveToMainVC() {
         guard loginInputView.nicknameTextField.hasText == true else {
             print("DEBUG: nicknameTextField:\(loginInputView.nicknameTextField.hasText)")
             self.setupAlert()
@@ -51,7 +51,7 @@ class LoginInfoViewController: UIViewController {
         show(mainVC, sender: self)
     }
     
-    func setupUserInfo() {
+    private func setupUserInfo() {
         guard let nickname = loginInputView.nicknameTextField.text,
               let email = FirebaseAuthentication.shared.email,
               let uid = FirebaseAuthentication.shared.uid
@@ -60,13 +60,17 @@ class LoginInfoViewController: UIViewController {
                                   "email": email,
                                   "uid" : uid]
         COLLECTION_USERS.document(uid).setData(data)
+        UserDefaults.standard.set(["userName" : nickname,
+                                   "userEmail": email,
+                                   "userUid" : uid], forKey: "userModel")
+
         // userviewmodel을 여기서 안쓰는데 여기있는 변수를 초기화해봤자 뭐해?
 //        self.userViewModel = .init(name: nickname, email: email, uid: uid)
         let settingViewContoller = SettingViewController()
         UserDefaults.standard.set(true, forKey: "isUserDataExist")
     }
     
-    func setupAlert() {
+    private func setupAlert() {
         let requestAlert = UIAlertController(title: "빈 칸이 있습니다.", message: "모든 항목을 입력해 주세요." , preferredStyle: .alert)
         let cancel = UIAlertAction(title: "확인", style: .cancel)
         requestAlert.addAction(cancel)

@@ -7,9 +7,9 @@
 
 import UIKit
 
-class LoginInfoView: UIView {
+final class LoginInfoView: UIView {
     
-    lazy var welcomeLabel: UILabel = {
+    private lazy var welcomeLabel: UILabel = {
         let label = UILabel()
         label.text = "사용하실 닉네임과\n 이메일을 입력해주세요"
         label.numberOfLines = 2
@@ -46,7 +46,7 @@ class LoginInfoView: UIView {
     
     // MARK: - Helpers
     
-    func setupUI(){
+    private func setupUI(){
         [welcomeLabel, nicknameTextField, moveToMainButton].forEach({ self.addSubview($0) })
         
         welcomeLabel.snp.makeConstraints { make in

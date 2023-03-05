@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class UserChatCell: UITableViewCell {
+final class UserChatCell: UITableViewCell {
 
     // MARK: - Properties
     
@@ -21,13 +21,13 @@ class UserChatCell: UITableViewCell {
         return label
     }()
     
-    lazy var emptyViewForIdLabelSize: UIView = {
+    private lazy var emptyViewForIdLabelSize: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var idLabelStackView: UIStackView = {
+    private lazy var idLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [idLabel, emptyViewForIdLabelSize])
         return stackView
     }()
@@ -41,47 +41,45 @@ class UserChatCell: UITableViewCell {
         return label
     }()
     
-    lazy var emptyViewForSizeLeft: UIView = {
+    private lazy var emptyViewForSizeLeft: UIView = {
         let view = UIView()
         return view
     }()
     
-    lazy var emptyViewForSizeRight: UIView = {
+    private lazy var emptyViewForSizeRight: UIView = {
         let view = UIView()
         return view
     }()
 
-    lazy var emptyViewForSize: UIView = {
+    private lazy var emptyViewForSize: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var chatLabelStackView: UIStackView = {
+    private lazy var chatLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [emptyViewForSizeLeft, chatLabel, emptyViewForSizeRight])
-//        stackView.snp.contentHuggingVerticalPriority = 250
         stackView.layer.cornerRadius = 16
         stackView.clipsToBounds = true
         stackView.backgroundColor = .systemGray2
-        
         stackView.layer.borderWidth = 1
         stackView.layer.borderColor = UIColor.clear.cgColor
         return stackView
     }()
     
-    lazy var stackViewForMessageSize: UIStackView = {
+    private lazy var stackViewForMessageSize: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [emptyViewForSize, chatLabelStackView])
         stackView.snp.contentHuggingVerticalPriority = 250
         return stackView
     }()
     
-    lazy var emptyViewForMainStackView: UIView = {
+    private lazy var emptyViewForMainStackView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy var idAndChatStackView: UIStackView = {
+    private lazy var idAndChatStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [emptyViewForMainStackView ,idLabelStackView, stackViewForMessageSize])
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -110,7 +108,7 @@ class UserChatCell: UITableViewCell {
     
     // MARK: - Helpers
     
-    func setCellLayouts() {
+    private func setCellLayouts() {
         [timeLabel, idAndChatStackView].forEach({ self.contentView.addSubview($0) })
         
         self.idAndChatStackView.snp.makeConstraints { make in

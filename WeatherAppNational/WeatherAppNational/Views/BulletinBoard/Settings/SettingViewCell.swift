@@ -12,7 +12,7 @@ protocol SwitchButtonDelegate: AnyObject {
     func gpsSwitchTapped()
 }
 
-class SettingViewCell: UITableViewCell {
+final class SettingViewCell: UITableViewCell {
     
     // MARK: - Properties
         
@@ -81,7 +81,7 @@ class SettingViewCell: UITableViewCell {
         cellDelegate?.gpsSwitchTapped()
     }
     
-    func setupUIbySnapChat() {
+    private func setupUIbySnapChat() {
         
         [mainLabel, switchBtn, logoutView, deleteAccountView].forEach({ self.contentView.addSubview($0) })
 

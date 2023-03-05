@@ -10,15 +10,15 @@
 import UIKit
 import CoreLocation
 
-class MainPageViewController: UIViewController {
+final class MainPageViewController: UIViewController {
 
 // MARK: - properties
     
     
-    let geocoder = CLGeocoder()
-    let locale = Locale(identifier: "ko-kr")
-    var currentAdministrativeName: String?
-    var currentCityName: String?
+    private let geocoder = CLGeocoder()
+    private let locale = Locale(identifier: "ko-kr")
+    private var currentAdministrativeName: String?
+    private var currentCityName: String?
 //    var userViewModel: UserViewModel! {
 //        didSet {
 //            userViewModel.subscribe(observer: self)
@@ -31,25 +31,25 @@ class MainPageViewController: UIViewController {
         }
     }
     
-    var currentPage: Int?{
+    private var currentPage: Int?{
         didSet {
             guard let currentPage = currentPage else { return }
             bind(oldValue: oldValue ?? 0, newValue: currentPage)
         }
     }
 
-    lazy var locationManager: CLLocationManager = {
+    private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
         return manager
     }()
     
-    lazy var listButton: UIBarButtonItem = {
+    private lazy var listButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(image: UIImage(systemName: SystemIconNames.listDash), style: .plain, target: self, action: #selector(listButtonTapped))
         return btn
     }()
     
-    lazy var settingButton: UIBarButtonItem = {
+    private lazy var settingButton: UIBarButtonItem = {
         let btn = UIBarButtonItem(image: UIImage(systemName: SystemIconNames.gearShape), style: .plain, target: self, action: #selector(settingButtonTapped))
         return btn
     }()
@@ -63,13 +63,13 @@ class MainPageViewController: UIViewController {
         return pageVC
     }()
 
-    var convertedGridX: Int?
-    var convertedGridY: Int?
-    var currentLatitude: Double?
-    var currentLongitude: Double?
+    private var convertedGridX: Int?
+    private var convertedGridY: Int?
+    private var currentLatitude: Double?
+    private var currentLongitude: Double?
     
     
-    lazy var pageControl: UIPageControl = {
+    private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
         pageControl.backgroundColor = .white
         pageControl.pageIndicatorTintColor = .systemGray5
@@ -78,7 +78,7 @@ class MainPageViewController: UIViewController {
         return pageControl
     }()
     
-    let bulletionBoardViewController = BulletinBoardViewController()
+    private let bulletionBoardViewController = BulletinBoardViewController()
 
     
     // MARK: - Lifecycle
@@ -100,7 +100,7 @@ class MainPageViewController: UIViewController {
     // MARK: - Helpers
 
     
-    func setupLayout(){
+    private func setupLayout(){
         self.addChild(pageViewController)
         view.addSubview(pageViewController.view)
         self.view.addSubview(pageControl)
@@ -115,7 +115,7 @@ class MainPageViewController: UIViewController {
             ])
     }
     
-    func setupNav() {
+    private func setupNav() {
 
         navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = listButton
@@ -137,7 +137,7 @@ class MainPageViewController: UIViewController {
     
 
     
-    func checkLocationServiceAuthorizationByVersion(_ locationManager: CLLocationManager) {
+    private func checkLocationServiceAuthorizationByVersion(_ locationManager: CLLocationManager) {
             
         if #available(iOS 14.0, *) {
             if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse {
@@ -162,7 +162,7 @@ class MainPageViewController: UIViewController {
         }
     }
     
-    func switchUserCurrentLocationAuthorization(_ status: CLAuthorizationStatus) {
+    private func switchUserCurrentLocationAuthorization(_ status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:
             // 권한 요청을 보낸다.
@@ -186,7 +186,7 @@ class MainPageViewController: UIViewController {
     }
 
     // 시스템 설정으로 유도하는 커스텀 얼럿
-    func showRequestLocationServiceAlert() {
+    private func showRequestLocationServiceAlert() {
         let requestLocationServiceAlert = UIAlertController(title: "위치 정보 이용", message: "위치 서비스를 사용할 수 없습니다.\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
         let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
             if let appSetting = URL(string: UIApplication.openSettingsURLString) {
@@ -200,7 +200,7 @@ class MainPageViewController: UIViewController {
         present(requestLocationServiceAlert, animated: true)
     }
     
-    func setPageControlForCurrentLocation() {
+    private func setPageControlForCurrentLocation() {
         DispatchQueue.main.async {
             if self.currentLatitude != nil && self.subViewControllers != [] {
                 self.pageControl.setIndicatorImage(UIImage(systemName: SystemIconNames.gpsOn), forPage: 0)
@@ -213,19 +213,20 @@ class MainPageViewController: UIViewController {
     // MARK: - Actions
     
     
-    func addActionBulletinBoardViewOpen(_ weatherVC: WeatherViewController) {
-        weatherVC.mainView.todayWeatherView.imageViewforTouch.setOpaqueTapGestureRecognizer {
+    private func addActionBulletinBoardViewOpen(_ weatherVC: WeatherViewController) {
+        weatherVC.mainView.todayWeatherView.imageViewforTouch.setOpaqueTapGestureRecognizer { [weak self] in
+            guard let self else { return }
             self.show(self.bulletionBoardViewController, sender: self)
             self.bulletionBoardViewController.navigationItem.title = weatherVC.weatherKitViewModel.name
             self.bulletionBoardViewController.backgroundGradientLayer = weatherVC.mainView.todayWeatherView.backgroundGradientLayer
         }
     }
     
-    @objc func listButtonTapped() {
+    @objc private func listButtonTapped() {
         show(CitiesViewController(), sender: self)
     }
     
-    @objc func settingButtonTapped() {
+    @objc private func settingButtonTapped() {
         let transition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
@@ -242,6 +243,7 @@ extension MainPageViewController {
     private func setupViewControllersForBookmarked(city: String?, area: String?){
 
         subViewControllers.removeAll()
+        
         // 현재 위치에 따른 첫 번째 날씨 페이지 로드
         // 조건문 분기는, geocoder를 사용해 나눌땐 위치정보(도시이름)을 인자로 바로 받아 사용
         // 두 번째 분기는, 그렇게 받아진 걸 변수로 저장해 변수를 불러와 사용... 그 외에 내용이 모두 중복됨.
@@ -351,9 +353,9 @@ extension MainPageViewController: UIPageViewControllerDataSource, UIPageViewCont
         self.pageControl.currentPage = currentIndex
         
         if completed {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 let weatherVC = currentVC as! WeatherViewController
-                self.navigationItem.title = weatherVC.weatherKitViewModel.name
+                self?.navigationItem.title = weatherVC.weatherKitViewModel.name
                 weatherVC.mainView.todayWeatherView.layoutIfNeeded()
                 weatherVC.mainView.yesterdayWeatherView.layoutIfNeeded()
                 weatherVC.mainView.tomorrowdayWeatherView.layoutIfNeeded()

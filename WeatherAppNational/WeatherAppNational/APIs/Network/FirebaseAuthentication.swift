@@ -23,12 +23,14 @@ enum FirebaseAuthenticationNotification: String {
     }
 }
 
-class FirebaseAuthentication: NSObject {
+final class FirebaseAuthentication: NSObject {
     static let shared = FirebaseAuthentication()
 
     var email: String?
     var uid: String?
-    var window: UIWindow!
+    var name: String?
+    
+    private var window: UIWindow!
     private var rootViewController: UIViewController? {
         didSet {
             window.rootViewController = rootViewController
@@ -118,10 +120,10 @@ extension FirebaseAuthentication: ASAuthorizationControllerDelegate {
             return
           }
             guard let email = authResult?.user.email,
-                  let uid = authResult?.user.uid
-            else { return }
+                  let uid = authResult?.user.uid else { return }
             self?.uid = uid
             self?.email = email
+            self?.name = "haha"
             self?.postNotificationSignInSuccess()
         }
       }

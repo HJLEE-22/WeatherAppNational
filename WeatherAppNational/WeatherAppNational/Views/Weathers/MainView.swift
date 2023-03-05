@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class MainView: UIView {
+final class MainView: UIView {
     
     
     // MARK: - Properties
@@ -62,7 +62,7 @@ class MainView: UIView {
     
     // MARK: - Helpers
     
-    func setupUI() {
+    private func setupUI() {
         self.addSubview(todayWeatherView)
         self.addSubview(otherWeathersStackView)
 

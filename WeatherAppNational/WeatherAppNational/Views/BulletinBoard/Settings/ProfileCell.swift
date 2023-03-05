@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProfileCell: UITableViewCell {
+final class ProfileCell: UITableViewCell {
     
     // MARK: - Properties
     
@@ -35,7 +35,7 @@ class ProfileCell: UITableViewCell {
     
     // MARK: - Helpers
     
-    func setupUI() {
+    private func setupUI() {
         
         [nicknameLabel, emailLabel].forEach({ self.addSubview($0) })
 
