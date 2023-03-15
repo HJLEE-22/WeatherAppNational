@@ -54,6 +54,7 @@ final class FirebaseAuthentication: NSObject {
       authorizationController.delegate = self
       authorizationController.presentationContextProvider = self
       authorizationController.performRequests()
+//        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isUserDataExist)
     }
 
     func signInWithAnonymous() {
@@ -63,14 +64,13 @@ final class FirebaseAuthentication: NSObject {
                 return
             }
             self?.postNotificationSignInSuccess()
-            UserDefaults.standard.set(true, forKey: "isSignIn")
+            UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isUserDataExist)
             NotificationCenter.default.post(name: .authStateDidChange, object: nil)
         }
     }
 
     func signOut() {
         let firebaseAuth = Auth.auth()
-//        firebaseAuth.currentUser?.delete()
         do {
             try firebaseAuth.signOut()
             postNotificationSignOutSuccess()
@@ -83,10 +83,12 @@ final class FirebaseAuthentication: NSObject {
         let firebaseAuth = Auth.auth()
         guard let uid = firebaseAuth.currentUser?.uid else { return }
         do {
-            try firebaseAuth.currentUser?.delete() { error in
+           try firebaseAuth.currentUser?.delete() { error in
                 COLLECTION_USERS.document(uid).delete()
                 print("DEBUG: delete error:\(error)")
                 self.postNotificationSignOutSuccess()
+               UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isUserDataExist)
+               UserDefaults.standard.set(nil, forKey: UserDefaultsKeys.userModel)
             }
         } catch {
             postNotificationSignInError()

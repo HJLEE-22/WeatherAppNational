@@ -81,9 +81,7 @@ enum RainStatusCategory: String, CaseIterable {
     case showering = "4"
 }
 
-public struct UserDefaultsKeys {
-    static let launchedBefore = "launchedBefore"
-}
+
 
 // firestore collection address
 let COLLECTION_USERS = Firestore.firestore().collection("users")

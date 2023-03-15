@@ -21,8 +21,8 @@ final class BulletinBoardViewController: UIViewController {
         }
     }
 
-    
     private var weatherKitModel: WeatherKitModel?
+    
     var backgroundGradientLayer: CAGradientLayer?
     
     private lazy var bulletinBoardView = BulletinBoardView()
@@ -37,6 +37,8 @@ final class BulletinBoardViewController: UIViewController {
         setCells()
         addTargetToButton()
         chatViewModel.subscribeFireStore()
+//        let contextMenuInteraction = UIContextMenuInteraction(delegate: self)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +51,10 @@ final class BulletinBoardViewController: UIViewController {
 
 
     // MARK: - Helpers
+    
+    private func setInteractionForContextMenu() {
+        
+    }
     
     private func setupBackgroundLayer() {
         DispatchQueue.main.async {
@@ -87,12 +93,15 @@ final class BulletinBoardViewController: UIViewController {
     }
     
     @objc func addChatToFirebase() {
+        guard UserDefaults.standard.bool(forKey: UserDefaultsKeys.isUserDataExist) == true else {
+            showAlert("로그인 필요", "로그인이 필요한 서비스입니다.", setLoginViewAnywhere)
+            return
+        }
         guard let cityName = navigationItem.title,
               let message = bulletinBoardView.typingTextField.text
         else { return }
         
-        chatViewModel.sendMessage(message,
-                                  location: cityName) { [weak self] in
+        chatViewModel.sendMessage(message, location: cityName) { [weak self] in
             self?.bulletinBoardView.typingTextField.text = ""
         }
     }
@@ -120,9 +129,13 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
             othersChatCell.chatLabel.text = chat.message
             othersChatCell.idLabel.text = chat.userName
             othersChatCell.timeLabel.text = chat.timestamp
+            let contextMenuInteraction = UIContextMenuInteraction(delegate: self)
+            othersChatCell.addInteraction(contextMenuInteraction)
             return othersChatCell
         }
     }
+    
+   
 }
 
 extension BulletinBoardViewController: ChatObserver {
@@ -141,9 +154,42 @@ extension BulletinBoardViewController: ChatObserver {
     }
 }
 
-extension BulletinBoardViewController: UserObserver {
-    func userUpdate<T>(updateValue: T) {
-        guard let value = updateValue as? Bool else { return }
+
+extension BulletinBoardViewController: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        // Get the index path of the table view cell that was selected
+        guard let tableView = interaction.view as? UITableView,
+              let indexPath = tableView.indexPathForRow(at: location) else { return nil }
         
+        // Get the context menu configuration for the selected cell
+        let configuration = self.tableView(tableView, contextMenuConfigurationForRowAt: indexPath, point: location)
+        
+        return configuration
     }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        // Get the selected table view cell
+        guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
+
+        // Create the context menu configuration
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+
+            // Create an action for copying the text
+            let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc")) { action in
+               
+            }
+
+            // Create an action for sharing the text
+            let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { action in
+                
+            }
+
+            // Create a menu with the actions
+            return UIMenu(title: "", children: [copyAction, shareAction])
+        }
+
+        return configuration
+    }
+    
+    
 }

@@ -12,7 +12,7 @@ import SafariServices
 
 final class LoginViewController: UIViewController {
     
-    private let loginView = LoginView()
+    let loginView = LoginView()
     
     
     // MARK: - Lifecycles

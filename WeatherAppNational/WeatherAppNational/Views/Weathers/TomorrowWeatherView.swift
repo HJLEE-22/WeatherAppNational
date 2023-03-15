@@ -27,8 +27,6 @@ final class TomorrowWeatherView: UIView {
         }
     }
 
-
-    
     private lazy var tomorrowTitleLabel: UILabel = {
        let label = UILabel()
         label.text = "내일"
@@ -160,8 +158,6 @@ final class TomorrowWeatherView: UIView {
         ])
     }
     
-
-    
     private func setSymbolImageSize(){
         DispatchQueue.main.async {
             if self.frame.height <= 250 {
@@ -174,12 +170,60 @@ final class TomorrowWeatherView: UIView {
     // MARK: - Helpers
     
     private func configureUI(_ data: WeatherKitModel) {
-        self.weatherImageView.image = UIImage(systemName: data.symbolName ?? "")
+        if let symbolName = data.symbolName {
+            self.weatherImageView.image = UIImage(systemName: symbolName)
+        } else {
+            self.setWeatherImageView(data.rainingStatus ?? "", data.skyStatus ?? "")
+        }
         self.mainTemperatureLabel.text = "\(data.temperature ?? "")°"
         self.maxTemperatureLabel.text = data.highTemperature ?? "" + "°"
         self.minTemperatureLabel.text = data.lowTemperature ?? "" + "°"
-        self.tomorrowDateLabel.text = DateCalculate.tomorrowDateShortString + "일"
+        self.tomorrowDateLabel.text = DateCalculate.yesterdayDateShortString + "일"
         self.weatherImageView.tintColor = .systemGray3
     }
 
+
+    private func setWeatherImageView(_ rainStatusCategory: String, _ skyCategory: String){
+        if rainStatusCategory == "0" {
+            if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
+                switch skyStatusCategory {
+                case .sunny :
+                    guard let image = UIImage(systemName: WeatherSystemName.sunMax) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .cloudy :
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSun) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .gray :
+                    guard let image = UIImage(systemName: WeatherSystemName.cloud) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                }
+            }
+        } else {
+            if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
+                switch rainStatusCategory {
+                case .raining:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudRain) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .rainingAndSnowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSleet) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .snowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSnow) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .showering:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudHeavyRain) else { return }
+                    self.weatherImageView.image = image
+                    weatherImageView.tintColor = .systemGray3
+                case .noRain:
+                    break
+                }
+            }
+        }
+    }
 }

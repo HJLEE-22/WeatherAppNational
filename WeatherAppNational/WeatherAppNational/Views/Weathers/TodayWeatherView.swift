@@ -6,7 +6,7 @@
 //
 
 import UIKit
-  
+
 protocol UpdatingLocationButtonDelegate {
     func updatingLocationButtonTapped()
 }
@@ -16,30 +16,30 @@ final class TodayWeatherView: UIView {
     // MARK: - Delegate Property
     
     var buttonDelegate: UpdatingLocationButtonDelegate?
-
+    
     // MARK: - Today's properties
-
-        // MARK:  Models
-     
-    var weatherKitModel: WeatherKitModel? 
+    
+    // MARK:  Models
+    
+    var weatherKitModel: WeatherKitModel?
     
     var backgroundGradientLayer: CAGradientLayer? {
         didSet {
             self.layoutIfNeeded()
         }
     }
-
+    
     var yesterdayDegree: String? {
         didSet {
             if let yesterdayDegree,
-            let weatherKitModel {
+               let weatherKitModel {
                 DispatchQueue.main.async {
                     self.configureUIByData(weatherKitModel)
                 }
             }
         }
     }
-        // MARK:  Properties for UI
+    // MARK:  Properties for UI
     
     var imageViewforTouch: TouchableOpacityView = {
         let view = TouchableOpacityView(frame: .zero)
@@ -159,7 +159,7 @@ final class TodayWeatherView: UIView {
         sv.spacing = 10
         return sv
     }()
-
+    
     private lazy var todayStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [imageAndDegreeStackView, sliderStackView, todayExplanationLabel, humadityAndWindSpeedStackView ])
         sv.axis = .vertical
@@ -175,12 +175,16 @@ final class TodayWeatherView: UIView {
         btn.tintColor = .systemGray2
         return btn
     }()
-
+    
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        LoadingIndicator.showLoading()
         self.addActionToButton()
+        DispatchQueue.main.async { [weak self] in
+            self?.setupUIOnlyForButton()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -191,18 +195,18 @@ final class TodayWeatherView: UIView {
         super.setNeedsLayout()
         self.setupBackgroundLayer()
         self.setupTodayExplanationSize()
+        LoadingIndicator.hideLoading()
     }
     
     // MARK: - UI setup
     
+    
     private func setupBackgroundLayer() {
-        DispatchQueue.main.async {
-            if let backgroundGradientLayer = self.backgroundGradientLayer {
-                if self.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
-                    print("DEBUG: frame:\(self.frame)")
-                    print("DEBUG: bounds:\(self.bounds)")
+        DispatchQueue.main.async { [weak self] in
+            if let backgroundGradientLayer = self?.backgroundGradientLayer {
+                if self?.bounds != CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0) {
+                    guard let self else { return }
                     backgroundGradientLayer.frame = self.bounds
-                    print("DEBUG: backgroundGrdientFrame:\(backgroundGradientLayer.frame)")
                     self.layer.addSublayer(backgroundGradientLayer)
                     self.layer.borderWidth = 0
                     self.setupUI()
@@ -217,7 +221,7 @@ final class TodayWeatherView: UIView {
                 self.todayExplanationLabel.font = .systemFont(ofSize: 15)
                 self.todayExplanationLabel.textAlignment = .center
             }
-
+            
         }
     }
     
@@ -271,7 +275,6 @@ final class TodayWeatherView: UIView {
             sliderStackView.heightAnchor.constraint(equalToConstant: 20),
             
             todayDegreeSlider.heightAnchor.constraint(equalToConstant: 5),
-
             
             minLabelForSlider.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             minLabelForSlider.widthAnchor.constraint(equalToConstant: 60),
@@ -292,9 +295,23 @@ final class TodayWeatherView: UIView {
             updateLocationButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
     }
-     
+    
+    private func setupUIOnlyForButton() {
+        self.addSubview(updateLocationButton)
+        updateLocationButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            updateLocationButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
+            updateLocationButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+        ])
+    }
+    
     private func configureUIByData(_ data: WeatherKitModel) {
-        self.todayWeatherImageView.image = UIImage(systemName: data.symbolName ?? "")
+        if let symbolName = data.symbolName {
+            self.todayWeatherImageView.image = UIImage(systemName: symbolName)
+            self.setWeatherImageColor(data.symbolName)
+        } else {
+            self.setWeatherImage(data.rainingStatus ?? "", data.skyStatus ?? "")
+        }
         self.todayDegreeLabel.text = "\(data.temperature ?? "")°"
         self.maxLabelForSlider.text = "\(data.highTemperature ?? "")°"
         self.minLabelForSlider.text = "\(data.lowTemperature ?? "")°"
@@ -302,31 +319,38 @@ final class TodayWeatherView: UIView {
         self.todayDegreeSlider.minimumValue = (data.lowTemperature as? NSString ?? "0" ).floatValue
         self.todayDegreeSlider.value = (data.temperature as? NSString ?? "0" ).floatValue
         self.windSpeedLabel.text = data.windSpeed ?? ""
-        self.nowHumidityLabel.text = String(Int((Float(data.humidity ?? "0") ?? 0) * 100)) + " %"
+        if (Float(data.humidity ?? "0") ?? 0) < 1 {
+            self.nowHumidityLabel.text = String(Int((Float(data.humidity ?? "0") ?? 0) * 100)) + " %"
+        } else {
+            self.nowHumidityLabel.text = String(Int(Float(data.humidity ?? "0") ?? 0)) + " %"
+        }
         self.todayExplanationLabel.text = self.calculateDegreeExplanation(data)
-        self.setWeatherImageColor(data.symbolName)
         self.addActionToButton()
     }
     
     private func calculateDegreeExplanation(_ data: WeatherKitModel) -> String {
-
+        
         guard let yesterdayDegreeString = yesterdayDegree,
               let todayDegreeString = data.temperature else { return "" }
         let todayDegree = (todayDegreeString as NSString).intValue
         let yesterdayDegree = (yesterdayDegreeString as NSString).intValue
         
         switch todayDegree {
-        case ..<20:
+        case ..<15:
             if todayDegree > yesterdayDegree {
                 return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 따뜻합니다."
             } else if todayDegree < yesterdayDegree {
-                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 춥습니다."
+                return "오늘이 어제보다 \(yesterdayDegree - todayDegree)° 더 춥습니다."
+            } else {
+                return "오늘은 어제 날씨와 비슷합니다."
             }
-        case 20...:
+        case 15...:
             if todayDegree > yesterdayDegree {
                 return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 덥습니다."
             } else if todayDegree < yesterdayDegree {
-                return "오늘이 어제보다 \(todayDegree - yesterdayDegree)° 더 시원합니다."
+                return "오늘이 어제보다 \(yesterdayDegree - todayDegree)° 더 시원합니다."
+            } else {
+                return "오늘은 어제 날씨와 비슷합니다."
             }
         default:
             break
@@ -354,9 +378,52 @@ final class TodayWeatherView: UIView {
         } else {
             todayWeatherImageView.tintColor = .systemGray2
         }
-        
     }
-                
+    
+    func setWeatherImage(_ rainStatusCategory: String, _ skyCategory: String){
+        if rainStatusCategory == "0" {
+            if let skyStatusCategory = SkyCategory.allCases.first(where: {$0.rawValue == skyCategory}) {
+                switch skyStatusCategory {
+                case .sunny :
+                    guard let image = UIImage(systemName: WeatherSystemName.sunMax) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemRed
+                case .cloudy :
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSun) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemOrange
+                case .gray :
+                    guard let image = UIImage(systemName: WeatherSystemName.cloud) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemGray
+                }
+            }
+        } else {
+            if let rainStatusCategory = RainStatusCategory.allCases.first(where: {$0.rawValue == rainStatusCategory}) {
+                switch rainStatusCategory {
+                case .raining:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudRain) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemGray3
+                case .rainingAndSnowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSleet) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemGray2
+                case .snowing:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudSnow) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .white
+                case .showering:
+                    guard let image = UIImage(systemName: WeatherSystemName.cloudHeavyRain) else { return }
+                    self.todayWeatherImageView.image = image
+                    todayWeatherImageView.tintColor = .systemBlue
+                case .noRain:
+                    break
+                }
+            }
+        }
+    }
+    
     private func addActionToButton() {
         self.updateLocationButton.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
     }
@@ -369,6 +436,6 @@ final class TodayWeatherView: UIView {
     }
     
 }
-    
-    
+
+
 

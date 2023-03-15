@@ -86,7 +86,22 @@ final class WeatherKitViewModel {
             print("DEBUG: name: \(self.name), location: \(location), todayWeatherKitModel:\(self.todayWeatherKitModel)")
 
         } catch {
+            // WeatherKit에서 어제 날씨 데이터 오류날 시 기상청 API 접속
             print(error.localizedDescription)
+            guard let gridX, let gridY else { return }
+            try await CustomWeatherService.shared.fetchWeatherData(dayType: .today,
+                                                         date: DateCalculate.todayDateString,
+                                                         time: "0200",
+                                                         nx: gridX,
+                                                         ny: gridY) { result in
+                switch result {
+                case .success(let weatherKitModel):
+                    self.todayWeatherKitModel = weatherKitModel
+                case .failure(let error):
+                    print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
+                }
+            }
+
         }
     }
     
@@ -107,6 +122,7 @@ final class WeatherKitViewModel {
                                                                including: .hourly(startDate: yesterday,
                                                                                   endDate: yesterday))
 
+//            hourWeather.filter { $0.date  }
             hourWeather.forEach { hour in
                 print("DEBUG: hourWeather:\(hour)")
                 print("DEBUG: date:\(Date())")
@@ -114,7 +130,7 @@ final class WeatherKitViewModel {
                 yesterdaySymbolName = hour.symbolName
             }
             let dailyWeather = try await weatherService.weather(for: location, including: .daily(startDate: yesterday, endDate: yesterday))
-            print("DEBUG: dailyWeather:\(dailyWeather)")
+//            print("DEBUG: dailyWeather:\(dailyWeather)")
 
             yesterdayHighTemperature = String(Int((dailyWeather.first?.highTemperature.value ?? 100).rounded(.awayFromZero)))
             yesterdayLowTemperature = String(Int((dailyWeather.first?.lowTemperature.value ?? 100).rounded(.awayFromZero)))
@@ -155,6 +171,8 @@ final class WeatherKitViewModel {
             
 
             let hourWeather = try await weatherService.weather(for: location, including: .hourly)
+            print("DEBUG: tmr hour weather weather:\(hourWeather)")
+
             let hourWeatherFiltered = hourWeather.filter({ $0.date.formatted(.dateTime.year(.twoDigits)
                                                             .month(.narrow)
                                                             .day(.defaultDigits)
@@ -174,7 +192,21 @@ final class WeatherKitViewModel {
             }
             tomorrowWeatherKitModel = WeatherKitModel(temperature: tomorrowTemperature, highTemperature: tomorrowHignTemperature, lowTemperature: tomorrowLowTemperature, symbolName: tomorrowSymbolName)
         } catch {
+            // WeatherKit에서 어제 날씨 데이터 오류날 시 기상청 API 접속
             print(error.localizedDescription)
+            guard let gridX, let gridY else { return }
+            try await CustomWeatherService.shared.fetchWeatherData(dayType: .tomorrow,
+                                                                   date: DateCalculate.todayDateString,
+                                                         time: "0200",
+                                                         nx: gridX,
+                                                         ny: gridY) { result in
+                switch result {
+                case .success(let weatherKitModel):
+                    self.tomorrowWeatherKitModel = weatherKitModel
+                case .failure(let error):
+                    print("DEBUG: 어제 날씨 불러오기 실패", error.localizedDescription)
+                }
+            }
         }
     }
 }

@@ -7,6 +7,12 @@
 
 import Foundation
 
+public struct UserDefaultsKeys {
+    static let launchedBefore = "launchedBefore"
+    static let userModel = "userModel"
+    static let isUserDataExist = "isUserDataExist"
+}
+
 struct UserDefaultsUtil {
     
     static let shared = UserDefaultsUtil()

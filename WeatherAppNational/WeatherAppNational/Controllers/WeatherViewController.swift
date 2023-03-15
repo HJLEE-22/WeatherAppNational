@@ -74,7 +74,6 @@ extension WeatherViewController: ColorsObserver {
     func colorsUpdate<T>(updateValue: T) {
         guard let value = updateValue as? [Day: CAGradientLayer] else { return }
         DispatchQueue.main.async { [weak self] in
-            //guard let self else { return }
             switch value.first?.key {
             case .today :
                 self?.mainView.todayWeatherView.backgroundGradientLayer = value[.today]

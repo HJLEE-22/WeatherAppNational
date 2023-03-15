@@ -3,4 +3,229 @@
    uuid = "0D558553-8F0F-4A90-9846-21CF81017074"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A026C1A0-E844-401D-B7D4-1BE383B0FCC5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "tableView(_:contextMenuConfigurationForRowAt:point:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2B9F5A29-6FDA-4950-BDAD-D8BF9E75296F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "tableView(_:contextMenuConfigurationForRowAt:point:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "2B9F5A29-6FDA-4950-BDAD-D8BF9E75296F - b04ec07a48082f11"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.BulletinBoardViewController.tableView(_: __C.UITableView, contextMenuConfigurationForRowAt: Foundation.IndexPath, point: __C.CGPoint) -&gt; Swift.Optional&lt;__C.UIContextMenuConfiguration&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "175"
+                  endingLineNumber = "175"
+                  offsetFromSymbolStart = "328">
+               </Location>
+               <Location
+                  uuid = "2B9F5A29-6FDA-4950-BDAD-D8BF9E75296F - 43689de658cfeef3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;__C.UIMenuElement&gt;) -&gt; Swift.Optional&lt;__C.UIMenu&gt; in WeatherAppNational.BulletinBoardViewController.tableView(_: __C.UITableView, contextMenuConfigurationForRowAt: Foundation.IndexPath, point: __C.CGPoint) -&gt; Swift.Optional&lt;__C.UIContextMenuConfiguration&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "178"
+                  endingLineNumber = "178"
+                  offsetFromSymbolStart = "40">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1791FC4-7821-4673-81DA-B867B9F50FFC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "contextMenuInteraction(_:configurationForMenuAtLocation:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9258F127-B56A-4468-AD23-EF23000D42E4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "contextMenuInteraction(_:configurationForMenuAtLocation:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "9258F127-B56A-4468-AD23-EF23000D42E4 - bb965d3ae09e1c56"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.BulletinBoardViewController.contextMenuInteraction(_: __C.UIContextMenuInteraction, configurationForMenuAtLocation: __C.CGPoint) -&gt; Swift.Optional&lt;__C.UIContextMenuConfiguration&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161"
+                  offsetFromSymbolStart = "292">
+               </Location>
+               <Location
+                  uuid = "9258F127-B56A-4468-AD23-EF23000D42E4 - bb965d3ae09e1c56"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.BulletinBoardViewController.contextMenuInteraction(_: __C.UIContextMenuInteraction, configurationForMenuAtLocation: __C.CGPoint) -&gt; Swift.Optional&lt;__C.UIContextMenuConfiguration&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161"
+                  offsetFromSymbolStart = "460">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "77A650D9-9944-4095-B716-4D5482285381"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "contextMenuInteraction(_:configurationForMenuAtLocation:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "77A650D9-9944-4095-B716-4D5482285381 - bb965d3ae09e1c77"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.BulletinBoardViewController.contextMenuInteraction(_: __C.UIContextMenuInteraction, configurationForMenuAtLocation: __C.CGPoint) -&gt; Swift.Optional&lt;__C.UIContextMenuConfiguration&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "492">
+               </Location>
+               <Location
+                  uuid = "77A650D9-9944-4095-B716-4D5482285381 - bb965d3ae09e1c77"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.BulletinBoardViewController.contextMenuInteraction(_: __C.UIContextMenuInteraction, configurationForMenuAtLocation: __C.CGPoint) -&gt; Swift.Optional&lt;__C.UIContextMenuConfiguration&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "580">
+               </Location>
+               <Location
+                  uuid = "77A650D9-9944-4095-B716-4D5482285381 - bb965d3ae09e1c77"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.BulletinBoardViewController.contextMenuInteraction(_: __C.UIContextMenuInteraction, configurationForMenuAtLocation: __C.CGPoint) -&gt; Swift.Optional&lt;__C.UIContextMenuConfiguration&gt;"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "900">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8724D20E-267C-4DF4-A8F2-12B495A1D4D7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "25572689-8B75-4B0A-8516-977A9C92EF27"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/Controllers/BulletinBoardViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

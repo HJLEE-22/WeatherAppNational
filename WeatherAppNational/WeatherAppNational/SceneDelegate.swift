@@ -19,13 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         guard let window else { return }
         ViewByLoginManager.shared.show(in: window)
-//        let loginViewController = LoginViewController()
-//        window?.rootViewController = loginViewController
-////        window?.rootViewController = UINavigationController(rootViewController: MainPageViewController())
-//        window?.makeKeyAndVisible()
-        
-        
-        
         
         // MARK: - JSON decoder part
         
@@ -36,20 +29,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let jsonPath = Bundle.main.path(forResource: fileName, ofType: fileType),
               let jsonDataLoaded = loadJsonData(fileLocation: jsonPath) else { return }
-        /*
-        do {
-            self.locationForDecoder = try JSONDecoder().decode([LocationGridModel].self, from: jsonDataLoaded)
-            if let locationForDecoder = locationForDecoder {
-                locationForDecoder.forEach {
-                    CoreDataManager.shared.saveLocationGridData(locationGrid: $0, completion: {})
-                }
-                UserDefaults.standard.set(true, forKey: UserDefaultsKeys.launchedBefore)
-                print("DEBUG: success to save")
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-        */
         
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.launchedBefore) == true {
         } else {
