@@ -56,8 +56,8 @@ final class SettingViewController: UITableViewController {
                     self.email = data["email"] as? String
                 }
             } else {
-                self.nickname = "  🦹"
-                self.email = "익명으로 로그인되었습니다."
+                self.nickname = "  🦹 익명"
+                self.email = "로그인을 원하시면 터치하세요"
                 print("Document does not exist")
             }
         }
@@ -145,7 +145,6 @@ final class SettingViewController: UITableViewController {
             settingViewCell.switchBtn.isHidden = false
             settingViewCell.selectionStyle = .none
             
-            // 스위치 버튼 상태 업데이트 하는 곳
             print("DEBUG: location status \(CLLocationManager.authorizationStatus() )")
             settingViewCell.switchBtn.isOn = settingViewModel.isSwitchButtonOn
             
@@ -160,15 +159,15 @@ final class SettingViewController: UITableViewController {
             settingViewCell.mainLabel.text = ""
             settingViewCell.logoutView.isHidden = false
             settingViewCell.selectionStyle = .none
-            settingViewCell.logoutView.setOpaqueTapGestureRecognizer {
+            settingViewCell.logoutView.setOpaqueTapGestureRecognizer { [weak self] in
                 // logout code
-                self.setupLogoutAlert()
+                self?.showAlert("Log-Out", "로그아웃 하시겠습니까?", self?.firebaseAuthSignout)
             }
         case 6 :
             settingViewCell.mainLabel.text = ""
             settingViewCell.deleteAccountView.isHidden = false
-            settingViewCell.deleteAccountView.setOpaqueTapGestureRecognizer {
-                self.setupDeleteAccountAlert()
+            settingViewCell.deleteAccountView.setOpaqueTapGestureRecognizer { [weak self] in
+                self?.showAlert("회원탈퇴 하시겠습니까?", "본 앱에서 계정이 삭제됩니다.\n설정의 '애플 ID를 사용하는 앱'에서 본 앱을 제거해 주세요.", self?.firebaseDeleteAccount)
             }
             settingViewCell.selectionStyle = .none
             settingViewCell.logoutView.setOpaqueTapGestureRecognizer {
@@ -182,37 +181,27 @@ final class SettingViewController: UITableViewController {
   
     }
     
-    private func setupLogoutAlert() {
-        let requestAlert = UIAlertController(title: "Log-Out", message: "로그아웃 하시겠습니까?" , preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default){ _ in
-            FirebaseAuthentication.shared.signOut()
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        requestAlert.addAction(ok)
-        requestAlert.addAction(cancel)
-        present(requestAlert, animated: true)
+    func firebaseAuthSignout() {
+        FirebaseAuthentication.shared.signOut()
     }
     
-    private func setupDeleteAccountAlert() {
-        let requestAlert = UIAlertController(title: "회원탈퇴 하시겠습니까?", message: "본 앱에서 계정이 삭제됩니다.\n설정의 '애플 ID를 사용하는 앱'에서 본 앱을 제거해 주세요." , preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default){ _ in
-            FirebaseAuthentication.shared.deleteAccount()
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        requestAlert.addAction(ok)
-        requestAlert.addAction(cancel)
-        present(requestAlert, animated: true)
+    func firebaseDeleteAccount() {
+        FirebaseAuthentication.shared.deleteAccount()
     }
     
     // MARK: - TableviewDelegates
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
+        case 0:
+            if !UserDefaults.standard.bool(forKey: UserDefaultsKeys.isUserDataExist) {
+                setLoginViewAnywhere()
+            }
         case 2:
-            self.openSFSafariForPersonalInformation(_sender: self)
+            openSFSafariForPersonalInformation(_sender: self)
         case 3:
-            self.sendEmail()
+            sendEmail()
         case 4:
-            self.openSFSafariForWeatherKit(_sender: self)
+            openSFSafariForWeatherKit(_sender: self)
         default:
             break
         }
@@ -220,74 +209,35 @@ final class SettingViewController: UITableViewController {
 }
 
 extension SettingViewController: SwitchButtonDelegate {
+    
     func gpsSwitchTapped() {
-        
-        // 버튼이 on일때 눌리면 위치정보 거절
-        // 버튼이 off일때 눌리면 위치정보 허용
         if settingViewModel.isSwitchButtonOn {
-         showRequestDisableLocationServiceAlert()
+            showAlert("위치 정보 이용", "위치 서비스를 중단하시겠습니까?\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 꺼주세요.", requestLocationServiceToSettings)
         } else {
-            showRequestEnableLocationServiceAlert()
+            showAlert("위치 정보 이용", "위치 서비스를 사용하시겠습니까?\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요.", requestLocationServiceToSettings)
         }
     }
     
-    private func showRequestDisableLocationServiceAlert() {
-        let requestLocationServiceAlert = UIAlertController(title: "위치 정보 이용", message: "위치 서비스를 중단하시겠습니까?\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 꺼주세요.", preferredStyle: .alert)
-        let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
-            if let appSetting = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(appSetting)
-            }
+    func requestLocationServiceToSettings() {
+        if let appSetting = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(appSetting)
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
-            
-        }
-        requestLocationServiceAlert.addAction(cancel)
-        requestLocationServiceAlert.addAction(goSetting)
-        
-        present(requestLocationServiceAlert, animated: true)
-    }
-    private func showRequestEnableLocationServiceAlert() {
-        let requestLocationServiceAlert = UIAlertController(title: "위치 정보 이용", message: "위치 서비스를 사용하시겠습니까?\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요.", preferredStyle: .alert)
-        let goSetting = UIAlertAction(title: "설정으로 이동", style: .destructive) { _ in
-            if let appSetting = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(appSetting)
-            }
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        requestLocationServiceAlert.addAction(cancel)
-        requestLocationServiceAlert.addAction(goSetting)
-        
-        present(requestLocationServiceAlert, animated: true)
     }
 }
 
 extension SettingViewController: MFMailComposeViewControllerDelegate {
-    
-    private func showSendMailErrorAlert() {
-           let sendMailErrorAlert = UIAlertController(title: "메일을 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
-           let confirmAction = UIAlertAction(title: "확인", style: .default) {
-               (action) in
-               print("확인")
-           }
-           sendMailErrorAlert.addAction(confirmAction)
-           self.present(sendMailErrorAlert, animated: true, completion: nil)
-       }
        
     private func sendEmail() {
            if MFMailComposeViewController.canSendMail() {
-               
                let compseVC = MFMailComposeViewController()
                compseVC.mailComposeDelegate = self
-               
                compseVC.setToRecipients(["leehyungju20@gmail.com"])
                compseVC.setSubject("'어제보다' 문의")
                compseVC.setMessageBody("Message Content", isHTML: false)
-               
                self.present(compseVC, animated: true, completion: nil)
-               
            }
            else {
-               self.showSendMailErrorAlert()
+               showAlert("메일을 전송 실패", "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", nil)
            }
        }
        

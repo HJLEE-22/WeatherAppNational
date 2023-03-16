@@ -59,7 +59,6 @@ final class OthersChatCell: UITableViewCell {
     
     private lazy var chatLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [emptyViewForSizeLeft, chatLabel, emptyViewForSizeRight])
-//        stackView.snp.contentHuggingVerticalPriority = 250
         stackView.layer.cornerRadius = 16
         stackView.clipsToBounds = true
         stackView.backgroundColor = .systemGray5

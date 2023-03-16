@@ -41,13 +41,12 @@ final class LoginInfoViewController: UIViewController {
     @objc private func moveToMainVC() {
         guard loginInputView.nicknameTextField.hasText == true else {
             print("DEBUG: nicknameTextField:\(loginInputView.nicknameTextField.hasText)")
-            self.setupAlert()
+            showAlert("빈 칸이 있습니다.", "모든 항목을 입력해 주세요.", nil)
             return
         }
         
         setupUserInfo()
         let mainVC = MainPageViewController()
-//        mainVC.userViewModel = .init(name: nickname, email: email, uid: uid)
         show(mainVC, sender: self)
     }
     
@@ -62,19 +61,9 @@ final class LoginInfoViewController: UIViewController {
         COLLECTION_USERS.document(uid).setData(data)
         UserDefaults.standard.set(["userName" : nickname,
                                    "userEmail": email,
-                                   "userUid" : uid], forKey: "userModel")
-
-        // userviewmodel을 여기서 안쓰는데 여기있는 변수를 초기화해봤자 뭐해?
-//        self.userViewModel = .init(name: nickname, email: email, uid: uid)
+                                   "userUid" : uid], forKey: UserDefaultsKeys.userModel)
         let settingViewContoller = SettingViewController()
-        UserDefaults.standard.set(true, forKey: "isUserDataExist")
-    }
-    
-    private func setupAlert() {
-        let requestAlert = UIAlertController(title: "빈 칸이 있습니다.", message: "모든 항목을 입력해 주세요." , preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "확인", style: .cancel)
-        requestAlert.addAction(cancel)
-        present(requestAlert, animated: true)
+        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isUserDataExist)
     }
 }
 

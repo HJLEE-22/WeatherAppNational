@@ -57,6 +57,7 @@ final class ViewByLoginManager {
                 COLLECTION_USERS.document(uid).getDocument { document, error in
                     guard let document else { return }
                     if document.exists {
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isUserDataExist)
                         self.setHome()
                     } else {
                         self.setLoginInfoView()

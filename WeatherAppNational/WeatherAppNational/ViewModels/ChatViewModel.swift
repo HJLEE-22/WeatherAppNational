@@ -22,7 +22,7 @@ class ChatViewModel {
     
     // MARK: - Lifecycle
     init() {
-        guard let userModel = UserDefaults.standard.dictionary(forKey: "userModel") else { return }
+        guard let userModel = UserDefaults.standard.dictionary(forKey: UserDefaultsKeys.userModel) else { return }
         let uid = userModel["userUid"] as? String
         let email = userModel["userEmail"] as? String
         let name = userModel["userName"] as? String
