@@ -37,7 +37,6 @@ final class BulletinBoardViewController: UIViewController {
         setCells()
         addTargetToButton()
         chatViewModel.subscribeFireStore()
-//        let contextMenuInteraction = UIContextMenuInteraction(delegate: self)
 
     }
     
@@ -77,9 +76,9 @@ final class BulletinBoardViewController: UIViewController {
         bulletinBoardView.chattingsTableView.delegate = self
         bulletinBoardView.chattingsTableView.dataSource = self
         bulletinBoardView.chattingsTableView.register(UserChatCell.self,
-                                                      forCellReuseIdentifier: "UserChatCell")
+                                                      forCellReuseIdentifier: CellID.userChatCell)
         bulletinBoardView.chattingsTableView.register(OthersChatCell.self,
-                                                      forCellReuseIdentifier: "OthersChatCell")
+                                                      forCellReuseIdentifier: CellID.othersChatCell)
         bulletinBoardView.chattingsTableView.estimatedRowHeight = 70
         bulletinBoardView.chattingsTableView.rowHeight = UITableView.automaticDimension
         bulletinBoardView.chattingsTableView.separatorStyle = .none
@@ -95,6 +94,10 @@ final class BulletinBoardViewController: UIViewController {
     @objc func addChatToFirebase() {
         guard UserDefaults.standard.bool(forKey: UserDefaultsKeys.isUserDataExist) == true else {
             showAlert("로그인 필요", "로그인이 필요한 서비스입니다.", setLoginViewAnywhere)
+            return
+        }
+        guard bulletinBoardView.typingTextField.text != "" else {
+            showAlert("메세지 입력", "게시글 등록을 위해 메세지를 입력하세요.", nil)
             return
         }
         guard let cityName = navigationItem.title,
@@ -117,31 +120,63 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let chats = chatViewModel.getChatsValue()
         let chat = chats[indexPath.row]
-        let userChatCell = tableView.dequeueReusableCell(withIdentifier: "UserChatCell", for: indexPath) as! UserChatCell
-        let othersChatCell = tableView.dequeueReusableCell(withIdentifier: "OthersChatCell", for: indexPath) as! OthersChatCell
+        let userChatCell = tableView.dequeueReusableCell(withIdentifier: CellID.userChatCell, for: indexPath) as! UserChatCell
+        let othersChatCell = tableView.dequeueReusableCell(withIdentifier: CellID.othersChatCell, for: indexPath) as! OthersChatCell
         
         if chat.userUid == Auth.auth().currentUser?.uid {
             userChatCell.chatLabel.text = chat.message
             userChatCell.idLabel.text = "user"
             userChatCell.timeLabel.text = chat.timestamp
+            userChatCell.selectionStyle = .none
+            let contextMenuInteraction = UIContextMenuInteraction(delegate: self)
+            userChatCell.addInteraction(contextMenuInteraction)
             return userChatCell
         } else {
             othersChatCell.chatLabel.text = chat.message
             othersChatCell.idLabel.text = chat.userName
             othersChatCell.timeLabel.text = chat.timestamp
+            othersChatCell.selectionStyle = .none
             let contextMenuInteraction = UIContextMenuInteraction(delegate: self)
             othersChatCell.addInteraction(contextMenuInteraction)
             return othersChatCell
         }
     }
     
-   
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let index = indexPath.row
+        let chats = chatViewModel.getChatsValue()
+        let chat = chats[index]
+       
+        let identifier = "\(index)" as NSString
+        
+        if chat.userUid == Auth.auth().currentUser?.uid {
+            return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { _ in
+                let copyAction = UIAction(title: "복사", image: UIImage(systemName: SystemIconNames.copy)) { action in
+                    let textToCopy = chat.message
+                    UIPasteboard.general.string = textToCopy
+                }
+                let shareAction = UIAction(title: "삭제", image: UIImage(systemName: SystemIconNames.deleteLeft), attributes: .destructive) { action in
+                    
+                }
+                return UIMenu(title: "", children: [copyAction, shareAction])
+            }
+        } else {
+            return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { _ in
+                let copyAction = UIAction(title: "게시글 신고", image: UIImage(systemName: SystemIconNames.exclamationMarkCircle)) { action in
+                   
+                }
+                let shareAction = UIAction(title: "유저 차단", image: UIImage(systemName: SystemIconNames.personWithXmark)) { action in
+                    
+                }
+                return UIMenu(title: "", children: [copyAction, shareAction])
+            }
+        }
+    }
 }
 
 extension BulletinBoardViewController: ChatObserver {
     func chatUpdate<T>(updateValue: T) {
-        guard let value = updateValue as? Bool else { return }
-        
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             let chats = self.chatViewModel.getChatsValue()
@@ -166,30 +201,4 @@ extension BulletinBoardViewController: UIContextMenuInteractionDelegate {
         
         return configuration
     }
-    
-    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        // Get the selected table view cell
-        guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
-
-        // Create the context menu configuration
-        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-
-            // Create an action for copying the text
-            let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc")) { action in
-               
-            }
-
-            // Create an action for sharing the text
-            let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { action in
-                
-            }
-
-            // Create a menu with the actions
-            return UIMenu(title: "", children: [copyAction, shareAction])
-        }
-
-        return configuration
-    }
-    
-    
 }

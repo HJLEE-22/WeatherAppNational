@@ -16,6 +16,8 @@ public struct CellID {
     static let forCitiesListCell = "CitiesListCellID"
     static let forSettingsCell = "SettingsCellID"
     static let forProfileCell = "ProfileCellID"
+    static let userChatCell = "UserChatCell"
+    static let othersChatCell = "OthersChatCell"
     private init() {}
 }
 
@@ -39,6 +41,10 @@ public struct SystemIconNames {
     static let starFill = "star.fill"
     static let listDash = "list.dash"
     static let gearShape = "gearshape"
+    static let copy = "doc.on.doc"
+    static let deleteLeft = "delete.left"
+    static let exclamationMarkCircle = "exclamationmark.circle.fill"
+    static let personWithXmark = "person.crop.circle.fill.badge.xmark"
     private init () {}
 }
 

@@ -42,7 +42,7 @@ final class BulletinBoardView: UIView {
     
     var chattingsTableView: UITableView = {
         let tv = UITableView()
-        tv.isUserInteractionEnabled = false
+        tv.isUserInteractionEnabled = true
         return tv
     }()
     
