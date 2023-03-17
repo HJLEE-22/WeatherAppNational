@@ -58,7 +58,7 @@ final class LoginInfoViewController: UIViewController {
         let data: [String:Any] = ["name": nickname,
                                   "email": email,
                                   "uid" : uid]
-        COLLECTION_USERS.document(uid).setData(data)
+        collectionUsers.document(uid).setData(data)
         UserDefaults.standard.set(["userName" : nickname,
                                    "userEmail": email,
                                    "userUid" : uid], forKey: UserDefaultsKeys.userModel)

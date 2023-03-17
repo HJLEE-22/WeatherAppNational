@@ -26,8 +26,9 @@ final class BulletinBoardViewController: UIViewController {
     var backgroundGradientLayer: CAGradientLayer?
     
     private lazy var bulletinBoardView = BulletinBoardView()
-
     
+    var reportMessgae: reportType?
+
     // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,30 +37,37 @@ final class BulletinBoardViewController: UIViewController {
         setBulletinBoardView()
         setCells()
         addTargetToButton()
-        chatViewModel.subscribeFireStore()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.setupBackgroundLayer()
+        subscribeFireStoreFromViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.backgroundGradientLayer?.removeFromSuperlayer()
+        unsubscribeFireStoreFromViewModel()
     }
-
 
     // MARK: - Helpers
     
-    private func setInteractionForContextMenu() {
-        
+    private func subscribeFireStoreFromViewModel() {
+        guard let location = navigationItem.title else {
+            print("DEBUG: location error: 도시명 파악 실패")
+            return
+        }
+        chatViewModel.subscribeFireStore(location: location)
+    }
+    
+    private func unsubscribeFireStoreFromViewModel() {
+        chatViewModel.unsubscribeFireStore()
     }
     
     private func setupBackgroundLayer() {
-        DispatchQueue.main.async {
-            if let backgroundGradientLayer = self.backgroundGradientLayer {
+        DispatchQueue.main.async { [weak self] in
+            if let backgroundGradientLayer = self?.backgroundGradientLayer {
                 backgroundGradientLayer.frame = CGRect(x: 0, y: -59, width: 500, height: 103)
-                self.navigationController?.navigationBar.layer.addSublayer(backgroundGradientLayer)
+                self?.navigationController?.navigationBar.layer.addSublayer(backgroundGradientLayer)
             }
         }
     }
@@ -106,7 +114,33 @@ final class BulletinBoardViewController: UIViewController {
         
         chatViewModel.sendMessage(message, location: cityName) { [weak self] in
             self?.bulletinBoardView.typingTextField.text = ""
+            self?.bulletinBoardView.typingTextField.resignFirstResponder()
         }
+    }
+    
+    func setReportAlert(completion: @escaping () -> Void) {
+        let alert = UIAlertController(title: "게시글 신고", message: nil, preferredStyle: .actionSheet)
+        let notProperContent = UIAlertAction(title: "부적절한 내용", style: .default) { [weak self] _ in
+            self?.reportMessgae = .notProperContent
+            completion()
+        }
+        let cheatContent = UIAlertAction(title: "사기유도", style: .default) { [weak self] _ in
+            self?.reportMessgae = .cheatContent
+            completion()
+        }
+        let blamingContent = UIAlertAction(title: "모욕 및 욕설", style: .default) { [weak self] _ in
+            self?.reportMessgae = .blamingContent
+            completion()
+        }
+        let elseContent = UIAlertAction(title: "기타 이유", style: .default) { [weak self] _ in
+            self?.reportMessgae = .elseContent
+            completion()
+        }
+        alert.addAction(notProperContent)
+        alert.addAction(cheatContent)
+        alert.addAction(blamingContent)
+        alert.addAction(elseContent)
+        present(alert, animated: true)
     }
 }
 
@@ -145,7 +179,7 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
         let index = indexPath.row
-        let chats = chatViewModel.getChatsValue()
+        var chats = chatViewModel.getChatsValue()
         let chat = chats[index]
        
         let identifier = "\(index)" as NSString
@@ -156,35 +190,48 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
                     let textToCopy = chat.message
                     UIPasteboard.general.string = textToCopy
                 }
-                let shareAction = UIAction(title: "삭제", image: UIImage(systemName: SystemIconNames.deleteLeft), attributes: .destructive) { action in
-                    
+                let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: SystemIconNames.deleteLeft), attributes: .destructive) { [weak self] action in
+                    guard let location = self?.navigationItem.title,
+                          let documentID = chat.documentID else { return }
+                    self?.chatViewModel.deleteChat(location: location, documentID: documentID)
                 }
-                return UIMenu(title: "", children: [copyAction, shareAction])
+                return UIMenu(title: "", children: [copyAction, deleteAction])
             }
         } else {
-            return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { _ in
-                let copyAction = UIAction(title: "게시글 신고", image: UIImage(systemName: SystemIconNames.exclamationMarkCircle)) { action in
-                   
-                }
-                let shareAction = UIAction(title: "유저 차단", image: UIImage(systemName: SystemIconNames.personWithXmark)) { action in
+            return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { [weak self] _ in
+                let userBlockAction = UIAction(title: "유저 차단", image: UIImage(systemName: SystemIconNames.personWithXmark)) { action in
+                    // 유저 차단 액션 : 해당 유저의 게시글 안보이게 하기
+                    guard let blockedUser = chat.userUid else { return }
+                    self?.chatViewModel.setupChatsWithoutBlockedUser(blockedUserUid: blockedUser)
                     
                 }
-                return UIMenu(title: "", children: [copyAction, shareAction])
+                let reportAction = UIAction(title: "게시글 신고", image: UIImage(systemName: SystemIconNames.alarm), attributes: .destructive) {[weak self] action in
+                    // 게시글 신고 액션 : 게시글 '임시' 삭제??
+                    // 게시글 신고 사유 alert로 받기 -> 나에게 이메일로 전송
+                    guard let location = self?.navigationItem.title,
+                          let documentID = chat.documentID else { return }
+                    self?.setReportAlert() { [weak self] in
+                        self?.chatViewModel.deleteChat(location: location, documentID: documentID)
+                    }
+                }
+                return UIMenu(title: "", children: [userBlockAction, reportAction])
             }
         }
     }
 }
+
 
 extension BulletinBoardViewController: ChatObserver {
     func chatUpdate<T>(updateValue: T) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             let chats = self.chatViewModel.getChatsValue()
-            
             self.bulletinBoardView.chattingsTableView.reloadData()
-            self.bulletinBoardView.chattingsTableView.scrollToRow(at: IndexPath(row: chats.count-1, section: 0),
-                                                                  at: .top,
-                                                                  animated: false)
+            if !chats.isEmpty {
+                self.bulletinBoardView.chattingsTableView.scrollToRow(at: IndexPath(row: chats.count-1, section: 0),
+                                                                      at: .top,
+                                                                      animated: false)
+            }
         }
     }
 }
@@ -192,11 +239,9 @@ extension BulletinBoardViewController: ChatObserver {
 
 extension BulletinBoardViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        // Get the index path of the table view cell that was selected
         guard let tableView = interaction.view as? UITableView,
               let indexPath = tableView.indexPathForRow(at: location) else { return nil }
         
-        // Get the context menu configuration for the selected cell
         let configuration = self.tableView(tableView, contextMenuConfigurationForRowAt: indexPath, point: location)
         
         return configuration

@@ -43,7 +43,7 @@ public struct SystemIconNames {
     static let gearShape = "gearshape"
     static let copy = "doc.on.doc"
     static let deleteLeft = "delete.left"
-    static let exclamationMarkCircle = "exclamationmark.circle.fill"
+    static let alarm = "light.beacon.max.fill"
     static let personWithXmark = "person.crop.circle.fill.badge.xmark"
     private init () {}
 }
@@ -87,11 +87,16 @@ enum RainStatusCategory: String, CaseIterable {
     case showering = "4"
 }
 
-
+enum reportType: String {
+    case notProperContent
+    case cheatContent
+    case blamingContent
+    case elseContent
+}
 
 // firestore collection address
-let COLLECTION_USERS = Firestore.firestore().collection("users")
-let collectionChats = Firestore.firestore().collection("chats")
+let collectionUsers = Firestore.firestore().collection("users")
+let collectionLocations = Firestore.firestore().collection("locations")
 
 
 // firebase realtime database address

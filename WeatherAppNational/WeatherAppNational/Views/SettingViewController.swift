@@ -48,7 +48,7 @@ final class SettingViewController: UITableViewController {
         guard let currentUser = Auth.auth().currentUser else { return }
         let uid = currentUser.uid
         self.email = currentUser.email
-        COLLECTION_USERS.document(uid).getDocument { (document, error) in
+        collectionUsers.document(uid).getDocument { (document, error) in
 
             if let document = document, document.exists {
                 let documentData = document.data().map { data in

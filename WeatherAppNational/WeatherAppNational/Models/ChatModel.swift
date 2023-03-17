@@ -13,5 +13,5 @@ struct ChatModel {
     var userUid: String?
     var message: String?
     var timestamp: String?
-    
+    var documentID: String?
 }

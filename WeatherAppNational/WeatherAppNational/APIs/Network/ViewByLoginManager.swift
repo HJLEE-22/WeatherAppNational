@@ -54,7 +54,7 @@ final class ViewByLoginManager {
                 self.setHome()
             } else {
                 let uid = user.uid
-                COLLECTION_USERS.document(uid).getDocument { document, error in
+                collectionUsers.document(uid).getDocument { document, error in
                     guard let document else { return }
                     if document.exists {
                         UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isUserDataExist)
