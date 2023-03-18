@@ -242,11 +242,11 @@
 			isa = PBXGroup;
 			children = (
 				ADE9CEF42907C2F7002EDB9E /* Helpers */,
+				AD9CE3A329C1B5B100AC5A37 /* Extensions.swift */,
 				AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */,
 				ADD43DB0294C2B64000DE026 /* TouchableOpacityImageView.swift */,
 				ADD43DB2294C2B9F000DE026 /* OpacityTapGestureRecognizer.swift */,
 				ADD43DB4294C2BEA000DE026 /* TouchableOpacityView.swift */,
-				AD9CE3A329C1B5B100AC5A37 /* Extensions.swift */,
 				AD9CE3A529C1DE7500AC5A37 /* LoadingIndicator.swift */,
 			);
 			path = Utils;

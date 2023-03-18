@@ -87,11 +87,11 @@ enum RainStatusCategory: String, CaseIterable {
     case showering = "4"
 }
 
-enum reportType: String {
-    case notProperContent
-    case cheatContent
-    case blamingContent
-    case elseContent
+enum ReportType: String {
+    case notProperContent = "부적절한 내용"
+    case cheatContent = "사기유도"
+    case blamingContent = "모욕 및 욕설"
+    case elseContent = "기타 이유"
 }
 
 // firestore collection address

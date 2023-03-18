@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import FirebaseAuth
 import FirebaseFirestore
+import MessageUI
 
 
 final class BulletinBoardViewController: UIViewController {
@@ -26,8 +27,8 @@ final class BulletinBoardViewController: UIViewController {
     var backgroundGradientLayer: CAGradientLayer?
     
     private lazy var bulletinBoardView = BulletinBoardView()
-    
-    var reportMessgae: reportType?
+        
+    let currentUser = Auth.auth().currentUser
 
     // MARK: - Lifecycles
     override func viewDidLoad() {
@@ -118,28 +119,23 @@ final class BulletinBoardViewController: UIViewController {
         }
     }
     
-    func setReportAlert(completion: @escaping () -> Void) {
+    func setReportAlert(completion: @escaping (ReportType) -> Void) {
         let alert = UIAlertController(title: "게시글 신고", message: nil, preferredStyle: .actionSheet)
-        let notProperContent = UIAlertAction(title: "부적절한 내용", style: .default) { [weak self] _ in
-            self?.reportMessgae = .notProperContent
-            completion()
+        let notProperContent = UIAlertAction(title: "부적절한 내용", style: .default) {_ in
+            completion(.notProperContent)
         }
-        let cheatContent = UIAlertAction(title: "사기유도", style: .default) { [weak self] _ in
-            self?.reportMessgae = .cheatContent
-            completion()
+        let cheatContent = UIAlertAction(title: "사기유도", style: .default) {_ in
+            completion(.cheatContent)
         }
-        let blamingContent = UIAlertAction(title: "모욕 및 욕설", style: .default) { [weak self] _ in
-            self?.reportMessgae = .blamingContent
-            completion()
+        let blamingContent = UIAlertAction(title: "모욕 및 욕설", style: .default) {_ in
+            completion(.blamingContent)
         }
-        let elseContent = UIAlertAction(title: "기타 이유", style: .default) { [weak self] _ in
-            self?.reportMessgae = .elseContent
-            completion()
+        let elseContent = UIAlertAction(title: "기타 이유", style: .default) {_ in
+            completion(.elseContent)
         }
-        alert.addAction(notProperContent)
-        alert.addAction(cheatContent)
-        alert.addAction(blamingContent)
-        alert.addAction(elseContent)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        [notProperContent, cheatContent, blamingContent, elseContent, cancel].forEach { alert.addAction($0) }
         present(alert, animated: true)
     }
 }
@@ -157,7 +153,7 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
         let userChatCell = tableView.dequeueReusableCell(withIdentifier: CellID.userChatCell, for: indexPath) as! UserChatCell
         let othersChatCell = tableView.dequeueReusableCell(withIdentifier: CellID.othersChatCell, for: indexPath) as! OthersChatCell
         
-        if chat.userUid == Auth.auth().currentUser?.uid {
+        if chat.userUid == currentUser?.uid {
             userChatCell.chatLabel.text = chat.message
             userChatCell.idLabel.text = "user"
             userChatCell.timeLabel.text = chat.timestamp
@@ -210,8 +206,15 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
                     // 게시글 신고 사유 alert로 받기 -> 나에게 이메일로 전송
                     guard let location = self?.navigationItem.title,
                           let documentID = chat.documentID else { return }
-                    self?.setReportAlert() { [weak self] in
-                        self?.chatViewModel.deleteChat(location: location, documentID: documentID)
+                    self?.setReportAlert() { [weak self] type in
+                        guard let self else { return }
+                        guard let email = self.currentUser?.email else {
+                            self.showAlert("로그인 필요", "로그인이 필요한 서비스입니다.", { })
+                            return
+                        }
+                        self.sendEmail(self: self, userEmail: email, type, chat) { 
+                            self.chatViewModel.deleteChat(location: location, documentID: documentID)
+                        }
                     }
                 }
                 return UIMenu(title: "", children: [userBlockAction, reportAction])
@@ -246,4 +249,13 @@ extension BulletinBoardViewController: UIContextMenuInteractionDelegate {
         
         return configuration
     }
+}
+
+
+
+extension BulletinBoardViewController: MFMailComposeViewControllerDelegate {
+       
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+           controller.dismiss(animated: true, completion: nil)
+       }
 }
