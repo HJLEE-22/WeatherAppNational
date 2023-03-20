@@ -27,7 +27,6 @@
 		AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DF29193A0700492FE9 /* Subscriber.swift */; };
 		AD6FA1E2291FC46500492FE9 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */; };
 		AD6FA1E82920AD2E00492FE9 /* UserDefaultsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1E72920AD2E00492FE9 /* UserDefaultsUtil.swift */; };
-		AD6FA1EA2920ADBB00492FE9 /* CityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1E92920ADBB00492FE9 /* CityModel.swift */; };
 		AD9CC8B929766BF6005EDC26 /* BulletinBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CC8B829766BF6005EDC26 /* BulletinBoardView.swift */; };
 		AD9CC8BB2976BD8D005EDC26 /* BulletinBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CC8BA2976BD8D005EDC26 /* BulletinBoardViewController.swift */; };
 		AD9CE3A429C1B5B100AC5A37 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CE3A329C1B5B100AC5A37 /* Extensions.swift */; };
@@ -96,7 +95,6 @@
 		AD6FA1DF29193A0700492FE9 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
 		AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		AD6FA1E72920AD2E00492FE9 /* UserDefaultsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUtil.swift; sourceTree = "<group>"; };
-		AD6FA1E92920ADBB00492FE9 /* CityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityModel.swift; sourceTree = "<group>"; };
 		AD9CC8B829766BF6005EDC26 /* BulletinBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardView.swift; sourceTree = "<group>"; };
 		AD9CC8BA2976BD8D005EDC26 /* BulletinBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardViewController.swift; sourceTree = "<group>"; };
 		AD9CE3A329C1B5B100AC5A37 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -275,7 +273,6 @@
 			isa = PBXGroup;
 			children = (
 				ADE9CF13290FCE66002EDB9E /* ConvertXY.swift */,
-				AD6FA1E92920ADBB00492FE9 /* CityModel.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -581,7 +578,6 @@
 				ADB471AB28F705BF005F8AA5 /* WeatherDataModel.swift in Sources */,
 				AD3BF5602988B55D0090371C /* ProfileCell.swift in Sources */,
 				AD30F68C29386CE400C68732 /* DefaultFontChange.swift in Sources */,
-				AD6FA1EA2920ADBB00492FE9 /* CityModel.swift in Sources */,
 				ADE9CEFA2907C39D002EDB9E /* CitiesViewController.swift in Sources */,
 				ADEB44F1297D150300DD6B55 /* UserChatCell.swift in Sources */,
 				ADEB44FE297FAA2F00DD6B55 /* WeatherAppNational++Bundle.swift in Sources */,

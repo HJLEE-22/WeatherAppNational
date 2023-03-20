@@ -58,6 +58,15 @@ public struct DateCalculate {
             let savedDateString = myFormatter.string(from: tomorrow)
             return savedDateString
         }
+    static var todayDateShortString: String {
+        let today = Date()
+        let myFormatter = DateFormatter()
+            myFormatter.locale = Locale(identifier: "ko_KR")
+            myFormatter.timeZone = TimeZone(abbreviation: "KST")
+            myFormatter.dateFormat = "MM/dd"
+            let savedDateString = myFormatter.string(from: today)
+            return savedDateString
+        }
 }
 
 public struct TimeCalculate{

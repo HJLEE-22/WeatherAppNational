@@ -48,6 +48,7 @@ final class BulletinBoardViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.backgroundGradientLayer?.removeFromSuperlayer()
         unsubscribeFireStoreFromViewModel()
+        chatViewModel.unsubscribe(observer: self)
     }
 
     // MARK: - Helpers
@@ -175,7 +176,7 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
         let index = indexPath.row
-        var chats = chatViewModel.getChatsValue()
+        let chats = chatViewModel.getChatsValue()
         let chat = chats[index]
        
         let identifier = "\(index)" as NSString
@@ -195,21 +196,21 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
             }
         } else {
             return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { [weak self] _ in
-                let userBlockAction = UIAction(title: "유저 차단", image: UIImage(systemName: SystemIconNames.personWithXmark)) { action in
-                    // 유저 차단 액션 : 해당 유저의 게시글 안보이게 하기
+                let userBlockAction = UIAction(title: "유저 차단", image: UIImage(systemName: SystemIconNames.personWithXmark)) { [weak self] action in
                     guard let blockedUser = chat.userUid else { return }
-                    self?.chatViewModel.setupChatsWithoutBlockedUser(blockedUserUid: blockedUser)
-                    
+                    self?.showAlert("유저를 차단하시겠습니까?", "해당 유저의 메세지는 보여지지 않고\n차단은 복구할 수 없습니다.") {
+                        self?.chatViewModel.setupChatsWithoutBlockedUser(blockedUserUid: blockedUser) {
+                            self?.subscribeFireStoreFromViewModel()
+                        }
+                    }
                 }
                 let reportAction = UIAction(title: "게시글 신고", image: UIImage(systemName: SystemIconNames.alarm), attributes: .destructive) {[weak self] action in
-                    // 게시글 신고 액션 : 게시글 '임시' 삭제??
-                    // 게시글 신고 사유 alert로 받기 -> 나에게 이메일로 전송
                     guard let location = self?.navigationItem.title,
                           let documentID = chat.documentID else { return }
                     self?.setReportAlert() { [weak self] type in
                         guard let self else { return }
                         guard let email = self.currentUser?.email else {
-                            self.showAlert("로그인 필요", "로그인이 필요한 서비스입니다.", { })
+                            self.showAlert("로그인 필요", "로그인이 필요한 서비스입니다.", {})
                             return
                         }
                         self.sendEmail(self: self, userEmail: email, type, chat) { 

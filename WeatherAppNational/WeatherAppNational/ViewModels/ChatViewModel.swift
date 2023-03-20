@@ -20,7 +20,24 @@ class ChatViewModel {
     
     private var user: UserModel?
     private var message: String?
-    private var blockedUserUids = Set<String>()
+    
+    private var blockedUserUid: String? {
+        didSet {
+            guard let blockedUserUid else { return }
+            var oldValue = blockedUserUids
+            oldValue.append(blockedUserUid)
+            blockedUserUids = oldValue
+        }
+    }
+    
+    private var blockedUserUids: Array<String> {
+        get {
+            UserDefaults.standard.array(forKey: UserDefaultsKeys.blockedUserUids) as? Array<String> ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.blockedUserUids)
+        }
+    }
     
     // MARK: - Lifecycle
     init() {
@@ -55,7 +72,28 @@ class ChatViewModel {
         }
     }
     
+    func sendDefaultMessage(location: String,
+                            completion: @escaping () -> Void) {
+        let nowTime = TimeCalculate.nowTimeWithMinString
+        let documentLocation = collectionLocations.document("\(location)")
+        let collectionChats = documentLocation.collection("chats")
+        let documentChat = collectionChats.document()
+        let documentID = documentChat.documentID
+        documentChat.setData(["userName": "안내😀",
+                              "userUid": "defaultUid",
+                              "chat": "\(location)의 \(DateCalculate.todayDateShortString)자 게시판에 오신걸 환영합니다👋\n오늘 날씨에 관한 얘기를 나눠주세요💬",
+                              "timestamp": nowTime,
+                              "documentID": documentID]) { error in
+            if let error = error {
+                print("SendMessage Error: ", error)
+            } else {
+                completion()
+            }
+        }
+    }
+    
     func subscribeFireStore(location: String) {
+        chats.removeAll()
         let documentLocation = collectionLocations.document("\(location)")
         let collectionChats = documentLocation.collection("chats")
         
@@ -67,7 +105,9 @@ class ChatViewModel {
             guard let self else { return }
             guard !self.chats.isEmpty else {
                 guard let snapshotDocument = snapshot?.documents else { return }
-                
+                if snapshotDocument.isEmpty {
+                    self.sendDefaultMessage(location: location, completion: { })
+                }
                 snapshotDocument.forEach { [weak self] doc in
                     let data = doc.data()
                     self?.setChatsArrayFromFirestore(data: data, blockedUserUids: self?.blockedUserUids)
@@ -93,7 +133,7 @@ class ChatViewModel {
         }
     }
     
-    func setChatsArrayFromFirestore(data: [String:Any], blockedUserUids: Set<String>?) {
+    func setChatsArrayFromFirestore(data: [String:Any], blockedUserUids: Array<String>?) {
         if let userName = data["userName"] as? String,
            let userUid = data["userUid"] as? String,
            let message = data["chat"] as? String,
@@ -127,23 +167,13 @@ class ChatViewModel {
         documentChat.delete()
     }
     
-    func setupChatsWithoutBlockedUser(blockedUserUid: String) {
-        // 이거 난감하네. 나는 collection에서 document 단위로 들어가야하는데, 도큐먼트 단위로 들어가는 유일한 방법은 아이디를 아는 것 뿐... 매핑으로 해당 도큐먼트의 아이디를 모른채 도큐먼트 안의 유저 아이디를 검색할 순 없군.
-        // 쉬운 방법이 생각났다... 스냅샷 리스너에서 조건을 걸면 되지 않나?? 그니까, 파이어베이스의 데이터는 무조건 들어가는게 맞는데 엑스코드 상에서 유저를 걸러내야하니까!
-        // 그러면 여기서 블럭유저 변수를 설정하고, 해당 변수값을 한번 필터링해줘야겠다.
-        // 생각할 건, 뷰모델에서 변수값을 받는다? 그러면 스냅샷을 다시 작동시켜야하나? 스냅샷은 항상 듣고있으니 그럴필요가없나?
-        // 그러면구지 함수에서 받을필요도 없음. 근데 스냅샷은 맨 처음 메세지가 쓰이거나, 메세지가 더해지거나 수정할때만 작동하는것 같은데
-        // 하지만 이거는 파이어베이스의 메세지가 변동하지 않기 때문에 작동하지 않는다! 스냅샷을 재작동하게 만들어줘야함.
-        // 일단 리스너 초기화로 시도해보겠음...
-        self.blockedUserUids.insert(blockedUserUid)
-        print("DEBUG: blockedUserSet:\(self.blockedUserUids)")
-
-        listener?.`self`()
+    func setupChatsWithoutBlockedUser(blockedUserUid: String, completion: () -> Void?) {
+        self.blockedUserUid = blockedUserUid
+        completion()
     }
     
-    
     func unsubscribeFireStore() {
-        chats = []
+        chats.removeAll()
         listener?.remove()
     }
     
