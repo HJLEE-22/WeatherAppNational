@@ -3,4 +3,451 @@
    uuid = "0D558553-8F0F-4A90-9846-21CF81017074"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6547D6CE-A9F7-43BD-A653-C3F7643E0040"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/APIs/Network/CustomWeatherService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "fetchWeatherData(dayType:date:time:nx:ny:count:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "588EE1F8-3305-4ED5-A06B-5113108FD086"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/APIs/Network/CustomWeatherService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "fetchWeatherData(dayType:date:time:nx:ny:count:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "588EE1F8-3305-4ED5-A06B-5113108FD086 - aee6eb4dcf80afba"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherAppNational.CustomWeatherService.fetchWeatherData(dayType: WeatherAppNational.Day, date: Swift.String, time: Swift.String, nx: Swift.Int, ny: Swift.Int, completion: (Swift.Result&lt;WeatherAppNational.WeatherKitModel, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/APIs/Network/CustomWeatherService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "144">
+               </Location>
+               <Location
+                  uuid = "588EE1F8-3305-4ED5-A06B-5113108FD086 - f73bf6f9aa303cc3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;WeatherAppNational.WeatherItem&gt;, WeatherAppNational.NetworkError&gt;) -&gt; () in WeatherAppNational.CustomWeatherService.fetchWeatherData(dayType: WeatherAppNational.Day, date: Swift.String, time: Swift.String, nx: Swift.Int, ny: Swift.Int, completion: (Swift.Result&lt;WeatherAppNational.WeatherKitModel, Swift.Error&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/APIs/Network/CustomWeatherService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "216">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "28754150-52A3-489B-B07C-910DCBE0EECB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "getCurrentWeather(location:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "28754150-52A3-489B-B07C-910DCBE0EECB - 14e8d0193335a19a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "1100">
+               </Location>
+               <Location
+                  uuid = "28754150-52A3-489B-B07C-910DCBE0EECB - 312cd5e4215e825b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "1340">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9D8E46AE-7758-4660-AA23-2008A7D3DA7A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "getCurrentWeather(location:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9D8E46AE-7758-4660-AA23-2008A7D3DA7A - 77a4ae9a0d0b4045"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "1896">
+               </Location>
+               <Location
+                  uuid = "9D8E46AE-7758-4660-AA23-2008A7D3DA7A - 14e8d0193335a606"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "180">
+               </Location>
+               <Location
+                  uuid = "9D8E46AE-7758-4660-AA23-2008A7D3DA7A - 14e8d0193335a606"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "224">
+               </Location>
+               <Location
+                  uuid = "9D8E46AE-7758-4660-AA23-2008A7D3DA7A - 312cd5e4215e85c7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "420">
+               </Location>
+               <Location
+                  uuid = "9D8E46AE-7758-4660-AA23-2008A7D3DA7A - 312cd5e4215e85c7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "464">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CDBFB669-33EB-43EC-AABB-D33DBD61A2E2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "bind(locaton:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CDBFB669-33EB-43EC-AABB-D33DBD61A2E2 - eebdb09061ba0926"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable () async -&gt; () in WeatherAppNational.WeatherKitViewModel.bind(locaton: Swift.Optional&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "112">
+               </Location>
+               <Location
+                  uuid = "CDBFB669-33EB-43EC-AABB-D33DBD61A2E2 - 4a6a5e20a4dfbced"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for closure #1 @Sendable () async -&gt; () in WeatherAppNational.WeatherKitViewModel.bind(locaton: Swift.Optional&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5F4C2AC7-F890-42D6-836E-94742FE6285A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "getCurrentWeather(location:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88430B6A-11B9-48B8-9B06-520FA764E428"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "getYesterdayWeather(location:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "59B4655D-AA29-49DC-A823-15FAA111BED9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "getCurrentWeather(location:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "59B4655D-AA29-49DC-A823-15FAA111BED9 - 14e8d0193335a1c4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "232">
+               </Location>
+               <Location
+                  uuid = "59B4655D-AA29-49DC-A823-15FAA111BED9 - 312cd5e4215e8205"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for WeatherAppNational.WeatherKitViewModel.getCurrentWeather(location: __C.CLLocation) async -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "472">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B93BEA65-6A2A-41F0-827F-930A756A1E6E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "bind(locaton:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B93BEA65-6A2A-41F0-827F-930A756A1E6E - 4a6a5e20a4dfbccc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for closure #1 @Sendable () async -&gt; () in WeatherAppNational.WeatherKitViewModel.bind(locaton: Swift.Optional&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "B93BEA65-6A2A-41F0-827F-930A756A1E6E - 61cec7386de01d4d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 @Sendable () async -&gt; () in WeatherAppNational.WeatherKitViewModel.bind(locaton: Swift.Optional&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D1BF4C9C-8670-47C7-B7C3-173EE35A057D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "bind(locaton:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D1BF4C9C-8670-47C7-B7C3-173EE35A057D - 61cec7386de01d2e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 @Sendable () async -&gt; () in WeatherAppNational.WeatherKitViewModel.bind(locaton: Swift.Optional&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "61"
+                  endingLineNumber = "61"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "D1BF4C9C-8670-47C7-B7C3-173EE35A057D - 7314c105722ffad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) await resume partial function for closure #1 @Sendable () async -&gt; () in WeatherAppNational.WeatherKitViewModel.bind(locaton: Swift.Optional&lt;__C.CLLocation&gt;) -&gt; ()"
+                  moduleName = "WeatherAppNational"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "61"
+                  endingLineNumber = "61"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3E049B33-40CE-4693-901A-D27E407688B5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAppNational/ViewModels/WeatherKitViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "getCurrentWeather(location:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

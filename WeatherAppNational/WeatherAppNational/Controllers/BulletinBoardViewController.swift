@@ -48,7 +48,11 @@ final class BulletinBoardViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.backgroundGradientLayer?.removeFromSuperlayer()
         unsubscribeFireStoreFromViewModel()
-        chatViewModel.unsubscribe(observer: self)
+//        chatViewModel.unsubscribe(observer: self)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        
     }
 
     // MARK: - Helpers

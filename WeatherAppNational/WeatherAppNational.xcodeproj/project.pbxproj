@@ -31,6 +31,10 @@
 		AD9CC8BB2976BD8D005EDC26 /* BulletinBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CC8BA2976BD8D005EDC26 /* BulletinBoardViewController.swift */; };
 		AD9CE3A429C1B5B100AC5A37 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CE3A329C1B5B100AC5A37 /* Extensions.swift */; };
 		AD9CE3A629C1DE7500AC5A37 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CE3A529C1DE7500AC5A37 /* LoadingIndicator.swift */; };
+		AD9CE3A829C9A74000AC5A37 /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CE3A729C9A73F00AC5A37 /* WelcomePageViewController.swift */; };
+		AD9CE3AA29C9C3C700AC5A37 /* FirstWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CE3A929C9C3C700AC5A37 /* FirstWelcomeView.swift */; };
+		AD9CE3AC29C9C76A00AC5A37 /* FirstWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CE3AB29C9C76A00AC5A37 /* FirstWelcomeViewController.swift */; };
+		AD9CE3AE29C9C82000AC5A37 /* SecondWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CE3AD29C9C82000AC5A37 /* SecondWelcomeViewController.swift */; };
 		ADAD622C2959C045000BFCF4 /* ColorsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD622B2959C045000BFCF4 /* ColorsViewModel.swift */; };
 		ADAD623029696F48000BFCF4 /* LocationDataWithGPS.json in Resources */ = {isa = PBXBuildFile; fileRef = ADAD622F29696F48000BFCF4 /* LocationDataWithGPS.json */; };
 		ADAD623229697919000BFCF4 /* WeatherKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAD623129697919000BFCF4 /* WeatherKitViewModel.swift */; };
@@ -99,6 +103,10 @@
 		AD9CC8BA2976BD8D005EDC26 /* BulletinBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinBoardViewController.swift; sourceTree = "<group>"; };
 		AD9CE3A329C1B5B100AC5A37 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AD9CE3A529C1DE7500AC5A37 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		AD9CE3A729C9A73F00AC5A37 /* WelcomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
+		AD9CE3A929C9C3C700AC5A37 /* FirstWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstWelcomeView.swift; sourceTree = "<group>"; };
+		AD9CE3AB29C9C76A00AC5A37 /* FirstWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstWelcomeViewController.swift; sourceTree = "<group>"; };
+		AD9CE3AD29C9C82000AC5A37 /* SecondWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondWelcomeViewController.swift; sourceTree = "<group>"; };
 		ADAD622B2959C045000BFCF4 /* ColorsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsViewModel.swift; sourceTree = "<group>"; };
 		ADAD622F29696F48000BFCF4 /* LocationDataWithGPS.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LocationDataWithGPS.json; sourceTree = "<group>"; };
 		ADAD623129697919000BFCF4 /* WeatherKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherKitViewModel.swift; sourceTree = "<group>"; };
@@ -288,6 +296,25 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		AD9CE3AF29C9C84A00AC5A37 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				AD9CE3A729C9A73F00AC5A37 /* WelcomePageViewController.swift */,
+				AD9CE3AB29C9C76A00AC5A37 /* FirstWelcomeViewController.swift */,
+				AD9CE3AD29C9C82000AC5A37 /* SecondWelcomeViewController.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
+		AD9CE3B029C9C85800AC5A37 /* Weathers */ = {
+			isa = PBXGroup;
+			children = (
+				ADB4719428F69615005F8AA5 /* MainPageViewController.swift */,
+				AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */,
+			);
+			path = Weathers;
+			sourceTree = "<group>";
+		};
 		ADAD622A2959752C000BFCF4 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,9 +370,9 @@
 		ADB471A728F6962A005F8AA5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AD9CE3B029C9C85800AC5A37 /* Weathers */,
+				AD9CE3AF29C9C84A00AC5A37 /* Welcome */,
 				AD3BF562298901E40090371C /* Login */,
-				ADB4719428F69615005F8AA5 /* MainPageViewController.swift */,
-				AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */,
 				ADE9CEF22907C254002EDB9E /* SettingViewController.swift */,
 				ADE9CEF92907C39D002EDB9E /* CitiesViewController.swift */,
 				AD9CC8BA2976BD8D005EDC26 /* BulletinBoardViewController.swift */,
@@ -360,6 +387,7 @@
 				AD3BF567298908870090371C /* Logins */,
 				ADEB44F6297E991700DD6B55 /* Weathers */,
 				ADEB44F7297E993F00DD6B55 /* BulletinBoard */,
+				AD9CE3A929C9C3C700AC5A37 /* FirstWelcomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -569,13 +597,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADFF81F1293C775900FB883F /* LocationGrid+CoreDataClass.swift in Sources */,
+				AD9CE3AE29C9C82000AC5A37 /* SecondWelcomeViewController.swift in Sources */,
 				AD9CE3A429C1B5B100AC5A37 /* Extensions.swift in Sources */,
 				ADB471AD28F8006B005F8AA5 /* WeatherDataManager.swift in Sources */,
 				ADB4719528F69615005F8AA5 /* MainPageViewController.swift in Sources */,
 				AD386C5D299F6FF800E2E10D /* ChatModel.swift in Sources */,
+				AD9CE3AC29C9C76A00AC5A37 /* FirstWelcomeViewController.swift in Sources */,
 				AD6FA1E82920AD2E00492FE9 /* UserDefaultsUtil.swift in Sources */,
 				AD3BF54B2984EB8C0090371C /* LoginView.swift in Sources */,
 				ADB471AB28F705BF005F8AA5 /* WeatherDataModel.swift in Sources */,
+				AD9CE3AA29C9C3C700AC5A37 /* FirstWelcomeView.swift in Sources */,
 				AD3BF5602988B55D0090371C /* ProfileCell.swift in Sources */,
 				AD30F68C29386CE400C68732 /* DefaultFontChange.swift in Sources */,
 				ADE9CEFA2907C39D002EDB9E /* CitiesViewController.swift in Sources */,
@@ -587,6 +618,7 @@
 				ADD43DB3294C2B9F000DE026 /* OpacityTapGestureRecognizer.swift in Sources */,
 				ADFF81F2293C775900FB883F /* LocationGrid+CoreDataProperties.swift in Sources */,
 				AD30F68229373AB400C68732 /* Colors.swift in Sources */,
+				AD9CE3A829C9A74000AC5A37 /* WelcomePageViewController.swift in Sources */,
 				ADFF81F4293C785B00FB883F /* CoreDataManager.swift in Sources */,
 				AD3BF5642989073E0090371C /* LoginInfoViewController.swift in Sources */,
 				AD9CE3A629C1DE7500AC5A37 /* LoadingIndicator.swift in Sources */,

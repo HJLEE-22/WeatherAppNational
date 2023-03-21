@@ -49,7 +49,7 @@ final class ViewByLoginManager {
         
     @objc private func checkLoginIn() {
         
-        if let user = Auth.auth().currentUser { // <- Firebase Auth
+        if let user = Auth.auth().currentUser {
             if user.isAnonymous == true {
                 self.setHome()
             } else {
