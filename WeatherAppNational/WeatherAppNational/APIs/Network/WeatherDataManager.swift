@@ -27,8 +27,9 @@ final class WeatherDataManager {
                       time: String,
                       nx: Int,
                       ny: Int,
+                      count: Int,
                       completion: @escaping NetworkCompletion){
-        let urlString = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=\(serviceKey)&pageNo=1&numOfRows=1000&dataType=JSON&base_date=\(date)&base_time=\(time)&nx=\(nx)&ny=\(ny)"
+        let urlString = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=\(serviceKey)&pageNo=1&numOfRows=\(count)&dataType=JSON&base_date=\(date)&base_time=\(time)&nx=\(nx)&ny=\(ny)"
         performRequest(with: urlString) { result in
             completion(result)
         }

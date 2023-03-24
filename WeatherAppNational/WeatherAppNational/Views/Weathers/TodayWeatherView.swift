@@ -35,6 +35,7 @@ final class TodayWeatherView: UIView {
                let weatherKitModel {
                 DispatchQueue.main.async {
                     self.configureUIByData(weatherKitModel)
+                    LoadingIndicator.hideLoading()
                 }
             }
         }
@@ -195,7 +196,6 @@ final class TodayWeatherView: UIView {
         super.setNeedsLayout()
         self.setupBackgroundLayer()
         self.setupTodayExplanationSize()
-        LoadingIndicator.hideLoading()
     }
     
     // MARK: - UI setup
@@ -208,7 +208,7 @@ final class TodayWeatherView: UIView {
                     guard let self else { return }
                     backgroundGradientLayer.frame = self.bounds
                     self.layer.addSublayer(backgroundGradientLayer)
-                    self.layer.borderWidth = 0
+//                    self.layer.borderWidth = 0
                     self.setupUI()
                 }
             }

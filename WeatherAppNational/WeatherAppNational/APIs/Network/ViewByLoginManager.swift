@@ -49,12 +49,12 @@ final class ViewByLoginManager {
         
     @objc private func checkLoginIn() {
         
-        if let user = Auth.auth().currentUser { // <- Firebase Auth
+        if let user = Auth.auth().currentUser {
             if user.isAnonymous == true {
                 self.setHome()
             } else {
                 let uid = user.uid
-                COLLECTION_USERS.document(uid).getDocument { document, error in
+                collectionUsers.document(uid).getDocument { document, error in
                     guard let document else { return }
                     if document.exists {
                         UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isUserDataExist)
@@ -65,7 +65,8 @@ final class ViewByLoginManager {
                 }
             }
         } else {
-            setLoginView()
+            setWelcomeView()
+//            setLoginView()
         }
     }
     
@@ -82,6 +83,11 @@ final class ViewByLoginManager {
     private func setLoginInfoView() {
         let loginInfoVC = LoginInfoViewController()
         rootViewController = UINavigationController(rootViewController: loginInfoVC)
+    }
+    
+    private func setWelcomeView() {
+        let welcomeVC = WelcomePageViewController()
+        rootViewController = welcomeVC
     }
     
 }

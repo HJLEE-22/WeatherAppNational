@@ -18,6 +18,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         guard let window else { return }
+        
+        
+//        let welcomeVC = WelcomePageViewController()
+//        window.rootViewController = welcomeVC
+//        window.makeKeyAndVisible()
+
+
         ViewByLoginManager.shared.show(in: window)
         
         // MARK: - JSON decoder part
@@ -39,7 +46,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         CoreDataManager.shared.saveLocationGridData(locationGrid: $0, completion: {})
                     }
                     UserDefaults.standard.set(true, forKey: UserDefaultsKeys.launchedBefore)
-                    print("DEBUG: success to save")
                 }
             } catch {
                 print(error.localizedDescription)

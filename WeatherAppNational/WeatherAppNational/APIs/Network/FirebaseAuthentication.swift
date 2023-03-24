@@ -84,7 +84,7 @@ final class FirebaseAuthentication: NSObject {
         guard let uid = firebaseAuth.currentUser?.uid else { return }
         do {
            try firebaseAuth.currentUser?.delete() { error in
-                COLLECTION_USERS.document(uid).delete()
+                collectionUsers.document(uid).delete()
                 print("DEBUG: delete error:\(error)")
                 self.postNotificationSignOutSuccess()
                UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isUserDataExist)

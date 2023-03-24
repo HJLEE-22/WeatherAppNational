@@ -31,7 +31,10 @@ final class LoginViewController: UIViewController {
     private func setupView() {
         self.view.addSubview(loginView)
         loginView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.snp.top)
+            make.bottom.equalTo(view.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
         }
     }
     

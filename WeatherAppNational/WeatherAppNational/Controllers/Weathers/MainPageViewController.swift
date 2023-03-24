@@ -87,6 +87,7 @@ final class MainPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setupViewControllersForBookmarked()
+        self.setupViewControllersForBookmarked()
     }
     
     
@@ -101,7 +102,7 @@ final class MainPageViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             pageViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])

@@ -11,8 +11,8 @@ final class CustomWeatherService {
     
     static let shared = CustomWeatherService()
     
-    func fetchWeatherData(dayType:Day, date: String, time: String, nx: Int, ny: Int, completion: @escaping (Result<WeatherKitModel, Error>) -> Void) {
-        WeatherDataManager.shared.fetchWeather(date: date, time: time, nx: nx, ny: ny) {[weak self] result in
+    func fetchWeatherData(dayType:Day, date: String, time: String, nx: Int, ny: Int, count: Int, completion: @escaping (Result<WeatherKitModel, Error>) -> Void) {
+        WeatherDataManager.shared.fetchWeather(date: date, time: time, nx: nx, ny: ny, count: count) {[weak self] result in
             switch result {
             case .success(let weathers):
 

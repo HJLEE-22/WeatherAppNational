@@ -48,7 +48,7 @@ final class SettingViewController: UITableViewController {
         guard let currentUser = Auth.auth().currentUser else { return }
         let uid = currentUser.uid
         self.email = currentUser.email
-        COLLECTION_USERS.document(uid).getDocument { (document, error) in
+        collectionUsers.document(uid).getDocument { (document, error) in
 
             if let document = document, document.exists {
                 let documentData = document.data().map { data in
@@ -199,7 +199,9 @@ final class SettingViewController: UITableViewController {
         case 2:
             openSFSafariForPersonalInformation(_sender: self)
         case 3:
-            sendEmail()
+//            sendEmail()
+            guard let email else { return }
+            sendEmail(self: self, userEmail: email, nil, nil, {})
         case 4:
             openSFSafariForWeatherKit(_sender: self)
         default:
@@ -226,24 +228,11 @@ extension SettingViewController: SwitchButtonDelegate {
 }
 
 extension SettingViewController: MFMailComposeViewControllerDelegate {
-       
-    private func sendEmail() {
-           if MFMailComposeViewController.canSendMail() {
-               let compseVC = MFMailComposeViewController()
-               compseVC.mailComposeDelegate = self
-               compseVC.setToRecipients(["leehyungju20@gmail.com"])
-               compseVC.setSubject("'어제보다' 문의")
-               compseVC.setMessageBody("Message Content", isHTML: false)
-               self.present(compseVC, animated: true, completion: nil)
-           }
-           else {
-               showAlert("메일을 전송 실패", "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", nil)
-           }
-       }
-       
+    
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
            controller.dismiss(animated: true, completion: nil)
        }
+
 }
 
 
