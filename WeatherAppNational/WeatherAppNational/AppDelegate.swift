@@ -13,7 +13,6 @@ import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     override init() {
         super.init()
         UIFont.overrideInitialize()

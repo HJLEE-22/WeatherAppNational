@@ -65,7 +65,8 @@ final class ViewByLoginManager {
                 }
             }
         } else {
-            setLoginView()
+            setWelcomeView()
+//            setLoginView()
         }
     }
     
@@ -82,6 +83,11 @@ final class ViewByLoginManager {
     private func setLoginInfoView() {
         let loginInfoVC = LoginInfoViewController()
         rootViewController = UINavigationController(rootViewController: loginInfoVC)
+    }
+    
+    private func setWelcomeView() {
+        let welcomeVC = WelcomePageViewController()
+        rootViewController = welcomeVC
     }
     
 }

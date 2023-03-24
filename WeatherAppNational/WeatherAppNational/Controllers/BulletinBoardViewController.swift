@@ -65,6 +65,14 @@ final class BulletinBoardViewController: UIViewController {
         chatViewModel.subscribeFireStore(location: location)
     }
     
+    private func updateChatAfrerBlockFromViewModel() {
+        guard let location = navigationItem.title else {
+            print("DEBUG: location error: 도시명 파악 실패")
+            return
+        }
+        chatViewModel.setChatsArrayAfterBlock(location: location)
+    }
+    
     private func unsubscribeFireStoreFromViewModel() {
         chatViewModel.unsubscribeFireStore()
     }
@@ -202,9 +210,9 @@ extension BulletinBoardViewController: UITableViewDelegate, UITableViewDataSourc
             return UIContextMenuConfiguration(identifier: identifier, previewProvider: nil) { [weak self] _ in
                 let userBlockAction = UIAction(title: "유저 차단", image: UIImage(systemName: SystemIconNames.personWithXmark)) { [weak self] action in
                     guard let blockedUser = chat.userUid else { return }
-                    self?.showAlert("유저를 차단하시겠습니까?", "해당 유저의 메세지는 보여지지 않고\n차단은 복구할 수 없습니다.") {
-                        self?.chatViewModel.setupChatsWithoutBlockedUser(blockedUserUid: blockedUser) {
-                            self?.subscribeFireStoreFromViewModel()
+                    self?.showAlert("유저를 차단하시겠습니까?", "해당 유저의 메세지는 보여지지 않고\n차단은 복구할 수 없습니다.") { [weak self] in
+                        self?.chatViewModel.setupChatsWithoutBlockedUser(blockedUserUid: blockedUser) { [weak self] in
+                            self?.updateChatAfrerBlockFromViewModel()
                         }
                     }
                 }

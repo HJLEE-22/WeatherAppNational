@@ -5,18 +5,20 @@
 //  Created by 이형주 on 2023/03/21.
 //
 
-import UIKit
 import SnapKit
 
-class WelcomePageViewController: UIPageViewController {
+final class WelcomePageViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let firstWelcomeViewController = FirstWelcomeViewController()
+    private let secondWelcomeViewController = SecondWelcomeViewController()
+        
+    private var subViewControllers: [UIViewController] = []
 
-    private var subViewControllers: [UIViewController] = [FirstWelcomeViewController(), SecondWelcomeViewController()]
-
-    private var currentPage: Int?
     
+    private var currentPage: Int?
+      
     private lazy var pageViewController: UIPageViewController = {
         let pageVC = UIPageViewController(transitionStyle: .scroll,
                                           navigationOrientation: .horizontal)
@@ -38,37 +40,41 @@ class WelcomePageViewController: UIPageViewController {
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
-        self.setupLayout()
+        setupSubViewControllers()
+        pageViewController.didMove(toParent: self)
+        setupLayout()
+//        setPageControl()
+        setFirstViewController()
+//        setupViewControllersDelegate()
     }
-    
-    
     
     // MARK: - Helpers
+
     
-    private func addActionToButton() {
-        let firstWelcomeViewController = FirstWelcomeViewController()
-        firstWelcomeViewController.firstView.nextPageButton.setOpaqueTapGestureRecognizer {
-//            if nowIdx < 3{
-//                       pageInstance?.setViewControllers([(pageInstance?.VCArray[nowIdx+1])!], direction: .forward,
-//                       animated: true, completion: nil)
-//
-//                   }
-        }
+    private func setupSubViewControllers() {
+        firstWelcomeViewController.delegate = self
+        secondWelcomeViewController.delegate = self
+        subViewControllers.append(firstWelcomeViewController)
+        subViewControllers.append(secondWelcomeViewController)
     }
     
+//    private func setupViewControllersDelegate() {
+//        let firstViewController = FirstWelcomeViewController()
+//        firstViewController.delegate = self
+//    }
+    
     private func setupLayout(){
+
         self.addChild(pageViewController)
         view.addSubview(pageViewController.view)
-        self.view.addSubview(pageControl)
+//        self.view.addSubview(pageControl)
         
-        pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            pageViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-            pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
+        pageViewController.view.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.top)
+            make.bottom.equalTo(view.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
+        }
     }
     
     private func setPageControl() {
@@ -116,5 +122,18 @@ extension WelcomePageViewController: UIPageViewControllerDataSource, UIPageViewC
         currentPage = currentIndex
         self.pageControl.currentPage = currentIndex
 
+    }
+}
+
+extension WelcomePageViewController: FirstNextButtonTappedDelegate {
+    func moveToNextPage() {
+        pageViewController.setViewControllers([self.subViewControllers[1]], direction: .forward, animated: true)
+    }
+}
+
+extension WelcomePageViewController: SecondNextButtonTappedDelegate {
+    func moveToMain() {
+        let loginVC = LoginViewController()
+        show(loginVC, sender: self)
     }
 }

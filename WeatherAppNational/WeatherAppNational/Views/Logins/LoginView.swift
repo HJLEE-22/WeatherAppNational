@@ -23,8 +23,11 @@ final class LoginView: UIView {
     
     private lazy var logoImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "AppIcon")
-        iv.layer.cornerRadius = 10
+        let image = UIImage(named: "AppIcon")
+        iv.image = image
+        iv.layer.cornerRadius = 15
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFit
         return iv
     }()
     
@@ -73,9 +76,9 @@ final class LoginView: UIView {
         [logoImageView, welcomeMessageLabel, appleLoginButton, signInAnonymousButton, openPrivacyButton].forEach({ self.addSubview($0) })
         
         logoImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(100)
-            make.left.right.equalToSuperview().inset(100)
             make.width.height.equalTo(200)
+            make.top.equalToSuperview().inset(100)
+            make.centerX.equalToSuperview()
         }
         welcomeMessageLabel.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(20)

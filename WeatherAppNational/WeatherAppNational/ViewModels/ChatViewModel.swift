@@ -133,7 +133,27 @@ class ChatViewModel {
         }
     }
     
-    func setChatsArrayFromFirestore(data: [String:Any], blockedUserUids: Array<String>?) {
+    func setChatsArrayAfterBlock(location: String) {
+        chats.removeAll()
+        let documentLocation = collectionLocations.document("\(location)")
+        let collectionChats = documentLocation.collection("chats")
+        collectionChats.order(by: "timestamp").getDocuments { [weak self] snapshot, error in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                return
+            }
+            guard let self,
+                  let snapshotDocuments = snapshot?.documents else { return }
+            snapshotDocuments.forEach { [weak self] doc in
+                let data = doc.data()
+                self?.setChatsArrayFromFirestore(data: data, blockedUserUids: self?.blockedUserUids)
+            }
+            self.notify(updateValue: true)
+            return
+        }
+    }
+    
+    private func setChatsArrayFromFirestore(data: [String:Any], blockedUserUids: Array<String>?) {
         if let userName = data["userName"] as? String,
            let userUid = data["userUid"] as? String,
            let message = data["chat"] as? String,
