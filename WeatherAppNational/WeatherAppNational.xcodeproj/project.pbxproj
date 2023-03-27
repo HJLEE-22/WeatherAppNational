@@ -816,7 +816,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 68YVCN8TF9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WeatherAppNational/Info.plist;
+				INFOPLIST_FILE = /Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"현재위치 정보를 이용하여 날씨 데이터를 수신합니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -850,7 +850,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 68YVCN8TF9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WeatherAppNational/Info.plist;
+				INFOPLIST_FILE = /Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"현재위치 정보를 이용하여 날씨 데이터를 수신합니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
