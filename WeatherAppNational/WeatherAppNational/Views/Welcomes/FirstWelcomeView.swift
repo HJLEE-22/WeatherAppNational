@@ -16,6 +16,8 @@ final class FirstWelcomeView: UIView {
         let imageView = UIImageView()
         let image = UIImage(named: "mainTouchImagePng.001")
         imageView.image = image
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -33,8 +35,8 @@ final class FirstWelcomeView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("NEXT", for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 30)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray5
+        button.setTitleColor(ColorForDarkMode.getNavigationItemColor(), for: .normal)
+        button.backgroundColor = ColorForDarkMode.getSystemGray5Color()
         button.layer.cornerRadius = 10
         return button
     }()

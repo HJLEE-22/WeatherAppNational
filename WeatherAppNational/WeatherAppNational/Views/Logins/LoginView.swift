@@ -39,10 +39,10 @@ final class LoginView: UIView {
     lazy var signInAnonymousButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("가입하지 않고 둘러보기", for: .normal)
-        button.setTitleColor(.systemGray, for: .normal)
+        button.setTitleColor(ColorForDarkMode.getSystemGrayColor(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray3.cgColor
+        button.layer.borderColor = ColorForDarkMode.getSystemGray5Color().cgColor
         button.layer.cornerRadius = 10
         return button
     }()
@@ -50,7 +50,7 @@ final class LoginView: UIView {
     lazy var openPrivacyButton: UIButton = {
         let button = UIButton()
         button.setTitle("개인정보 취급방침", for: .normal)
-        button.setTitleColor(.systemGray2, for: .normal)
+        button.setTitleColor(ColorForDarkMode.getSystemGrayColor(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         return button
     }()
@@ -71,7 +71,7 @@ final class LoginView: UIView {
     
     private func setupUI() {
         
-        self.backgroundColor = .white
+        self.backgroundColor = ColorForDarkMode.getBackgroundColor()
         
         [logoImageView, welcomeMessageLabel, appleLoginButton, signInAnonymousButton, openPrivacyButton].forEach({ self.addSubview($0) })
         

@@ -131,7 +131,6 @@ final class TodayWeatherView: UIView {
     private lazy var windSpeedTitle: UILabel = {
         let label = UILabel()
         label.text = " 풍속: "
-        
         return label
     }()
     
@@ -208,7 +207,6 @@ final class TodayWeatherView: UIView {
                     guard let self else { return }
                     backgroundGradientLayer.frame = self.bounds
                     self.layer.addSublayer(backgroundGradientLayer)
-//                    self.layer.borderWidth = 0
                     self.setupUI()
                 }
             }
@@ -221,7 +219,6 @@ final class TodayWeatherView: UIView {
                 self.todayExplanationLabel.font = .systemFont(ofSize: 15)
                 self.todayExplanationLabel.textAlignment = .center
             }
-            
         }
     }
     

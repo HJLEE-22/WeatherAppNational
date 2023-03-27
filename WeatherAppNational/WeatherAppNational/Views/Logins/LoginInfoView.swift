@@ -26,10 +26,10 @@ final class LoginInfoView: UIView {
     lazy var moveToMainButton: UIButton = {
         let button = UIButton()
         button.setTitle("등록", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(ColorForDarkMode.getNavigationItemColor(), for: .normal)
         button.layer.cornerRadius = 10
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderColor = ColorForDarkMode.getNavigationItemColor().cgColor
         return button
     }()
     
@@ -47,6 +47,9 @@ final class LoginInfoView: UIView {
     // MARK: - Helpers
     
     private func setupUI(){
+        
+        self.backgroundColor = ColorForDarkMode.getBackgroundColor()
+
         [welcomeLabel, nicknameTextField, moveToMainButton].forEach({ self.addSubview($0) })
         
         welcomeLabel.snp.makeConstraints { make in

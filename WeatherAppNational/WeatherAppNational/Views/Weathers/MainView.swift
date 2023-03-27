@@ -16,7 +16,6 @@ final class MainView: UIView {
         view.layer.borderWidth = 0
         view.layer.borderColor = UIColor(named: "blue")?.cgColor
         view.layer.cornerRadius = 10
-        
         view.clipsToBounds = true
         return view
     }()

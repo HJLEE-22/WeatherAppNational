@@ -51,7 +51,6 @@ final class MainPageViewController: UIViewController {
     private lazy var pageViewController: UIPageViewController = {
         let pageVC = UIPageViewController(transitionStyle: .scroll,
                                           navigationOrientation: .horizontal)
-        pageVC.view.backgroundColor = .white
         pageVC.delegate = self
         pageVC.dataSource = self
         return pageVC
@@ -64,9 +63,8 @@ final class MainPageViewController: UIViewController {
     
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
-        pageControl.backgroundColor = .white
-        pageControl.pageIndicatorTintColor = .systemGray5
-        pageControl.currentPageIndicatorTintColor = .systemGray
+        pageControl.pageIndicatorTintColor = ColorForDarkMode.getSystemGray5Color()
+        pageControl.currentPageIndicatorTintColor = ColorForDarkMode.getSystemGrayColor()
         pageControl.currentPage = 0
         return pageControl
     }()
@@ -110,7 +108,7 @@ final class MainPageViewController: UIViewController {
     
     private func setupNav() {
 
-        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.tintColor = ColorForDarkMode.getNavigationItemColor()
         navigationItem.rightBarButtonItem = listButton
         navigationItem.leftBarButtonItem = settingButton
         let backBarButtonItem = UIBarButtonItem(title: "",

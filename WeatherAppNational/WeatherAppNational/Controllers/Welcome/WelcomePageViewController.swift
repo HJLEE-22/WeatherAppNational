@@ -22,19 +22,9 @@ final class WelcomePageViewController: UIViewController {
     private lazy var pageViewController: UIPageViewController = {
         let pageVC = UIPageViewController(transitionStyle: .scroll,
                                           navigationOrientation: .horizontal)
-        pageVC.view.backgroundColor = .white
         pageVC.delegate = self
         pageVC.dataSource = self
         return pageVC
-    }()
-    
-    private lazy var pageControl: UIPageControl = {
-        let pageControl = UIPageControl(frame: CGRect(x: 0, y: self.view.frame.maxY-30, width: self.view.frame.maxX, height: 10))
-        pageControl.backgroundColor = .white
-        pageControl.pageIndicatorTintColor = .systemGray5
-        pageControl.currentPageIndicatorTintColor = .systemGray
-        pageControl.currentPage = 0
-        return pageControl
     }()
     
     
@@ -43,9 +33,7 @@ final class WelcomePageViewController: UIViewController {
         setupSubViewControllers()
         pageViewController.didMove(toParent: self)
         setupLayout()
-//        setPageControl()
         setFirstViewController()
-//        setupViewControllersDelegate()
     }
     
     // MARK: - Helpers
@@ -58,28 +46,16 @@ final class WelcomePageViewController: UIViewController {
         subViewControllers.append(secondWelcomeViewController)
     }
     
-//    private func setupViewControllersDelegate() {
-//        let firstViewController = FirstWelcomeViewController()
-//        firstViewController.delegate = self
-//    }
-    
     private func setupLayout(){
 
         self.addChild(pageViewController)
         view.addSubview(pageViewController.view)
-//        self.view.addSubview(pageControl)
         
         pageViewController.view.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top)
             make.bottom.equalTo(view.snp.bottom)
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
-        }
-    }
-    
-    private func setPageControl() {
-        DispatchQueue.main.async {
-            self.pageControl.setIndicatorImage(UIImage(systemName: "circlebadge.fill"), forPage: 0)
         }
     }
     
@@ -115,14 +91,7 @@ extension WelcomePageViewController: UIPageViewControllerDataSource, UIPageViewC
         
     }
 
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
-        guard let currentVC = pageViewController.viewControllers?.first,
-              let currentIndex = subViewControllers.firstIndex(of: currentVC) else { return }
-        currentPage = currentIndex
-        self.pageControl.currentPage = currentIndex
-
-    }
 }
 
 extension WelcomePageViewController: FirstNextButtonTappedDelegate {

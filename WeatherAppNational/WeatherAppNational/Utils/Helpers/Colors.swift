@@ -32,3 +32,61 @@ public enum ColorsByTemperature {
     static let colorForMinus35 = "Blue-35"
     static let colorForMinus40 = "Navy-40"
 }
+
+public struct ColorForDarkMode {
+    static func getSystemGrayColor() -> UIColor {
+        if #available(iOS 13, *) {
+            return UIColor{ (UITraitCollection: UITraitCollection) -> UIColor in
+                if UITraitCollection.userInterfaceStyle == .light {
+                    return .systemGray
+                } else {
+                    return .white
+                }
+            }
+        } else {
+            return .systemGray
+        }
+    }
+
+    static func getSystemGray5Color() -> UIColor {
+        if #available(iOS 13, *) {
+            return UIColor{ (UITraitCollection: UITraitCollection) -> UIColor in
+                if UITraitCollection.userInterfaceStyle == .light {
+                    return .systemGray5
+                } else {
+                    return .lightGray
+                }
+            }
+        } else {
+            return .systemGray5
+        }
+    }
+    
+    static func getNavigationItemColor() -> UIColor {
+        if #available(iOS 13, *) {
+            return UIColor{ (UITraitCollection: UITraitCollection) -> UIColor in
+                if UITraitCollection.userInterfaceStyle == .light {
+                    return .black
+                } else {
+                    return .white
+                }
+            }
+        } else {
+            return .black
+        }
+    }
+    
+    static func getBackgroundColor() -> UIColor {
+        if #available(iOS 13, *) {
+            return UIColor{ (UITraitCollection: UITraitCollection) -> UIColor in
+                if UITraitCollection.userInterfaceStyle == .light {
+                    return .white
+                } else {
+                    return .black
+                }
+            }
+        } else {
+            return .white
+        }
+    }
+}

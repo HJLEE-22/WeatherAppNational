@@ -22,7 +22,6 @@ class LoadingIndicator {
                 loadingIndicatorView.color = .systemGray4
                 window.addSubview(loadingIndicatorView)
             }
-
             loadingIndicatorView.startAnimating()
         }
     }

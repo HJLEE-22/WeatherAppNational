@@ -15,6 +15,8 @@ final class SecondWelcomeView: UIView {
         let imageView = UIImageView()
         let image = UIImage(named: "contextMenuImagePng.001")
         imageView.image = image
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -32,8 +34,8 @@ final class SecondWelcomeView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("START", for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 30)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemGray5
+        button.setTitleColor(ColorForDarkMode.getNavigationItemColor(), for: .normal)
+        button.backgroundColor = ColorForDarkMode.getSystemGray5Color()
         button.layer.cornerRadius = 10
         return button
     }()
