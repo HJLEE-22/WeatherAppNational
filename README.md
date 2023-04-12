@@ -9,42 +9,42 @@ WeatherKit을 이용한 날씨 비교앱<br>
 ### 프로젝트 소개
 - 어제의 날씨를 통해 오늘과 내일의 날씨를 유추할 수 있도록 만든 어플리케이션입니다.
 - 날씨앱 해커톤에 참여하며, <br>어제의 날씨와 비교하면 보다 직관적으로 오늘의 날씨를 확인하는데 도움이 될 수 있다는 아이디어로 어플리케이션을 기획하게 되었습니다.
-- 각 도시마다 게시판을 만들어 사람들이 직접 날씨 정보를 나누고 의견을 나눌 수 있도록 제작하고 있습니다. (version 2.0 업데이트 예정)
+- 각 도시마다 게시판을 만들어 사람들이 직접 정보를 나누고 의견을 나누어 정확한 날씨를 공유할 수 있습니다. 
 
 ### 기술 스택
-- 언어: Swift5
-- 구조: MVVM
-- API: Apple WeatherKit, (기상청 API), Alamofire
-- UI: UIKit(코드로 구성), SnapKit
-- 데이터베이스: Firebase
-- 그 외 프레임워크: CoreData, CoreLocation, SafariServices, MessageUI
-- 그 외 라이브러리: IQKeyboardManagerSwift
+- 언어: `Swift5`
+- 구조: `MVVM`
+- API: `Apple WeatherKit`, `기상청 API`, `Alamofire`
+- UI: `UIKit`(코드로 구성), `SnapKit`
+- 데이터베이스: `Firebase`
+- 그 외 프레임워크: `CoreData`, `CoreLocation`, `SafariServices`, `MessageUI`
+- 그 외 라이브러리: `IQKeyboardManagerSwift`
 
 ### 구현 기능
 - 설계
-  - MVVM 패턴을 사용해 데이터간의 의존성을 낮추고 기능의 활용성을 증대하였습니다.
-  - Storyboard 없이 UIKit과 SnapKit으로 화면을 구성하였습니다.
+  - `MVVM` 패턴을 사용해 데이터간의 의존성을 낮추고 기능의 활용성을 증대하였습니다.
+  - `Storyboard` 없이 `UIKit`과 `SnapKit`으로 화면을 구성하였습니다.
   
 - 날씨 예보
-  - WeatherKit을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
-  - CAGradientLayer를 통해 온도에 따라 view의 색상을 변경해 시각적으로 즐거움을 줍니다.
-  - CoreLocation을 사용해 현재 위치를 받아 날씨 정보를 받아옵니다. 
+  - `WeatherKit`을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
+  - `CAGradientLayer`를 통해 온도에 따라 view의 색상을 변경해 시각적으로 즐거움을 줍니다.
+  - `CoreLocation`을 사용해 현재 위치를 받아 날씨 정보를 받아옵니다. 
 
 ![Cities](https://user-images.githubusercontent.com/98086074/214780493-1e31d8bc-aa90-45a5-8f21-9d28b872ee11.gif)
 
 - 도시 검색 및 관리
-  - UIPageViewController와 UITableViewController를 연동해 여러 도시를 북마크하고 관리합니다.
-  - CoreData를 이용해 도시 데이터를 저장하고 검색합니다.
+  - `UIPageViewController`와 `UITableViewController`를 연동해 여러 도시를 북마크하고 관리합니다.
+  - `CoreData`를 이용해 도시 데이터를 저장하고 검색합니다.
         
 ![AddingCityRecord](https://user-images.githubusercontent.com/98086074/214780526-9eb05788-f750-4739-a035-fba658dbcc24.gif)
 
 - 애플 로그인
-  - AppleSignIn을 통해 정보를 받아 Firebase Auth 및 Firestore과 연동해 계정 정보를 저장합니다.
+  - `AppleSignIn`을 통해 정보를 받아 `Firebase Auth` 및 `Firestore`과 연동해 계정 정보를 저장합니다.
   
 ![appleLoginVideo](https://user-images.githubusercontent.com/98086074/219002123-a0323b4b-3fe5-40ae-8d4b-b7f571276799.gif)
 
 - 커뮤니티(1.2.0 업데이트)
-  - 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
+  - 각 도시마다 `Firebase` 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
   - 앱스토어 가이드라인을 위해 `ContextMenu`로 유저차단과 게시글 신고기능을 구현하였습니다.
 
 ![ezgif com-video-to-gif-2](https://user-images.githubusercontent.com/98086074/231335959-64b5e052-6591-4da7-9cbc-1d760ec9acd9.gif)
