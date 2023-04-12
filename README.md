@@ -21,13 +21,16 @@ WeatherKit을 이용한 날씨 비교앱<br>
 - 그 외 라이브러리: IQKeyboardManagerSwift
 
 ### 구현 기능
+- 설계
+  - MVVM 패턴을 사용해 데이터간의 의존성을 낮추고 기능의 활용성을 증대하였습니다.
+  - Storyboard 없이 UIKit과 SnapKit으로 화면을 구성하였습니다.
+  
 - 날씨 예보
   - WeatherKit을 이용한 날씨 데이터로 어제/오늘/내일의 날씨를 즉각적으로 비교합니다.
   - CAGradientLayer를 통해 온도에 따라 view의 색상을 변경해 시각적으로 즐거움을 줍니다.
   - CoreLocation을 사용해 현재 위치를 받아 날씨 정보를 받아옵니다. 
 
 ![Cities](https://user-images.githubusercontent.com/98086074/214780493-1e31d8bc-aa90-45a5-8f21-9d28b872ee11.gif)
-
 
 - 도시 검색 및 관리
   - UIPageViewController와 UITableViewController를 연동해 여러 도시를 북마크하고 관리합니다.
@@ -36,19 +39,15 @@ WeatherKit을 이용한 날씨 비교앱<br>
 ![AddingCityRecord](https://user-images.githubusercontent.com/98086074/214780526-9eb05788-f750-4739-a035-fba658dbcc24.gif)
 
 - 애플 로그인
-  - AppleSignIn을 통해 정보를 받아 Firebase Auth 및 Firestore과 연동해 계저 정보를 저장합니다.
+  - AppleSignIn을 통해 정보를 받아 Firebase Auth 및 Firestore과 연동해 계정 정보를 저장합니다.
   
 ![appleLoginVideo](https://user-images.githubusercontent.com/98086074/219002123-a0323b4b-3fe5-40ae-8d4b-b7f571276799.gif)
 
-        
-- 설계
-  - MVVM 패턴을 사용해 데이터간의 의존성을 낮추고 기능의 활용성을 증대하였습니다.
-  - Storyboard 없이 UIKit과 SnapKit으로 화면을 구성하였습니다.
-  
-### 구현 예정 기능
-- 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
+- 커뮤니티(1.2.0 업데이트)
+  - 각 도시마다 Firebase 서버와 연동된 게시판을 생성해 당일 날씨에 관한 이야기를 나눌 수 있습니다.
+  - 앱스토어 가이드라인을 위해 `ContextMenu`로 유저차단과 게시글 신고기능을 구현하였습니다.
 
-![BulletinBoardRecord](https://user-images.githubusercontent.com/98086074/214780543-e7a1e43b-4592-442f-b460-de3efaf6a3d5.gif)
+![ezgif com-video-to-gif-2](https://user-images.githubusercontent.com/98086074/231335959-64b5e052-6591-4da7-9cbc-1d760ec9acd9.gif)
 
 
 ### 참고
