@@ -23,6 +23,7 @@
 		AD3BF566298907FE0090371C /* LoginInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF565298907FE0090371C /* LoginInfoView.swift */; };
 		AD3BF569298933230090371C /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3BF568298933230090371C /* UserModel.swift */; };
 		AD3EB6D12997C76900F4B9ED /* ScreenUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */; };
+		AD45813829D556C600B8D8A6 /* IQKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD45813729D556C600B8D8A6 /* IQKeyboardManager.swift */; };
 		AD6FA1DE291939B400492FE9 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DD291939B400492FE9 /* Observer.swift */; };
 		AD6FA1E029193A0700492FE9 /* Subscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1DF29193A0700492FE9 /* Subscriber.swift */; };
 		AD6FA1E2291FC46500492FE9 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */; };
@@ -96,6 +97,7 @@
 		AD3BF565298907FE0090371C /* LoginInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInfoView.swift; sourceTree = "<group>"; };
 		AD3BF568298933230090371C /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AD3EB6D02997C76900F4B9ED /* ScreenUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenUtil.swift; sourceTree = "<group>"; };
+		AD45813729D556C600B8D8A6 /* IQKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IQKeyboardManager.swift; sourceTree = "<group>"; };
 		AD6FA1DD291939B400492FE9 /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		AD6FA1DF29193A0700492FE9 /* Subscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscriber.swift; sourceTree = "<group>"; };
 		AD6FA1E1291FC46500492FE9 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				ADD43DB2294C2B9F000DE026 /* OpacityTapGestureRecognizer.swift */,
 				ADD43DB4294C2BEA000DE026 /* TouchableOpacityView.swift */,
 				AD9CE3A529C1DE7500AC5A37 /* LoadingIndicator.swift */,
+				AD45813729D556C600B8D8A6 /* IQKeyboardManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 				ADD43DB5294C2BEA000DE026 /* TouchableOpacityView.swift in Sources */,
 				ADE9CEF62907C322002EDB9E /* Constants.swift in Sources */,
 				AD3BF55C29877D970090371C /* FirebaseAuthentication.swift in Sources */,
+				AD45813829D556C600B8D8A6 /* IQKeyboardManager.swift in Sources */,
 				AD3BF569298933230090371C /* UserModel.swift in Sources */,
 				ADEB44F3297D152500DD6B55 /* OthersChatCell.swift in Sources */,
 				ADAD623229697919000BFCF4 /* WeatherKitViewModel.swift in Sources */,
@@ -741,6 +745,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "어제보다";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -795,6 +800,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "어제보다";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -816,7 +822,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 68YVCN8TF9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/info.plist;
+				INFOPLIST_FILE = WeatherAppNational/info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"현재위치 정보를 이용하여 날씨 데이터를 수신합니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -850,7 +856,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 68YVCN8TF9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/ihyeongju/Desktop/WeatherAppNational4/WeatherAppNational/WeatherAppNational/WeatherAppNational/info.plist;
+				INFOPLIST_FILE = WeatherAppNational/info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"현재위치 정보를 이용하여 날씨 데이터를 수신합니다.\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

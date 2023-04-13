@@ -89,18 +89,6 @@ final class SettingViewController: UITableViewController {
             self.navigationController?.popViewController(animated: true)
     }
     
-    private func openSFSafariForPersonalInformation(_sender: Any) {
-        guard let url = URL(string: "https://thread-pike-aca.notion.site/4a2cacda469448ba836d9d9d572b1b02") else { return }
-        let safariViewController = SFSafariViewController(url: url)
-        present(safariViewController, animated: true, completion: nil)
-    }
-    
-    private func openSFSafariForWeatherKit(_sender: Any) {
-        guard let url = URL(string: "https://weatherkit.apple.com/legal-attribution.html") else { return }
-        let safariViewController = SFSafariViewController(url: url)
-        present(safariViewController, animated: true, completion: nil)
-    }
-    
     
     // MARK: - TableviewDatasource
     
@@ -144,10 +132,7 @@ final class SettingViewController: UITableViewController {
             settingViewCell.switchBtn.isEnabled = true
             settingViewCell.switchBtn.isHidden = false
             settingViewCell.selectionStyle = .none
-            
-            print("DEBUG: location status \(CLLocationManager.authorizationStatus() )")
             settingViewCell.switchBtn.isOn = settingViewModel.isSwitchButtonOn
-            
             settingViewCell.cellDelegate = self
         case 2 :
             settingViewCell.mainLabel.text = "링크"
@@ -197,13 +182,14 @@ final class SettingViewController: UITableViewController {
                 setLoginViewAnywhere()
             }
         case 2:
-            openSFSafariForPersonalInformation(_sender: self)
+            let personalInformationUrl = "https://thread-pike-aca.notion.site/4a2cacda469448ba836d9d9d572b1b02"
+            openSFSafari(url: personalInformationUrl)
         case 3:
-//            sendEmail()
             guard let email else { return }
             sendEmail(self: self, userEmail: email, nil, nil, {})
         case 4:
-            openSFSafariForWeatherKit(_sender: self)
+            let weatherKitPolicyUrl = "https://weatherkit.apple.com/legal-attribution.html"
+            openSFSafari(url: weatherKitPolicyUrl)
         default:
             break
         }

@@ -35,7 +35,6 @@ final class TodayWeatherView: UIView {
                let weatherKitModel {
                 DispatchQueue.main.async {
                     self.configureUIByData(weatherKitModel)
-                    LoadingIndicator.hideLoading()
                 }
             }
         }
@@ -180,7 +179,7 @@ final class TodayWeatherView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        LoadingIndicator.showLoading()
+//        LoadingIndicator.showLoading()
         self.addActionToButton()
         DispatchQueue.main.async { [weak self] in
             self?.setupUIOnlyForButton()

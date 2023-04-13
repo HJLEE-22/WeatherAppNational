@@ -20,16 +20,16 @@ final class ViewByLoginManager {
     
     static let shared = ViewByLoginManager()
     
-    private init() {
-        FirebaseApp.configure()
-        registerAuthStateDidChangeEvent()
-    }
-    
     private var window: UIWindow!
     private var rootViewController: UIViewController? {
         didSet {
             window.rootViewController = rootViewController
         }
+    }
+    
+    private init() {
+        FirebaseApp.configure()
+        registerAuthStateDidChangeEvent()
     }
     
     func show(in window: UIWindow) {
@@ -66,7 +66,6 @@ final class ViewByLoginManager {
             }
         } else {
             setWelcomeView()
-//            setLoginView()
         }
     }
     
